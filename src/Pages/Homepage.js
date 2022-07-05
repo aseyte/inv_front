@@ -8,11 +8,12 @@ import {
   TabPanels,
   Container,
   Text,
+  useToast
 } from "@chakra-ui/react";
-import ModalContainer from "../Components/ModalContainer";
 
 const Homepage = () => {
   const [alerts, setAlerts] = useState(false);
+
   return (
     <>
       <div className="container">

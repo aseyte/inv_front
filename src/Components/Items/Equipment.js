@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FormControl,
   FormLabel,
@@ -9,28 +9,92 @@ import {
   GridItem,
   Select,
   Button,
+  useToast,
 } from "@chakra-ui/react";
 import { listItems } from "../ListItems";
 
 const Equipment = () => {
   const [article, setArticle] = useState("");
+  const [articleOther, setArticleOther] = useState("");
   const [type, setType] = useState("");
+  const [typeOther, setTypeOther] = useState("");
+  const [descOrig, setDescOrig] = useState("");
+  const [desc, setDesc] = useState("");
+  const [other, setOther] = useState("");
+  const [brand, setBrand] = useState("");
+  const [manufacturer, setManufacturer] = useState("");
+  const [origin, setOrigin] = useState("");
+  const [serialNum, setSerialNum] = useState("");
+  const [warranty, setWarranty] = useState("");
+  const [acquisitation, setAcquisition] = useState(new Date());
+  const [supplier, setSupplier] = useState("");
+  const [propertyNum, setPropertyNum] = useState("");
+  const [quantity, setQuantity] = useState(0);
+  const [pack, setPack] = useState("");
+  const [loose, setLoose] = useState("");
+  const [physical, setPhysical] = useState("");
+  const [unit, setUnit] = useState("");
+  const [location, setLocation] = useState("");
+  const [acquisitionMode, setAcquisitionMode] = useState("");
+  const [donor, setDonor] = useState("");
+  const [remarks, setRemarks] = useState("");
+  const [out, setOut] = useState("");
 
+  //Utilities State
+  const toast = useToast();
   const [isClick, setIsClick] = useState(false);
+
+  const handleCreate = async () => {
+    setIsClick(true);
+    try {
+      console.log({
+        article,
+        type,
+        descOrig,
+        desc,
+        other,
+        brand,
+        manufacturer,
+        origin,
+        serialNum,
+        warranty,
+        acquisitation,
+        supplier,
+        propertyNum,
+        quantity,
+        pack,
+        loose,
+        physical,
+        unit,
+        location,
+        acquisitionMode,
+        donor,
+        remarks,
+        out,
+      });
+    } catch (error) {
+      setIsClick(false);
+      console.log(error);
+    }
+  };
   return (
     <>
       <SimpleGrid columns={3} columnGap={3} rowGap={6} w="full" h={"full"}>
         <GridItem colSpan={3}>
           <FormControl isRequired>
             <FormLabel>Item Description (Orig)</FormLabel>
-            <Textarea placeholder="Original Description" />
+            <Textarea
+              value={descOrig}
+              onChange={(e) => setDescOrig(e.target.value)}
+              placeholder="Original Description"
+            />
           </FormControl>
         </GridItem>
 
         <GridItem colSpan={3}>
           <FormControl isRequired>
             <FormLabel>Item Description</FormLabel>
-            <Textarea />
+            <Textarea value={desc} onChange={(e) => setDesc(e.target.value)} />
           </FormControl>
         </GridItem>
         <GridItem colSpan={1}>
@@ -96,133 +160,169 @@ const Equipment = () => {
         <GridItem colSpan={1}>
           <FormControl isRequired>
             <FormLabel>Other</FormLabel>
-            <Input />
+            <Input value={other} onChange={(e) => setOther(e.target.value)} />
           </FormControl>
         </GridItem>
 
         <GridItem colSpan={1}>
           <FormControl isRequired>
             <FormLabel>Brand</FormLabel>
-            <Input />
+            <Input value={brand} onChange={(e) => setBrand(e.target.value)} />
           </FormControl>
         </GridItem>
 
         <GridItem colSpan={1}>
           <FormControl isRequired>
             <FormLabel>Manufacturer</FormLabel>
-            <Input />
+            <Input
+              value={manufacturer}
+              onChange={(e) => setManufacturer(e.target.value)}
+            />
           </FormControl>
         </GridItem>
 
         <GridItem colSpan={1}>
           <FormControl isRequired>
             <FormLabel>Country of Origin</FormLabel>
-            <Input />
+            <Input value={origin} onChange={(e) => setOrigin(e.target.value)} />
           </FormControl>
         </GridItem>
 
         <GridItem colSpan={1}>
           <FormControl isRequired>
             <FormLabel>Serial Number</FormLabel>
-            <Input />
+            <Input
+              value={serialNum}
+              onChange={(e) => setSerialNum(e.target.value)}
+            />
           </FormControl>
         </GridItem>
 
         <GridItem colSpan={1}>
           <FormControl isRequired>
             <FormLabel>Warranty</FormLabel>
-            <Input />
+            <Input
+              value={warranty}
+              onChange={(e) => setWarranty(e.target.value)}
+            />
           </FormControl>
         </GridItem>
 
         <GridItem colSpan={1}>
           <FormControl isRequired>
             <FormLabel>Acquisition Date</FormLabel>
-            <Input type="date" />
+            <Input
+              value={acquisitation}
+              onChange={(e) => setAcquisition(e.target.value)}
+              type="date"
+            />
           </FormControl>
         </GridItem>
 
         <GridItem colSpan={1}>
           <FormControl isRequired>
             <FormLabel>Supplier</FormLabel>
-            <Input />
+            <Input
+              value={supplier}
+              onChange={(e) => setSupplier(e.target.value)}
+            />
           </FormControl>
         </GridItem>
 
         <GridItem colSpan={1}>
           <FormControl isRequired>
             <FormLabel>Property Number</FormLabel>
-            <Input />
+            <Input
+              value={propertyNum}
+              onChange={(e) => setPropertyNum(e.target.value)}
+            />
           </FormControl>
         </GridItem>
 
         <GridItem colSpan={1}>
           <FormControl isRequired>
             <FormLabel>Quantity</FormLabel>
-            <Input type="number" />
+            <Input
+              value={quantity}
+              onChange={(e) => setQuantity(e.target.value)}
+              type="number"
+              min={0}
+            />
           </FormControl>
         </GridItem>
 
         <GridItem colSpan={1}>
           <FormControl isRequired>
             <FormLabel>Pack Size</FormLabel>
-            <Input />
+            <Input value={pack} onChange={(e) => setPack(e.target.value)} />
           </FormControl>
         </GridItem>
 
         <GridItem colSpan={1}>
           <FormControl isRequired>
             <FormLabel>Loose Count</FormLabel>
-            <Input />
+            <Input value={loose} onChange={(e) => setLoose(e.target.value)} />
           </FormControl>
         </GridItem>
 
         <GridItem colSpan={1}>
           <FormControl isRequired>
             <FormLabel>Physical Count in Piece(s)</FormLabel>
-            <Input />
+            <Input
+              value={physical}
+              onChange={(e) => setPhysical(e.target.value)}
+            />
           </FormControl>
         </GridItem>
 
         <GridItem colSpan={1}>
           <FormControl isRequired>
             <FormLabel>Unit</FormLabel>
-            <Input />
+            <Input value={unit} onChange={(e) => setUnit(e.target.value)} />
           </FormControl>
         </GridItem>
 
         <GridItem colSpan={1}>
           <FormControl isRequired>
             <FormLabel>Location</FormLabel>
-            <Input />
+            <Input
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+            />
           </FormControl>
         </GridItem>
 
         <GridItem colSpan={1}>
           <FormControl isRequired>
             <FormLabel>Acquisition Mode</FormLabel>
-            <Input />
+            <Input
+              value={acquisitionMode}
+              onChange={(e) => setAcquisitionMode(e.target.value)}
+            />
           </FormControl>
         </GridItem>
 
         <GridItem colSpan={1}>
           <FormControl isRequired>
             <FormLabel>Donor</FormLabel>
-            <Input />
+            <Input value={donor} onChange={(e) => setDonor(e.target.value)} />
           </FormControl>
         </GridItem>
 
         <GridItem colSpan={1}>
           <FormControl isRequired>
             <FormLabel>Remarks</FormLabel>
-            <Input />
+            <Input
+              value={remarks}
+              onChange={(e) => setRemarks(e.target.value)}
+            />
           </FormControl>
         </GridItem>
 
         <GridItem colSpan={1}>
           <FormControl isRequired>
             <FormLabel>Out</FormLabel>
-            <Input />
+            <Input value={out} onChange={(e) => setOut(e.target.value)} />
           </FormControl>
         </GridItem>
       </SimpleGrid>
@@ -233,7 +333,7 @@ const Equipment = () => {
           isLoading={isClick ? true : false}
           colorScheme="teal"
           loadingText="Creating Item"
-          onClick={() => setIsClick(true)}
+          onClick={() => handleCreate()}
         >
           Create Item
         </Button>
