@@ -1,9 +1,8 @@
-import React from 'react'
+import React from "react";
+import FetchLoader from "../Components/FetchLoader";
 
 const CreateItem = () => {
-  return (
-    <div>This is protected</div>
-  )
-}
+  return <div>sds</div>;
+};
 
-export default CreateItem
+export default CreateItem;

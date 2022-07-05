@@ -2,30 +2,31 @@ import { createContext, useState, useEffect } from "react";
 import api from "../API/Api";
 
 const DataContext = createContext({});
+
 export const DataProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [appState, setAppState] = useState("null");
 
   const fetchUser = async () => {
     try {
-      const response = await api.get("/api/auth/user");
+      const response = await api.get("/api/auth/login");
 
       if (response) {
-        setUser(response.data);
+        setUser(response.data)
       }
     } catch (error) {
-      console.log(error);
+      setUser(null)
     }
   };
 
+
   useEffect(() => {
-    fetchUser();
-  }, []);
+    fetchUser()
+  },[])
 
   return (
     <DataContext.Provider
-      value={{
-        user,
-      }}
+      value={{user, appState}}
     >
       {children}
     </DataContext.Provider>
