@@ -40,10 +40,10 @@ const Homepage = () => {
             </TabList>
             <TabPanels>
               <TabPanel>
-                <p onClick={() => setAlerts(true)}>one!</p>
+                <p>In</p>
               </TabPanel>
               <TabPanel>
-                <p>two!</p>
+                <p>Out</p>
               </TabPanel>
               <TabPanel>
                 <CreateItem />
