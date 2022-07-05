@@ -12,6 +12,8 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { listItems } from "../ListItems";
+import axios from "axios";
+const qs = require("qs");
 
 const Equipment = () => {
   const [article, setArticle] = useState("");
@@ -20,6 +22,9 @@ const Equipment = () => {
   const [typeOther, setTypeOther] = useState("");
   const [descOrig, setDescOrig] = useState("");
   const [desc, setDesc] = useState("");
+  const [model, setModel] = useState("");
+  const [variant, setVariant] = useState("");
+  const [details, setDetails] = useState("");
   const [other, setOther] = useState("");
   const [brand, setBrand] = useState("");
   const [manufacturer, setManufacturer] = useState("");
@@ -77,6 +82,60 @@ const Equipment = () => {
       console.log(error);
     }
   };
+
+  const sampe = async () => {
+    try {
+      const response = await axios.post(
+        "https://script.google.com/macros/s/AKfycbxJnKwA3R0O60NRHSma4CfmOj8R9AS9wPnKmVF_rIMJGlaqyju_AWZ6YgTpwEaoU9wrMg/exec",
+        {
+          descOrig,
+          desc,
+          article,
+          type,
+
+          model,
+          variant,
+          details,
+          other,
+          brand,
+          manufacturer,
+          origin,
+          serialNum,
+          warranty,
+          acquisitation,
+          supplier,
+          propertyNum,
+          quantity,
+          pack,
+          loose,
+          physical,
+          unit,
+          location,
+          acquisitionMode,
+          donor,
+          remarks,
+          out,
+        },
+        {
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8",
+          },
+        }
+      );
+
+      if (response) {
+      }
+    } catch (error) {
+      toast({
+        title: "Account created.",
+        description: "We've created your account for you.",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
+  };
+
   return (
     <>
       <SimpleGrid columns={3} columnGap={3} rowGap={6} w="full" h={"full"}>
@@ -154,6 +213,33 @@ const Equipment = () => {
                 placeholder="If other, please specify"
               />
             )}
+          </FormControl>
+        </GridItem>
+
+        <GridItem colSpan={1}>
+          <FormControl isRequired>
+            <FormLabel>Model</FormLabel>
+            <Input value={model} onChange={(e) => setModel(e.target.value)} />
+          </FormControl>
+        </GridItem>
+
+        <GridItem colSpan={1}>
+          <FormControl isRequired>
+            <FormLabel>Variety/Color</FormLabel>
+            <Input
+              value={variant}
+              onChange={(e) => setVariant(e.target.value)}
+            />
+          </FormControl>
+        </GridItem>
+
+        <GridItem colSpan={1}>
+          <FormControl isRequired>
+            <FormLabel>Details2</FormLabel>
+            <Input
+              value={details}
+              onChange={(e) => setDetails(e.target.value)}
+            />
           </FormControl>
         </GridItem>
 
@@ -333,7 +419,7 @@ const Equipment = () => {
           isLoading={isClick ? true : false}
           colorScheme="teal"
           loadingText="Creating Item"
-          onClick={() => handleCreate()}
+          onClick={() => sampe()}
         >
           Create Item
         </Button>
