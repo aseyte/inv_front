@@ -12,8 +12,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { listItems } from "../ListItems";
-import axios from "axios";
-const qs = require("qs");
+import useAuth from "../../Hooks/useAuth";
 
 const Equipment = () => {
   const [article, setArticle] = useState("");
@@ -31,7 +30,7 @@ const Equipment = () => {
   const [origin, setOrigin] = useState("");
   const [serialNum, setSerialNum] = useState("");
   const [warranty, setWarranty] = useState("");
-  const [acquisitation, setAcquisition] = useState(new Date());
+  const [acquisitation, setAcquisition] = useState("");
   const [supplier, setSupplier] = useState("");
   const [propertyNum, setPropertyNum] = useState("");
   const [quantity, setQuantity] = useState(0);
@@ -49,14 +48,67 @@ const Equipment = () => {
   const toast = useToast();
   const [isClick, setIsClick] = useState(false);
 
+  const clearForm = () => {
+    setArticle("");
+    setArticleOther("");
+    setType("");
+    setTypeOther("");
+    setDescOrig("");
+    setDesc("");
+    setModel("");
+    setVariant("");
+    setDetails("");
+    setOther("");
+    setBrand("");
+    setManufacturer("");
+    setOrigin("");
+    setSerialNum("");
+    setWarranty("");
+    setAcquisition("");
+    setSupplier("");
+    setPropertyNum("");
+    setQuantity("");
+    setPack("");
+    setLoose("");
+    setPhysical("");
+    setUnit("");
+    setLocation("");
+    setAcquisitionMode("");
+    setDonor("");
+    setRemarks("");
+    setOut("");
+  };
+
+  const { setAppState } = useAuth();
+
+  const createItemAPI =
+    "https://script.google.com/macros/s/AKfycby9PWrb8cKlWTx_7JDkgk8LSl5I5lYw7A9igAveHnAUrBtrMqrQ8M4yvJndk6tbNi9vzw/exec?action=createEquipment";
+
   const handleCreate = async () => {
     setIsClick(true);
-    try {
-      console.log({
-        article,
-        type,
+
+    if (!descOrig || !desc) {
+      setIsClick(false);
+      toast({
+        title: "Error",
+        description: "Enter Item Description",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+      return;
+    }
+
+    fetch(createItemAPI, {
+      method: "POST",
+      body: JSON.stringify({
         descOrig,
         desc,
+        article: article === "Other" ? articleOther : article,
+        type: type === "Other" ? typeOther : type,
+        model,
+        variant,
+        details,
         other,
         brand,
         manufacturer,
@@ -76,64 +128,47 @@ const Equipment = () => {
         donor,
         remarks,
         out,
-      });
-    } catch (error) {
-      setIsClick(false);
-      console.log(error);
-    }
-  };
+      }),
+    })
+      .then(async (response) => {
+        const isJson = response.headers
+          .get("content-type")
+          ?.includes("application/json");
+        const data = isJson && (await response.json());
 
-  const sampe = async () => {
-    try {
-      const response = await axios.post(
-        "https://script.google.com/macros/s/AKfycbxJnKwA3R0O60NRHSma4CfmOj8R9AS9wPnKmVF_rIMJGlaqyju_AWZ6YgTpwEaoU9wrMg/exec",
-        {
-          descOrig,
-          desc,
-          article,
-          type,
-
-          model,
-          variant,
-          details,
-          other,
-          brand,
-          manufacturer,
-          origin,
-          serialNum,
-          warranty,
-          acquisitation,
-          supplier,
-          propertyNum,
-          quantity,
-          pack,
-          loose,
-          physical,
-          unit,
-          location,
-          acquisitionMode,
-          donor,
-          remarks,
-          out,
-        },
-        {
-          headers: {
-            "Content-Type": "text/plain;charset=utf-8",
-          },
+        if (response.ok) {
+          setIsClick(false);
+          clearForm();
+          setAppState("Item Created");
+          setTimeout(() => setAppState(""), 500);
+          toast({
+            title: "Item Created",
+            description: "Added one (1) item to the database",
+            status: "success",
+            duration: 9000,
+            isClosable: true,
+          });
         }
-      );
 
-      if (response) {
-      }
-    } catch (error) {
-      toast({
-        title: "Account created.",
-        description: "We've created your account for you.",
-        status: "success",
-        duration: 9000,
-        isClosable: true,
+        // check for error response
+        if (!response.ok) {
+          setIsClick(false);
+          // get error message from body or default to response status
+          const error = (data && data.message) || response.status;
+
+          return Promise.reject(error);
+        }
+      })
+      .catch((error) => {
+        setIsClick(false);
+        toast({
+          title: "Error",
+          description: "An error occured",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
       });
-    }
   };
 
   return (
@@ -177,6 +212,8 @@ const Equipment = () => {
             </Select>
             {article === "Other" && (
               <Input
+                value={articleOther}
+                onChange={(e) => setArticleOther(e.target.value)}
                 marginTop={4}
                 variant="filled"
                 placeholder="If other, please specify"
@@ -208,6 +245,8 @@ const Equipment = () => {
 
             {type === "Other" && (
               <Input
+                value={typeOther}
+                onChange={(e) => setTypeOther(e.target.value)}
                 marginTop={4}
                 variant="filled"
                 placeholder="If other, please specify"
@@ -419,7 +458,7 @@ const Equipment = () => {
           isLoading={isClick ? true : false}
           colorScheme="teal"
           loadingText="Creating Item"
-          onClick={() => sampe()}
+          onClick={() => handleCreate()}
         >
           Create Item
         </Button>

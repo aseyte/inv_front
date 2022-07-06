@@ -9,7 +9,7 @@ const CreateItem = () => {
   return (
     <>
       <FormControl marginBottom={5} isRequired>
-        <FormLabel htmlFor="items">Items </FormLabel>
+        <FormLabel htmlFor="items">Item Category </FormLabel>
         <Select
           cursor="pointer"
           onChange={(e) => setSelected(e.target.value)}

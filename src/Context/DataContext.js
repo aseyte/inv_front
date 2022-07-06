@@ -5,7 +5,7 @@ const DataContext = createContext({});
 
 export const DataProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [appState, setAppState] = useState("null");
+  const [appState, setAppState] = useState(null);
 
   const fetchUser = async () => {
     try {
@@ -26,7 +26,7 @@ export const DataProvider = ({ children }) => {
 
   return (
     <DataContext.Provider
-      value={{user, appState}}
+      value={{user, appState, setAppState}}
     >
       {children}
     </DataContext.Provider>

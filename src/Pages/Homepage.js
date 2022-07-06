@@ -10,6 +10,8 @@ import {
   Text,
   useToast
 } from "@chakra-ui/react";
+import In from "../Components/In";
+import Out from "../Components/Out";
 
 const Homepage = () => {
   const [alerts, setAlerts] = useState(false);
@@ -41,10 +43,10 @@ const Homepage = () => {
             </TabList>
             <TabPanels>
               <TabPanel>
-                <p>In</p>
+                <In />
               </TabPanel>
               <TabPanel>
-                <p>Out</p>
+                <Out />
               </TabPanel>
               <TabPanel>
                 <CreateItem />
