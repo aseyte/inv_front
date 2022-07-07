@@ -19,7 +19,7 @@ const CreateItem = () => {
           <option value="equipment">Equipment</option>
           <option value="janitorial">Janitorial Supplies</option>
           <option value="office">Office Supplies</option>
-          <option value="medical">Medical Supplies</option>
+          <option value="medical">Medical/Dental Supplies</option>
         </Select>
       </FormControl>
       {selected === "equipment" && <Equipment />}

@@ -30,14 +30,14 @@ const Homepage = () => {
           overflowY={"scroll"}
         >
           <Tabs isFitted variant="enclosed-colored">
-            <TabList mb="1em">
-              <Tab>
+            <TabList  mb="1em">
+              <Tab borderRadius={5}  _hover={{background: '#e6eaec'}}>
                 <Text fontSize="xl">In</Text>
               </Tab>
-              <Tab>
+              <Tab borderRadius={5}  _hover={{background: '#e6eaec'}}>
                 <Text fontSize="xl">Out</Text>
               </Tab>
-              <Tab>
+              <Tab borderRadius={5}  _hover={{background: '#e6eaec'}}>
                 <Text fontSize="xl">Create Item</Text>
               </Tab>
             </TabList>

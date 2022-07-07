@@ -171,6 +171,22 @@ const Equipment = () => {
       });
   };
 
+  useEffect(() => {
+    setDesc(
+      (article === "Other" ? articleOther : article) +
+        " " +
+        (type === "Other" ? typeOther : type) +
+        " " +
+        model +
+        " " +
+        variant +
+        " " +
+        details +
+        " " +
+        other
+    );
+  }, [article, articleOther, type, typeOther, model, variant, details, other]);
+
   return (
     <>
       <SimpleGrid columns={3} columnGap={3} rowGap={6} w="full" h={"full"}>
@@ -188,7 +204,7 @@ const Equipment = () => {
         <GridItem colSpan={3}>
           <FormControl isRequired>
             <FormLabel>Item Description</FormLabel>
-            <Textarea value={desc} onChange={(e) => setDesc(e.target.value)} />
+            <Textarea value={desc} />
           </FormControl>
         </GridItem>
         <GridItem colSpan={1}>
