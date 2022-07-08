@@ -17,20 +17,28 @@ const In = () => {
   const [item, setItem] = useState([]);
   const { appState, setAppState } = useAuth();
   const [isClick, setIsClick] = useState(false);
-  const getItemAPI =
-    "https://script.google.com/macros/s/AKfycbwfpAfHpL0FlhIbqd7GPqkElEKEQVeI8WcYl9ohIeUyE9NuCXVkLpuH6X9A9R5lGA5osw/exec?action=getEquipment";
+  const getUniqueAPI =
+    "https://script.google.com/macros/s/AKfycbwhWmYEWBY18WKMVOjokhBVZLC8eR-8OWB-QesfBxqBeO99z3Jo-HNshTxO133P8CIVtA/exec?action=getUnique";
 
   useEffect(() => {
-    fetch(getItemAPI, { method: "get" })
+    fetch(getUniqueAPI, { method: "get" })
       .then((res) => res.json())
       .then((data) => {
         if (data) {
-          setItem(data);
+          setItem(data.filter((e) => e.desc !== ""));
         }
       })
       .catch((error) => console.log(error));
   }, [appState]);
 
+  const todate = new Date();
+
+  const [todayTime, setTodayTime] = useState(
+    todate.getHours() + ":" + todate.getMinutes() + ":" + todate.getSeconds()
+  );
+  const [todayDate, setTodayDate] = useState(
+    todate.getMonth() + 1 + "/" + todate.getDate() + "/" + todate.getFullYear()
+  );
   const [desc, setDesc] = useState("");
   const [brand, setBrand] = useState("");
   const [lot, setLot] = useState("");
@@ -38,9 +46,9 @@ const In = () => {
   const [iar, setIar] = useState("");
   const [iarDate, setIarDate] = useState("");
   const [delivery, setDelivery] = useState("");
-  const [quantity, setQuantity] = useState("");
-  const [pack, setPack] = useState("");
-  const [loose, setLoose] = useState("");
+  const [quantity, setQuantity] = useState(0);
+  const [pack, setPack] = useState(0);
+  const [loose, setLoose] = useState(0);
   const [unit, setUnit] = useState("");
   const [total, setTotal] = useState("");
   const [location, setLocation] = useState("");
@@ -56,7 +64,7 @@ const In = () => {
   const [category, setCategory] = useState("");
 
   const inItemAPI =
-    "https://script.google.com/macros/s/AKfycbyLNI5Vlj46f-89i3kKxk6l-3QQpgRSEWxjJDNyrSqDngMX0jZH-1o2ubv1ReUoot6Bjw/exec?action=inItem";
+    "https://script.google.com/macros/s/AKfycbyGe-1nTiZrJkB7k7jA7qy-PxmsLUR94MKrgjQwIvI0r10hmGXZC52IKa-zCoiXk4Ntxw/exec?action=inItem";
 
   const clearForm = () => {
     setDesc("");
@@ -87,6 +95,18 @@ const In = () => {
   const handleInItem = async () => {
     setIsClick(true);
 
+    if (quantity === 0 && loose === 0) {
+      setIsClick(false);
+      toast({
+        title: "Error",
+        description: "Enter quantity or loose",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+      return;
+    }
+
     if (!desc) {
       setIsClick(false);
       toast({
@@ -102,13 +122,41 @@ const In = () => {
     fetch(inItemAPI, {
       method: "POST",
       body: JSON.stringify({
+        todayTime,
+        todayDate,
         desc,
         brand,
         lot,
-        expiration,
+        expiration:
+          expiration !== ""
+            ? new Date(expiration).getMonth() +
+              1 +
+              "/" +
+              new Date(expiration).getDate() +
+              "/" +
+              new Date(expiration).getFullYear()
+            : null,
         iar,
-        iarDate,
-        delivery,
+        iarDate:
+          iarDate !== ""
+            ? new Date(iarDate).getMonth() +
+              1 +
+              "/" +
+              new Date(iarDate).getDate() +
+              "/" +
+              new Date(iarDate).getFullYear()
+            : null,
+
+        delivery:
+          delivery !== ""
+            ? new Date(delivery).getMonth() +
+              1 +
+              "/" +
+              new Date(delivery).getDate() +
+              "/" +
+              new Date(delivery).getFullYear()
+            : null,
+
         quantity,
         pack,
         loose,
@@ -168,6 +216,28 @@ const In = () => {
       });
   };
 
+  useEffect(() => {
+    const fetchTotal = () => {
+      if (!quantity && !pack && !loose) {
+        return setTotal(0);
+      } else if (quantity && pack && loose) {
+        return setTotal(parseInt(quantity * pack) + parseInt(loose));
+      } else if (quantity && !pack && !loose) {
+        return setTotal(0);
+      } else if (!quantity && pack && loose) {
+        return setTotal(parseInt(pack) + parseInt(loose));
+      } else if (!pack && loose) {
+        return setTotal(loose);
+      } else if (quantity && pack && !loose) {
+        return setTotal(parseInt(quantity * pack));
+      } else {
+        return setTotal(pack);
+      }
+    };
+
+    fetchTotal();
+  }, [quantity, pack, loose]);
+
   return (
     <>
       <SimpleGrid columns={3} columnGap={3} rowGap={6} w="full" h={"full"}>
@@ -175,6 +245,7 @@ const In = () => {
           <FormControl isRequired>
             <FormLabel>Item Description</FormLabel>
             <Select
+              cursor="pointer"
               value={desc}
               onChange={(e) => setDesc(e.target.value)}
               placeholder="- Select Item -"
@@ -269,7 +340,14 @@ const In = () => {
         <GridItem colSpan={1}>
           <FormControl>
             <FormLabel>Loose</FormLabel>
-            <Input value={loose} onChange={(e) => setLoose(e.target.value)} />
+            <Input
+              min={0}
+              type="number"
+              value={loose}
+              onChange={(e) => {
+                setLoose(e.target.value);
+              }}
+            />
           </FormControl>
         </GridItem>
 
@@ -283,7 +361,13 @@ const In = () => {
         <GridItem colSpan={1}>
           <FormControl>
             <FormLabel>Total</FormLabel>
-            <Input value={total} onChange={(e) => setTotal(e.target.value)} />
+            <Input
+              value={total}
+              disabled
+              background="#eee"
+              _readOnly
+              opacity={1}
+            />
           </FormControl>
         </GridItem>
 
