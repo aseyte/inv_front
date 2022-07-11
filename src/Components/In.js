@@ -64,7 +64,7 @@ const In = () => {
   const [category, setCategory] = useState("");
 
   const inItemAPI =
-    "https://script.google.com/macros/s/AKfycbyGe-1nTiZrJkB7k7jA7qy-PxmsLUR94MKrgjQwIvI0r10hmGXZC52IKa-zCoiXk4Ntxw/exec?action=inItem";
+    "https://script.google.com/macros/s/AKfycby9OT61EQXya3i7UC-TayOm3cgN6BNn3MEfiQSoL5xhTHrcIxZku2gsJimVw2Nsfk93Fw/exec?action=inItem";
 
   const clearForm = () => {
     setDesc("");
@@ -122,8 +122,7 @@ const In = () => {
     fetch(inItemAPI, {
       method: "POST",
       body: JSON.stringify({
-        todayTime,
-        todayDate,
+        timestamp: todayTime + todayDate,
         desc,
         brand,
         lot,
@@ -145,7 +144,7 @@ const In = () => {
               new Date(iarDate).getDate() +
               "/" +
               new Date(iarDate).getFullYear()
-            : null,
+            : "null",
 
         delivery:
           delivery !== ""
