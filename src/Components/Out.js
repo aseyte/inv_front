@@ -9,6 +9,7 @@ import {
   useToast,
   HStack,
   Button,
+  Textarea,
 } from "@chakra-ui/react";
 import useAuth from "../Hooks/useAuth";
 
@@ -33,7 +34,6 @@ const Out = () => {
     setDesc("");
     setRisDate("");
     setRisNum("");
-
     setQuantity("");
     setRequester("");
     setArea("");
@@ -157,8 +157,15 @@ const Out = () => {
 
   return (
     <>
-      <SimpleGrid columns={3} columnGap={3} rowGap={6} w="full" h={"full"}>
-        <GridItem colSpan={3}>
+      <SimpleGrid
+        columns={6}
+        columnGap={3}
+        rowGap={6}
+        w="full"
+        h={"full"}
+        p={6}
+      >
+        <GridItem colSpan={5} width="80%" mb={7}>
           <FormControl isRequired>
             <FormLabel>Item Description</FormLabel>
             <Select
@@ -180,7 +187,7 @@ const Out = () => {
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={1}>
+        <GridItem colSpan={3}>
           <FormControl isRequired>
             <FormLabel>RIS Date</FormLabel>
             <Input
@@ -191,7 +198,7 @@ const Out = () => {
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={1}>
+        <GridItem colSpan={2}>
           <FormControl isRequired>
             <FormLabel>RIS #</FormLabel>
             <Input value={risNum} onChange={(e) => setRisNum(e.target.value)} />
@@ -209,7 +216,7 @@ const Out = () => {
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={1}>
+        <GridItem colSpan={4}>
           <FormControl isRequired>
             <FormLabel>Requester Name</FormLabel>
             <Input
@@ -220,31 +227,34 @@ const Out = () => {
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={1}>
+        <GridItem colSpan={2}>
           <FormControl isRequired>
             <FormLabel>Area/Office</FormLabel>
             <Input value={area} onChange={(e) => setArea(e.target.value)} />
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={1}>
+        <GridItem colSpan={2}>
           <FormControl isRequired>
             <FormLabel>Available</FormLabel>
             <Input />
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={1}>
+        <GridItem colSpan={3}>
           <FormControl isRequired>
             <FormLabel>Unit</FormLabel>
             <Input value={unit} onChange={(e) => setUnit(e.target.value)} />
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={1}>
+        <GridItem colSpan={5}>
           <FormControl isRequired>
             <FormLabel>Remarks</FormLabel>
-            <Input value={remark} onChange={(e) => setRemark(remark)} />
+            <Textarea
+              value={remark}
+              onChange={(e) => setRemark(e.target.value)}
+            />
           </FormControl>
         </GridItem>
       </SimpleGrid>
@@ -258,7 +268,7 @@ const Out = () => {
           onClick={() => handleOutItem()}
           minW={100}
         >
-          IN
+          OUT
         </Button>
       </HStack>
     </>

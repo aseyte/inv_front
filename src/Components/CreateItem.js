@@ -8,7 +8,7 @@ const CreateItem = () => {
   const [selected, setSelected] = useState("");
   return (
     <>
-      <FormControl marginBottom={5} isRequired>
+      <FormControl my={6} isRequired width="70%" px={6}>
         <FormLabel htmlFor="items">Item Category </FormLabel>
         <Select
           cursor="pointer"

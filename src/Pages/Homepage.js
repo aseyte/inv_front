@@ -8,7 +8,7 @@ import {
   TabPanels,
   Container,
   Text,
-  useToast
+  useToast,
 } from "@chakra-ui/react";
 import In from "../Components/In";
 import Out from "../Components/Out";
@@ -30,15 +30,15 @@ const Homepage = () => {
           overflowY={"scroll"}
         >
           <Tabs isFitted variant="enclosed-colored">
-            <TabList  mb="1em">
-              <Tab borderRadius={5}  _hover={{background: '#e6eaec'}}>
-                <Text fontSize="xl">In</Text>
+            <TabList mb="1em">
+              <Tab borderRadius={5} _hover={{ background: "#e6eaec" }}>
+                <Text fontSize="xl">IN</Text>
               </Tab>
-              <Tab borderRadius={5}  _hover={{background: '#e6eaec'}}>
-                <Text fontSize="xl">Out</Text>
+              <Tab borderRadius={5} _hover={{ background: "#e6eaec" }}>
+                <Text fontSize="xl">OUT</Text>
               </Tab>
-              <Tab borderRadius={5}  _hover={{background: '#e6eaec'}}>
-                <Text fontSize="xl">Create Item</Text>
+              <Tab borderRadius={5} _hover={{ background: "#e6eaec" }}>
+                <Text fontSize="xl">CREATE ITEM</Text>
               </Tab>
             </TabList>
             <TabPanels>

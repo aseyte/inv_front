@@ -202,7 +202,14 @@ const Equipment = () => {
 
   return (
     <>
-      <SimpleGrid columns={3} columnGap={3} rowGap={6} w="full" h={"full"}>
+      <SimpleGrid
+        columns={6}
+        columnGap={3}
+        rowGap={6}
+        w="full"
+        h={"full"}
+        p={6}
+      >
         <GridItem colSpan={3}>
           <FormControl isRequired>
             <FormLabel>Item Description (Original)</FormLabel>
@@ -220,7 +227,7 @@ const Equipment = () => {
             <Textarea isReadOnly background="#eee" disabled value={desc} />
           </FormControl>
         </GridItem>
-        <GridItem colSpan={1}>
+        <GridItem colSpan={3}>
           <FormControl>
             <FormLabel>Article</FormLabel>
 
@@ -250,7 +257,7 @@ const Equipment = () => {
             )}
           </FormControl>
         </GridItem>
-        <GridItem colSpan={1}>
+        <GridItem colSpan={3}>
           <FormControl>
             <FormLabel>Type/Form</FormLabel>
 
@@ -284,14 +291,14 @@ const Equipment = () => {
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={1}>
+        <GridItem colSpan={2}>
           <FormControl>
             <FormLabel>Model</FormLabel>
             <Input value={model} onChange={(e) => setModel(e.target.value)} />
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={1}>
+        <GridItem colSpan={2}>
           <FormControl>
             <FormLabel>Variety/Color</FormLabel>
             <Input
@@ -301,7 +308,7 @@ const Equipment = () => {
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={1}>
+        <GridItem colSpan={2}>
           <FormControl>
             <FormLabel>Details2</FormLabel>
             <Input
@@ -311,21 +318,21 @@ const Equipment = () => {
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={1}>
+        <GridItem colSpan={2}>
           <FormControl>
             <FormLabel>Other</FormLabel>
             <Input value={other} onChange={(e) => setOther(e.target.value)} />
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={1}>
+        <GridItem colSpan={2}>
           <FormControl>
             <FormLabel>Brand</FormLabel>
             <Input value={brand} onChange={(e) => setBrand(e.target.value)} />
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={1}>
+        <GridItem colSpan={2}>
           <FormControl>
             <FormLabel>Manufacturer</FormLabel>
             <Input
@@ -335,14 +342,14 @@ const Equipment = () => {
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={1}>
+        <GridItem colSpan={2}>
           <FormControl>
             <FormLabel>Country of Origin</FormLabel>
             <Input value={origin} onChange={(e) => setOrigin(e.target.value)} />
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={1}>
+        <GridItem colSpan={2}>
           <FormControl>
             <FormLabel>Serial Number</FormLabel>
             <Input
@@ -352,7 +359,7 @@ const Equipment = () => {
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={1}>
+        <GridItem colSpan={2}>
           <FormControl>
             <FormLabel>Warranty</FormLabel>
             <Input
@@ -362,7 +369,7 @@ const Equipment = () => {
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={1}>
+        <GridItem colSpan={2}>
           <FormControl>
             <FormLabel>Acquisition Date</FormLabel>
             <Input
@@ -373,7 +380,7 @@ const Equipment = () => {
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={1}>
+        <GridItem colSpan={4}>
           <FormControl>
             <FormLabel>Supplier</FormLabel>
             <Input
@@ -383,7 +390,7 @@ const Equipment = () => {
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={1}>
+        <GridItem colSpan={3}>
           <FormControl>
             <FormLabel>Property Number</FormLabel>
             <Input
@@ -427,9 +434,9 @@ const Equipment = () => {
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={1}>
+        <GridItem colSpan={2}>
           <FormControl>
-            <FormLabel>Physical Count in Piece(s)</FormLabel>
+            <FormLabel>Physical Count(pcs)</FormLabel>
             <Input
               type="number"
               value={physical}
@@ -438,14 +445,14 @@ const Equipment = () => {
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={1}>
+        <GridItem colSpan={2}>
           <FormControl>
             <FormLabel>Unit</FormLabel>
             <Input value={unit} onChange={(e) => setUnit(e.target.value)} />
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={1}>
+        <GridItem colSpan={2}>
           <FormControl>
             <FormLabel>Location</FormLabel>
             <Input
@@ -455,7 +462,7 @@ const Equipment = () => {
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={1}>
+        <GridItem colSpan={2}>
           <FormControl>
             <FormLabel>Acquisition Mode</FormLabel>
             <Input
@@ -465,7 +472,7 @@ const Equipment = () => {
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={1}>
+        <GridItem colSpan={2}>
           <FormControl>
             <FormLabel>Donor</FormLabel>
             <Input value={donor} onChange={(e) => setDonor(e.target.value)} />
@@ -474,18 +481,25 @@ const Equipment = () => {
 
         <GridItem colSpan={1}>
           <FormControl>
-            <FormLabel>Remarks</FormLabel>
-            <Input
-              value={remarks}
-              onChange={(e) => setRemarks(e.target.value)}
-            />
+            <FormLabel>Out</FormLabel>
+            <Input value={out} onChange={(e) => setOut(e.target.value)} />
           </FormControl>
         </GridItem>
 
         <GridItem colSpan={1}>
           <FormControl>
-            <FormLabel>Out</FormLabel>
-            <Input value={out} onChange={(e) => setOut(e.target.value)} />
+            <FormLabel>Cost</FormLabel>
+            <Input type="number" />
+          </FormControl>
+        </GridItem>
+
+        <GridItem colSpan={5}>
+          <FormControl>
+            <FormLabel>Remarks</FormLabel>
+            <Textarea
+              value={remarks}
+              onChange={(e) => setRemarks(e.target.value)}
+            />
           </FormControl>
         </GridItem>
       </SimpleGrid>

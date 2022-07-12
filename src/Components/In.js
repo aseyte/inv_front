@@ -9,6 +9,8 @@ import {
   HStack,
   Button,
   useToast,
+  Divider,
+  Textarea,
 } from "@chakra-ui/react";
 import useAuth from "../Hooks/useAuth";
 
@@ -254,8 +256,15 @@ const In = () => {
 
   return (
     <>
-      <SimpleGrid columns={3} columnGap={3} rowGap={6} w="full" h={"full"}>
-        <GridItem colSpan={3}>
+      <SimpleGrid
+        columns={6}
+        columnGap={3}
+        rowGap={6}
+        w="full"
+        h={"full"}
+        p={6}
+      >
+        <GridItem colSpan={5} mb={7} width="80%">
           <FormControl isRequired>
             <FormLabel>Item Description</FormLabel>
             <Select
@@ -275,21 +284,21 @@ const In = () => {
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={1}>
+        <GridItem colSpan={2}>
           <FormControl>
             <FormLabel>Brand</FormLabel>
             <Input value={brand} onChange={(e) => setBrand(e.target.value)} />
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={1}>
+        <GridItem colSpan={2}>
           <FormControl>
             <FormLabel>Lot/Serial #</FormLabel>
             <Input value={lot} onChange={(e) => setLot(e.target.value)} />
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={1}>
+        <GridItem colSpan={2}>
           <FormControl>
             <FormLabel>Expiration</FormLabel>
             <Input
@@ -303,14 +312,14 @@ const In = () => {
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={1}>
+        <GridItem colSpan={2} width="100%">
           <FormControl>
             <FormLabel>IAR #</FormLabel>
             <Input value={iar} onChange={(e) => setIar(e.target.value)} />
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={1}>
+        <GridItem colSpan={2}>
           <FormControl>
             <FormLabel>IAR Date</FormLabel>
             <Input
@@ -321,7 +330,7 @@ const In = () => {
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={1}>
+        <GridItem colSpan={2}>
           <FormControl>
             <FormLabel>Delivery Date</FormLabel>
             <Input
@@ -375,7 +384,7 @@ const In = () => {
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={1}>
+        <GridItem colSpan={2}>
           <FormControl>
             <FormLabel>Total</FormLabel>
             <Input
@@ -388,7 +397,7 @@ const In = () => {
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={1}>
+        <GridItem colSpan={3}>
           <FormControl>
             <FormLabel>Location</FormLabel>
             <Input
@@ -398,7 +407,7 @@ const In = () => {
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={1}>
+        <GridItem colSpan={3}>
           <FormControl>
             <FormLabel>Supplier/Donor</FormLabel>
             <Input
@@ -408,7 +417,7 @@ const In = () => {
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={1}>
+        <GridItem colSpan={2}>
           <FormControl>
             <FormLabel>Manufacturer</FormLabel>
             <Input
@@ -418,14 +427,14 @@ const In = () => {
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={1}>
+        <GridItem colSpan={2}>
           <FormControl>
             <FormLabel>Origin</FormLabel>
             <Input value={origin} onChange={(e) => setOrigin(e.target.value)} />
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={1}>
+        <GridItem colSpan={2}>
           <FormControl>
             <FormLabel>Acquisition Mode</FormLabel>
             <Select
@@ -439,24 +448,14 @@ const In = () => {
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={1}>
+        <GridItem colSpan={3}>
           <FormControl>
             <FormLabel>Expiration (Months)</FormLabel>
             <Input value={expirationMonths} />
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={1}>
-          <FormControl>
-            <FormLabel>Remarks</FormLabel>
-            <Input
-              value={remarks}
-              onChange={(e) => setRemarks(e.target.value)}
-            />
-          </FormControl>
-        </GridItem>
-
-        <GridItem colSpan={1}>
+        <GridItem colSpan={3}>
           <FormControl>
             <FormLabel>Condition</FormLabel>
             <Input
@@ -466,7 +465,7 @@ const In = () => {
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={1}>
+        <GridItem colSpan={2}>
           <FormControl>
             <FormLabel>Fund Source</FormLabel>
             <Input
@@ -476,7 +475,7 @@ const In = () => {
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={1}>
+        <GridItem colSpan={2}>
           <FormControl>
             <FormLabel>Acquisition Cost</FormLabel>
             <Input
@@ -486,12 +485,22 @@ const In = () => {
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={1}>
+        <GridItem colSpan={2}>
           <FormControl>
             <FormLabel>Category</FormLabel>
             <Input
               value={category}
               onChange={(e) => setCategory(e.target.value)}
+            />
+          </FormControl>
+        </GridItem>
+
+        <GridItem colSpan={6}>
+          <FormControl>
+            <FormLabel>Remarks</FormLabel>
+            <Textarea
+              value={remarks}
+              onChange={(e) => setRemarks(e.target.value)}
             />
           </FormControl>
         </GridItem>
