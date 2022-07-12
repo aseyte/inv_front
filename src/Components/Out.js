@@ -21,31 +21,30 @@ const Out = () => {
   const [risDate, setRisDate] = useState("");
   const [risNum, setRisNum] = useState("");
 
-  const [expiration, setExpiration] = useState("NOT INDCATED");
   const [quantity, setQuantity] = useState("");
   const [requester, setRequester] = useState("");
   const [area, setArea] = useState("");
   const [available, setAvailable] = useState("");
   const [unit, setUnit] = useState("");
-  const [expirationMonth, setExpirationMonth] = useState("NOT INDCATED");
+
   const [remark, setRemark] = useState("");
 
   const clearForm = () => {
     setDesc("");
     setRisDate("");
     setRisNum("");
-    setExpiration("NOT INDICATED");
+
     setQuantity("");
     setRequester("");
     setArea("");
     setAvailable("");
     setUnit("");
-    setExpirationMonth("NOT INDICATED");
+
     setRemark("");
   };
 
   const outItemAPI =
-    "https://script.google.com/macros/s/AKfycbzZ0YZQORZG7mVql9btpJ6LZ2_gqma5mQO0xinatOj6SVSA0Q172p-P0WVnLVBMyNWb_A/exec?action=outItem";
+    "https://script.google.com/macros/s/AKfycbzAVA5lTsPmyXmYv425gOoVD1-mw6OsMaMKhAf16vppmm6KslUbAClp0hbg4fRhOiG7pw/exec?action=outItem";
 
   const handleOutItem = async () => {
     setIsClick(true);
@@ -93,13 +92,13 @@ const Out = () => {
             desc,
             risDate,
             risNum,
-            expiration,
+
             quantity,
             requester,
             area,
             available,
             unit,
-            expirationMonth,
+
             remark,
           }),
         })
@@ -156,23 +155,6 @@ const Out = () => {
     }
   };
 
-  const todayDate = new Date();
-
-  const getExpirationMonth = (date1, date2) => {
-    let months;
-    months = (date2.getFullYear() - date1.getFullYear()) * 12;
-    months -= date1.getMonth();
-    months += date2.getMonth();
-
-    if (months < 0) {
-      return setExpirationMonth("EXPIRED");
-    } else {
-      return setExpirationMonth(
-        months > 1 ? `${months} MONTHS` : `${months} MONTH`
-      );
-    }
-  };
-
   return (
     <>
       <SimpleGrid columns={3} columnGap={3} rowGap={6} w="full" h={"full"}>
@@ -218,20 +200,6 @@ const Out = () => {
 
         <GridItem colSpan={1}>
           <FormControl isRequired>
-            <FormLabel>Expiration</FormLabel>
-            <Input
-              type="date"
-              value={expiration}
-              onChange={(e) => {
-                setExpiration(e.target.value);
-                getExpirationMonth(todayDate, new Date(e.target.value));
-              }}
-            />
-          </FormControl>
-        </GridItem>
-
-        <GridItem colSpan={1}>
-          <FormControl isRequired>
             <FormLabel>Quantity</FormLabel>
             <Input
               value={quantity}
@@ -270,13 +238,6 @@ const Out = () => {
           <FormControl isRequired>
             <FormLabel>Unit</FormLabel>
             <Input value={unit} onChange={(e) => setUnit(e.target.value)} />
-          </FormControl>
-        </GridItem>
-
-        <GridItem colSpan={1}>
-          <FormControl isRequired>
-            <FormLabel>Expiration (Months)</FormLabel>
-            <Input value={expirationMonth} />
           </FormControl>
         </GridItem>
 

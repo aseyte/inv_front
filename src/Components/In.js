@@ -42,7 +42,7 @@ const In = () => {
   const [desc, setDesc] = useState("");
   const [brand, setBrand] = useState("");
   const [lot, setLot] = useState("");
-  const [expiration, setExpiration] = useState("");
+  const [expiration, setExpiration] = useState("NOT INDICATED");
   const [iar, setIar] = useState("");
   const [iarDate, setIarDate] = useState("");
   const [delivery, setDelivery] = useState("");
@@ -56,7 +56,7 @@ const In = () => {
   const [manufacturer, setManufacturer] = useState("");
   const [origin, setOrigin] = useState("");
   const [acquisition, setAcquisition] = useState("");
-  const [expirationMonths, setExpirationMonths] = useState("");
+  const [expirationMonths, setExpirationMonths] = useState("NOT INDICATED");
   const [remarks, setRemarks] = useState("");
   const [condition, setCondition] = useState("");
   const [fundSource, setFundSource] = useState("");
@@ -64,13 +64,13 @@ const In = () => {
   const [category, setCategory] = useState("");
 
   const inItemAPI =
-    "https://script.google.com/macros/s/AKfycby9OT61EQXya3i7UC-TayOm3cgN6BNn3MEfiQSoL5xhTHrcIxZku2gsJimVw2Nsfk93Fw/exec?action=inItem";
+    "https://script.google.com/macros/s/AKfycbzE4Q7NmVI8wULcm6vfaPHCW1asXTNKTDQWKSoyBo2CgNlSbO5A_Dy-OCkBmFj-USj2_Q/exec?action=inItem";
 
   const clearForm = () => {
     setDesc("");
     setBrand("");
     setLot("");
-    setExpiration("");
+    setExpiration("NOT INDICATED");
     setIar("");
     setIarDate("");
     setDelivery("");
@@ -84,7 +84,7 @@ const In = () => {
     setManufacturer("");
     setOrigin("");
     setAcquisition("");
-    setExpirationMonths("");
+    setExpirationMonths("NOT INDICATED");
     setRemarks("");
     setCondition("");
     setFundSource("");
@@ -122,19 +122,19 @@ const In = () => {
     fetch(inItemAPI, {
       method: "POST",
       body: JSON.stringify({
-        timestamp: todayTime + todayDate,
+        timestamp: todayTime + " " + todayDate,
         desc,
         brand,
         lot,
         expiration:
-          expiration !== ""
+          expiration !== "NOT INDICATED"
             ? new Date(expiration).getMonth() +
               1 +
               "/" +
               new Date(expiration).getDate() +
               "/" +
               new Date(expiration).getFullYear()
-            : null,
+            : "NOT INDICATED",
         iar,
         iarDate:
           iarDate !== ""
@@ -144,7 +144,7 @@ const In = () => {
               new Date(iarDate).getDate() +
               "/" +
               new Date(iarDate).getFullYear()
-            : "null",
+            : null,
 
         delivery:
           delivery !== ""
@@ -237,6 +237,21 @@ const In = () => {
     fetchTotal();
   }, [quantity, pack, loose]);
 
+  const getExpirationMonth = (date1, date2) => {
+    let months;
+    months = (date2.getFullYear() - date1.getFullYear()) * 12;
+    months -= date1.getMonth();
+    months += date2.getMonth();
+
+    if (months < 0) {
+      return setExpirationMonths("EXPIRED");
+    } else {
+      return setExpirationMonths(
+        months > 1 ? `${months} MONTHS` : `${months} MONTH`
+      );
+    }
+  };
+
   return (
     <>
       <SimpleGrid columns={3} columnGap={3} rowGap={6} w="full" h={"full"}>
@@ -279,7 +294,10 @@ const In = () => {
             <FormLabel>Expiration</FormLabel>
             <Input
               value={expiration}
-              onChange={(e) => setExpiration(e.target.value)}
+              onChange={(e) => {
+                setExpiration(e.target.value);
+                getExpirationMonth(todate, new Date(e.target.value));
+              }}
               type="date"
             />
           </FormControl>
@@ -410,20 +428,21 @@ const In = () => {
         <GridItem colSpan={1}>
           <FormControl>
             <FormLabel>Acquisition Mode</FormLabel>
-            <Input
+            <Select
               value={acquisition}
               onChange={(e) => setAcquisition(e.target.value)}
-            />
+              placeholder="- Select Acquisition -"
+            >
+              <option value="Purchase">Purchase</option>
+              <option value="Donation">Donation</option>
+            </Select>
           </FormControl>
         </GridItem>
 
         <GridItem colSpan={1}>
           <FormControl>
             <FormLabel>Expiration (Months)</FormLabel>
-            <Input
-              value={expirationMonths}
-              onChange={(e) => setExpirationMonths(e.target.value)}
-            />
+            <Input value={expirationMonths} />
           </FormControl>
         </GridItem>
 
