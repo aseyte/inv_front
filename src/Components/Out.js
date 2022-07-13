@@ -25,7 +25,7 @@ const Out = () => {
   const [quantity, setQuantity] = useState("");
   const [requester, setRequester] = useState("");
   const [area, setArea] = useState("");
-  const [available, setAvailable] = useState("");
+  const [available, setAvailable] = useState(0);
   const [unit, setUnit] = useState("");
 
   const [remark, setRemark] = useState("");
@@ -65,7 +65,7 @@ const Out = () => {
   const handleOutItem = async () => {
     setIsClick(true);
     try {
-      if (quantity > available) {
+      if (available < 0) {
         toast({
           title: "Error",
           description: "Not enough stocks",
@@ -183,10 +183,12 @@ const Out = () => {
 
   useEffect(() => {
     setAvailable(
-      inventory === null
+      desc === ""
         ? 0
-        : inventory.filter((e) => e?.desc === desc)[0].available - quantity
+        : inventory?.filter((f) => f.desc === desc)[0]?.available - quantity
     );
+
+    console.log(typeof available);
   }, [desc, quantity]);
 
   return (
@@ -244,7 +246,10 @@ const Out = () => {
             <FormLabel>Quantity</FormLabel>
             <Input
               value={quantity}
-              onChange={(e) => setQuantity(e.target.value)}
+              onChange={(e) => {
+                setQuantity(e.target.value);
+                setAvailable(available - e.target.value);
+              }}
               type="number"
             />
           </FormControl>
@@ -270,7 +275,7 @@ const Out = () => {
 
         <GridItem colSpan={2}>
           <FormControl isRequired>
-            <FormLabel>Available</FormLabel>
+            <FormLabel>Available Stocks</FormLabel>
             <Input value={available} />
           </FormControl>
         </GridItem>

@@ -97,11 +97,11 @@ const In = () => {
   const handleInItem = async () => {
     setIsClick(true);
 
-    if (quantity === 0 && loose === 0) {
+    if (total === 0) {
       setIsClick(false);
       toast({
         title: "Error",
-        description: "Enter quantity or loose",
+        description: "Please enter quantity",
         status: "error",
         duration: 9000,
         isClosable: true,
