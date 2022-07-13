@@ -45,6 +45,8 @@ const Equipment = () => {
   const [remarks, setRemarks] = useState("");
   const [out, setOut] = useState("");
   const [category, setCategory] = useState("Equipment");
+  const [cost, setCost] = useState(0);
+  const [assigned, setAssigned] = useState("");
 
   //Utilities State
   const toast = useToast();
@@ -79,12 +81,14 @@ const Equipment = () => {
     setDonor("");
     setRemarks("");
     setOut("");
+    setCost("");
+    setAssigned("");
   };
 
   const { setAppState } = useAuth();
 
   const createItemAPI =
-    "https://script.google.com/macros/s/AKfycbwjyeA8hdXvmwsOhN8QwbKvsZpL1XMWLjG1t_5npE3gz2GkpPlz02RBEIc6GvQ8H84oFg/exec?action=createEquipment";
+    "https://script.google.com/macros/s/AKfycbyoH9udQhMn39uUWq9ik-iLWZgt9btKsHGfWphEtdvunjo2DneLM6iyVpyv82y2827ykw/exec?action=createEquipment";
 
   const handleCreate = async () => {
     setIsClick(true);
@@ -140,6 +144,8 @@ const Equipment = () => {
         donor,
         remarks,
         out,
+        assigned,
+        cost,
         category,
       }),
     })
@@ -204,7 +210,7 @@ const Equipment = () => {
     <>
       <SimpleGrid
         columns={6}
-        columnGap={3}
+        columnGap={4}
         rowGap={6}
         w="full"
         h={"full"}
@@ -462,7 +468,7 @@ const Equipment = () => {
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={2}>
+        <GridItem colSpan={3}>
           <FormControl>
             <FormLabel>Acquisition Mode</FormLabel>
             <Input
@@ -472,10 +478,20 @@ const Equipment = () => {
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={2}>
+        <GridItem colSpan={3}>
           <FormControl>
             <FormLabel>Donor</FormLabel>
             <Input value={donor} onChange={(e) => setDonor(e.target.value)} />
+          </FormControl>
+        </GridItem>
+
+        <GridItem colSpan={3}>
+          <FormControl>
+            <FormLabel>Personnel Assinged</FormLabel>
+            <Input
+              value={assigned}
+              onChange={(e) => setAssigned(e.target.value)}
+            />
           </FormControl>
         </GridItem>
 
@@ -486,10 +502,14 @@ const Equipment = () => {
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={1}>
+        <GridItem colSpan={2}>
           <FormControl>
             <FormLabel>Cost</FormLabel>
-            <Input type="number" />
+            <Input
+              type="number"
+              value={cost}
+              onChange={(e) => setCost(e.target.value)}
+            />
           </FormControl>
         </GridItem>
 
