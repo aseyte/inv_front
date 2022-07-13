@@ -88,7 +88,7 @@ const Equipment = () => {
   const { setAppState } = useAuth();
 
   const createItemAPI =
-    "https://script.google.com/macros/s/AKfycbyoH9udQhMn39uUWq9ik-iLWZgt9btKsHGfWphEtdvunjo2DneLM6iyVpyv82y2827ykw/exec?action=createEquipment";
+    "https://script.google.com/macros/s/AKfycby2xlnFp-oFuGD4rIZjhBjmqwlCacybdZnIbD_lC42qbD0VCTW_-rIbZ7TxZfA3Km98iQ/exec?action=createEquipment";
 
   const handleCreate = async () => {
     setIsClick(true);

@@ -14,7 +14,7 @@ import {
 import useAuth from "../Hooks/useAuth";
 
 const Out = () => {
-  const { setAppState, item } = useAuth();
+  const { setAppState, item, appState } = useAuth();
   const [isClick, setIsClick] = useState(false);
   const toast = useToast();
 
@@ -30,6 +30,8 @@ const Out = () => {
 
   const [remark, setRemark] = useState("");
 
+  const [inventory, setInventory] = useState(null);
+
   const clearForm = () => {
     setDesc("");
     setRisDate("");
@@ -39,16 +41,41 @@ const Out = () => {
     setArea("");
     setAvailable("");
     setUnit("");
-
+    setInventory(null);
     setRemark("");
   };
 
   const outItemAPI =
     "https://script.google.com/macros/s/AKfycbzAVA5lTsPmyXmYv425gOoVD1-mw6OsMaMKhAf16vppmm6KslUbAClp0hbg4fRhOiG7pw/exec?action=outItem";
 
+  const getAvailableAPI =
+    "https://script.google.com/macros/s/AKfycbyV3xpFwsJEx-ISIJuNVgfYkctMk8ChWR4_84beZQNJ4HwEtHfPX5wahlZL2UKHW6XAqw/exec?action=getAvailable";
+
+  useEffect(() => {
+    fetch(getAvailableAPI, { method: "get" })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data) {
+          setInventory(data);
+        }
+      })
+      .catch((error) => console.log(error));
+  }, [appState]);
+
   const handleOutItem = async () => {
     setIsClick(true);
     try {
+      if (quantity > available) {
+        toast({
+          title: "Error",
+          description: "Not enough stocks",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+        setIsClick(false);
+        return;
+      }
       if (!desc) {
         toast({
           title: "Error",
@@ -92,7 +119,6 @@ const Out = () => {
             desc,
             risDate,
             risNum,
-
             quantity,
             requester,
             area,
@@ -154,6 +180,14 @@ const Out = () => {
       setIsClick(false);
     }
   };
+
+  useEffect(() => {
+    setAvailable(
+      inventory === null
+        ? 0
+        : inventory.filter((e) => e?.desc === desc)[0].available - quantity
+    );
+  }, [desc, quantity]);
 
   return (
     <>
@@ -237,7 +271,7 @@ const Out = () => {
         <GridItem colSpan={2}>
           <FormControl isRequired>
             <FormLabel>Available</FormLabel>
-            <Input />
+            <Input value={available} />
           </FormControl>
         </GridItem>
 
