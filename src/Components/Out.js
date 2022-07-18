@@ -57,6 +57,7 @@ const Out = () => {
       .then((data) => {
         if (data) {
           setInventory(data);
+          console.log(data.filter(e => e.desc === desc))
         }
       })
       .catch((error) => console.log(error));

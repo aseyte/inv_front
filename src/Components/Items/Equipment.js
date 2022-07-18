@@ -487,7 +487,7 @@ const Equipment = () => {
 
         <GridItem colSpan={3}>
           <FormControl>
-            <FormLabel>Personnel Assinged</FormLabel>
+            <FormLabel>Personnel Assigned</FormLabel>
             <Input
               value={assigned}
               onChange={(e) => setAssigned(e.target.value)}
