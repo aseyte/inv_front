@@ -17,7 +17,7 @@ const Out = () => {
   const { setAppState, item, appState } = useAuth();
   const [isClick, setIsClick] = useState(false);
   const toast = useToast();
-
+  const [equipment, setEquipment] = useState([]);
   const [desc, setDesc] = useState("");
   const [risDate, setRisDate] = useState("");
   const [risNum, setRisNum] = useState("");
@@ -30,7 +30,7 @@ const Out = () => {
 
   const [remark, setRemark] = useState("");
 
-  const [inventory, setInventory] = useState(null);
+  const [inventory, setInventory] = useState([]);
 
   const clearForm = () => {
     setDesc("");
@@ -46,10 +46,13 @@ const Out = () => {
   };
 
   const outItemAPI =
-    "https://script.google.com/macros/s/AKfycbzAVA5lTsPmyXmYv425gOoVD1-mw6OsMaMKhAf16vppmm6KslUbAClp0hbg4fRhOiG7pw/exec?action=outItem";
+    "https://script.google.com/macros/s/AKfycbz00BMUuPS1w-g7VnEyM5JsxqsNkOS8boIWuUfv8vVpKmavPFUu2xnYW7qvu8fo9vuBRA/exec?action=outItem";
 
   const getAvailableAPI =
-    "https://script.google.com/macros/s/AKfycbyV3xpFwsJEx-ISIJuNVgfYkctMk8ChWR4_84beZQNJ4HwEtHfPX5wahlZL2UKHW6XAqw/exec?action=getAvailable";
+    "https://script.google.com/macros/s/AKfycbz00BMUuPS1w-g7VnEyM5JsxqsNkOS8boIWuUfv8vVpKmavPFUu2xnYW7qvu8fo9vuBRA/exec?action=getAvailable";
+
+  const getEquipmentAPI =
+    "https://script.google.com/macros/s/AKfycbz00BMUuPS1w-g7VnEyM5JsxqsNkOS8boIWuUfv8vVpKmavPFUu2xnYW7qvu8fo9vuBRA/exec?action=getEquipment";
 
   useEffect(() => {
     fetch(getAvailableAPI, { method: "get" })
@@ -57,11 +60,25 @@ const Out = () => {
       .then((data) => {
         if (data) {
           setInventory(data);
-          console.log(data.filter(e => e.desc === desc))
         }
       })
       .catch((error) => console.log(error));
   }, [appState]);
+
+  useEffect(() => {
+    fetch(getEquipmentAPI, { method: "get" })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data.filter(e => e.desc !== ""
+        ))
+        if (data) {
+          setEquipment(
+            data.filter((e) => e.desc !== "").filter((f) => f.desc === desc)[0]
+          );
+        }
+      })
+      .catch((error) => console.log(error));
+  }, [appState, inventory, desc]);
 
   const handleOutItem = async () => {
     setIsClick(true);
@@ -120,12 +137,14 @@ const Out = () => {
             desc,
             risDate,
             risNum,
+            brand: equipment?.brand,
+            serialNum: equipment?.serialNum,
+
             quantity,
             requester,
             area,
             available,
             unit,
-
             remark,
           }),
         })
@@ -139,7 +158,7 @@ const Out = () => {
               setIsClick(false);
               clearForm();
               setAppState("Item Created");
-              setTimeout(() => setAppState(""), 500);
+              setTimeout(() => setAppState(""), 100);
               toast({
                 title: "Item Created",
                 description: "Added one (1) item to the database",
@@ -188,9 +207,11 @@ const Out = () => {
         ? 0
         : inventory?.filter((f) => f.desc === desc)[0]?.available - quantity
     );
-
-    console.log(typeof available);
   }, [desc, quantity]);
+
+  useEffect(() => {
+    console.log(equipment);
+  }, [equipment]);
 
   return (
     <>
@@ -204,12 +225,13 @@ const Out = () => {
       >
         <GridItem colSpan={5} width="80%" mb={7}>
           <FormControl isRequired>
-            <FormLabel>Item Description</FormLabel>
+            <FormLabel>Item Description </FormLabel>
             <Select
               cursor="pointer"
               value={desc}
               onChange={(e) => {
                 setDesc(e.target.value);
+                setEquipment([]);
               }}
               placeholder="- Select Item -"
             >

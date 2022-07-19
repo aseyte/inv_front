@@ -29,7 +29,7 @@ const App = () => {
               <Route path="register" element={<Register />} />
             </Route>
             <Route element={<ProtectedRoute user={user} />}>
-              <Route path="create" element={<CreateItem />} />
+              <Route path="/" element={<Homepage />} />
             </Route>
           </Route>
         </Routes>

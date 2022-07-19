@@ -57,6 +57,7 @@ const Login = ({ user }) => {
   return (
     <>
       <div className="container">
+        <h1>MMS Inventory System</h1>
         <Container
           bg={"#fff"}
           boxShadow="rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;"

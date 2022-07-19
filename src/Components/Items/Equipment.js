@@ -88,7 +88,7 @@ const Equipment = () => {
   const { setAppState } = useAuth();
 
   const createItemAPI =
-    "https://script.google.com/macros/s/AKfycby2xlnFp-oFuGD4rIZjhBjmqwlCacybdZnIbD_lC42qbD0VCTW_-rIbZ7TxZfA3Km98iQ/exec?action=createEquipment";
+    "https://script.google.com/macros/s/AKfycbzZM6VnNwm2loeSooYPlsJQnDubY9-TRdzrEzmASC5TFQxa4SgXjwXcNOnmhXtHeC6jYg/exec?action=createEquipment";
 
   const handleCreate = async () => {
     setIsClick(true);
@@ -241,6 +241,8 @@ const Equipment = () => {
               value={article}
               onChange={(e) => {
                 setArticle(e.target.value);
+                setTypeOther("");
+                setType("");
               }}
               placeholder="- Select Article -"
             >
@@ -471,10 +473,15 @@ const Equipment = () => {
         <GridItem colSpan={3}>
           <FormControl>
             <FormLabel>Acquisition Mode</FormLabel>
-            <Input
+
+            <Select
               value={acquisitionMode}
               onChange={(e) => setAcquisitionMode(e.target.value)}
-            />
+              placeholder="- Select Item -"
+            >
+              <option value="Purchase">Purchase</option>
+              <option value="Donation">Donation</option>
+            </Select>
           </FormControl>
         </GridItem>
 

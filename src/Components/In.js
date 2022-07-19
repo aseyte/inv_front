@@ -20,7 +20,7 @@ const In = () => {
   const { appState, setAppState } = useAuth();
   const [isClick, setIsClick] = useState(false);
   const getUniqueAPI =
-    "https://script.google.com/macros/s/AKfycbwhWmYEWBY18WKMVOjokhBVZLC8eR-8OWB-QesfBxqBeO99z3Jo-HNshTxO133P8CIVtA/exec?action=getUnique";
+    "https://script.google.com/macros/s/AKfycbz00BMUuPS1w-g7VnEyM5JsxqsNkOS8boIWuUfv8vVpKmavPFUu2xnYW7qvu8fo9vuBRA/exec?action=getUnique";
 
   useEffect(() => {
     fetch(getUniqueAPI, { method: "get" })
@@ -63,10 +63,9 @@ const In = () => {
   const [condition, setCondition] = useState("");
   const [fundSource, setFundSource] = useState("");
   const [acquisitionCost, setAcquisitionCost] = useState("");
-  const [category, setCategory] = useState("");
 
   const inItemAPI =
-    "https://script.google.com/macros/s/AKfycbzE4Q7NmVI8wULcm6vfaPHCW1asXTNKTDQWKSoyBo2CgNlSbO5A_Dy-OCkBmFj-USj2_Q/exec?action=inItem";
+    "https://script.google.com/macros/s/AKfycbz00BMUuPS1w-g7VnEyM5JsxqsNkOS8boIWuUfv8vVpKmavPFUu2xnYW7qvu8fo9vuBRA/exec?action=inItem";
 
   const clearForm = () => {
     setDesc("");
@@ -91,7 +90,6 @@ const In = () => {
     setCondition("");
     setFundSource("");
     setAcquisitionCost("");
-    setCategory("");
   };
 
   const handleInItem = async () => {
@@ -173,7 +171,6 @@ const In = () => {
         condition,
         fundSource,
         acquisitionCost,
-        category,
       }),
     })
       .then(async (response) => {
@@ -253,6 +250,21 @@ const In = () => {
       );
     }
   };
+
+  const sampleData = [
+    { supplierName: "Adrian's Laundry", totalCost: 3500 },
+    {
+      supplierName: `Alyana's
+  Hotdog`,
+      totalCost: 5000,
+    },
+    { supplierName: "Arzl's Hardware", totalCost: 3000 },
+    {
+      supplierName: `Krizelle's Pet
+  Shop`,
+      totalCost: 1000,
+    },
+  ];
 
   return (
     <>
@@ -400,10 +412,22 @@ const In = () => {
         <GridItem colSpan={3}>
           <FormControl>
             <FormLabel>Location</FormLabel>
-            <Input
+
+            <Select
               value={location}
               onChange={(e) => setLocation(e.target.value)}
-            />
+              placeholder="- Selecet Location -"
+            >
+              <option value="MMS Main Storage Level 1">
+                MMS Main Storage Level 1
+              </option>
+              <option value="MMS Main Storage Level 2">
+                MMS Main Storage Level 2
+              </option>
+              <option value="Tent 1">Tent 1</option>
+              <option value="Tent 2">Tent 2</option>
+              <option value="Tower 1">Tower 1</option>
+            </Select>
           </FormControl>
         </GridItem>
 
@@ -450,13 +474,6 @@ const In = () => {
 
         <GridItem colSpan={3}>
           <FormControl>
-            <FormLabel>Expiration (Months)</FormLabel>
-            <Input value={expirationMonths} />
-          </FormControl>
-        </GridItem>
-
-        <GridItem colSpan={3}>
-          <FormControl>
             <FormLabel>Condition</FormLabel>
             <Input
               value={condition}
@@ -481,16 +498,6 @@ const In = () => {
             <Input
               value={acquisitionCost}
               onChange={(e) => setAcquisitionCost(e.target.value)}
-            />
-          </FormControl>
-        </GridItem>
-
-        <GridItem colSpan={2}>
-          <FormControl>
-            <FormLabel>Category</FormLabel>
-            <Input
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
             />
           </FormControl>
         </GridItem>
