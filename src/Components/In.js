@@ -406,7 +406,7 @@ const In = () => {
                 <Select
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
-                  placeholder="- Selecet Location -"
+                  placeholder="- Select Location -"
                 >
                   <option value="MMS Main Storage Level 1">
                     MMS Main Storage Level 1

@@ -463,10 +463,22 @@ const Equipment = () => {
         <GridItem colSpan={2}>
           <FormControl>
             <FormLabel>Location</FormLabel>
-            <Input
+
+            <Select
               value={location}
               onChange={(e) => setLocation(e.target.value)}
-            />
+              placeholder="- Select Location -"
+            >
+              <option value="MMS Main Storage Level 1">
+                MMS Main Storage Level 1
+              </option>
+              <option value="MMS Main Storage Level 2">
+                MMS Main Storage Level 2
+              </option>
+              <option value="Tent 1">Tent 1</option>
+              <option value="Tent 2">Tent 2</option>
+              <option value="Tower 1">Tower 1</option>
+            </Select>
           </FormControl>
         </GridItem>
 

@@ -12,6 +12,7 @@ import {
 } from "@chakra-ui/react";
 import In from "../Components/In";
 import Out from "../Components/Out";
+import Return from "../Components/Return";
 
 const Homepage = () => {
   const [alerts, setAlerts] = useState(false);
@@ -38,6 +39,9 @@ const Homepage = () => {
                 <Text fontSize="xl">OUT</Text>
               </Tab>
               <Tab borderRadius={5} _hover={{ background: "#e6eaec" }}>
+                <Text fontSize="xl">RETURN</Text>
+              </Tab>
+              <Tab borderRadius={5} _hover={{ background: "#e6eaec" }}>
                 <Text fontSize="xl">CREATE ITEM</Text>
               </Tab>
             </TabList>
@@ -47,6 +51,9 @@ const Homepage = () => {
               </TabPanel>
               <TabPanel>
                 <Out />
+              </TabPanel>
+              <TabPanel>
+                <Return />
               </TabPanel>
               <TabPanel>
                 <CreateItem />
