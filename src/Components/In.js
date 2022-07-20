@@ -281,7 +281,7 @@ const In = () => {
           </FormControl>
         </GridItem>
 
-        {desc !== "" && !desc === "#N/A" && (
+        {desc !== "" && desc !== "#N/A" && (
           <>
             <GridItem colSpan={2}>
               <FormControl>
@@ -514,7 +514,7 @@ const In = () => {
             color="#fff"
             isLoading={isClick ? true : false}
             colorScheme="teal"
-            loadingText="Creating Item"
+            loadingText="Processing"
             onClick={() => handleInItem()}
             minW={100}
           >
