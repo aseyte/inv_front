@@ -54,6 +54,18 @@ const Homepage = () => {
             </TabPanels>
           </Tabs>
         </Container>
+
+        <div
+          onClick={() =>
+            window.open(
+              "https://docs.google.com/spreadsheets/d/1wIKV8SyYJJfzyS7INWyOPtzM7BFYe0vbk0kHp5Sd-CQ/edit#gid=162947881",
+              "target: _blank"
+            )
+          }
+          className="spreadsheet"
+        >
+          Spread Sheet
+        </div>
       </div>
     </>
   );

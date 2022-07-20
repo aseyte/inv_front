@@ -23,3 +23,20 @@
   padding: 20px 0px;
   flex-direction: column;
 }
+
+.spreadsheet {
+  background: #fff;
+  border-radius: 100px;
+  font-size: 14px;
+  padding: 8px;
+  cursor: pointer;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  transition: 0.1s ease-in-out;
+}
+
+.spreadsheet:hover {
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  transition: 0.1s ease-in-out;
+}
