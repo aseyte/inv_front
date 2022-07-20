@@ -520,7 +520,7 @@ const Equipment = () => {
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={5}>
+        <GridItem colSpan={6}>
           <FormControl>
             <FormLabel>Remarks</FormLabel>
             <Textarea

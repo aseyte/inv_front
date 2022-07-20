@@ -251,21 +251,6 @@ const In = () => {
     }
   };
 
-  const sampleData = [
-    { supplierName: "Adrian's Laundry", totalCost: 3500 },
-    {
-      supplierName: `Alyana's
-  Hotdog`,
-      totalCost: 5000,
-    },
-    { supplierName: "Arzl's Hardware", totalCost: 3000 },
-    {
-      supplierName: `Krizelle's Pet
-  Shop`,
-      totalCost: 1000,
-    },
-  ];
-
   return (
     <>
       <SimpleGrid
@@ -296,235 +281,247 @@ const In = () => {
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={2}>
-          <FormControl>
-            <FormLabel>Brand</FormLabel>
-            <Input value={brand} onChange={(e) => setBrand(e.target.value)} />
-          </FormControl>
-        </GridItem>
+        {desc !== "" && !desc === "#N/A" && (
+          <>
+            <GridItem colSpan={2}>
+              <FormControl>
+                <FormLabel>Brand</FormLabel>
+                <Input
+                  value={brand}
+                  onChange={(e) => setBrand(e.target.value)}
+                />
+              </FormControl>
+            </GridItem>
 
-        <GridItem colSpan={2}>
-          <FormControl>
-            <FormLabel>Lot/Serial #</FormLabel>
-            <Input value={lot} onChange={(e) => setLot(e.target.value)} />
-          </FormControl>
-        </GridItem>
+            <GridItem colSpan={2}>
+              <FormControl>
+                <FormLabel>Lot/Serial #</FormLabel>
+                <Input value={lot} onChange={(e) => setLot(e.target.value)} />
+              </FormControl>
+            </GridItem>
 
-        <GridItem colSpan={2}>
-          <FormControl>
-            <FormLabel>Expiration</FormLabel>
-            <Input
-              value={expiration}
-              onChange={(e) => {
-                setExpiration(e.target.value);
-                getExpirationMonth(todate, new Date(e.target.value));
-              }}
-              type="date"
-            />
-          </FormControl>
-        </GridItem>
+            <GridItem colSpan={2}>
+              <FormControl>
+                <FormLabel>Expiration</FormLabel>
+                <Input
+                  value={expiration}
+                  onChange={(e) => {
+                    setExpiration(e.target.value);
+                    getExpirationMonth(todate, new Date(e.target.value));
+                  }}
+                  type="date"
+                />
+              </FormControl>
+            </GridItem>
 
-        <GridItem colSpan={2} width="100%">
-          <FormControl>
-            <FormLabel>IAR #</FormLabel>
-            <Input value={iar} onChange={(e) => setIar(e.target.value)} />
-          </FormControl>
-        </GridItem>
+            <GridItem colSpan={2} width="100%">
+              <FormControl>
+                <FormLabel>IAR #</FormLabel>
+                <Input value={iar} onChange={(e) => setIar(e.target.value)} />
+              </FormControl>
+            </GridItem>
 
-        <GridItem colSpan={2}>
-          <FormControl>
-            <FormLabel>IAR Date</FormLabel>
-            <Input
-              value={iarDate}
-              onChange={(e) => setIarDate(e.target.value)}
-              type="date"
-            />
-          </FormControl>
-        </GridItem>
+            <GridItem colSpan={2}>
+              <FormControl>
+                <FormLabel>IAR Date</FormLabel>
+                <Input
+                  value={iarDate}
+                  onChange={(e) => setIarDate(e.target.value)}
+                  type="date"
+                />
+              </FormControl>
+            </GridItem>
 
-        <GridItem colSpan={2}>
-          <FormControl>
-            <FormLabel>Delivery Date</FormLabel>
-            <Input
-              value={delivery}
-              onChange={(e) => setDelivery(e.target.value)}
-              type="date"
-            />
-          </FormControl>
-        </GridItem>
+            <GridItem colSpan={2}>
+              <FormControl>
+                <FormLabel>Delivery Date</FormLabel>
+                <Input
+                  value={delivery}
+                  onChange={(e) => setDelivery(e.target.value)}
+                  type="date"
+                />
+              </FormControl>
+            </GridItem>
 
-        <GridItem colSpan={1}>
-          <FormControl>
-            <FormLabel>Quantity</FormLabel>
-            <Input
-              value={quantity}
-              onChange={(e) => setQuantity(e.target.value)}
-              type="number"
-            />
-          </FormControl>
-        </GridItem>
+            <GridItem colSpan={1}>
+              <FormControl>
+                <FormLabel>Quantity</FormLabel>
+                <Input
+                  value={quantity}
+                  onChange={(e) => setQuantity(e.target.value)}
+                  type="number"
+                />
+              </FormControl>
+            </GridItem>
 
-        <GridItem colSpan={1}>
-          <FormControl>
-            <FormLabel>Pack Size</FormLabel>
-            <Input
-              value={pack}
-              onChange={(e) => setPack(e.target.value)}
-              type="number"
-            />
-          </FormControl>
-        </GridItem>
+            <GridItem colSpan={1}>
+              <FormControl>
+                <FormLabel>Pack Size</FormLabel>
+                <Input
+                  value={pack}
+                  onChange={(e) => setPack(e.target.value)}
+                  type="number"
+                />
+              </FormControl>
+            </GridItem>
 
-        <GridItem colSpan={1}>
-          <FormControl>
-            <FormLabel>Loose</FormLabel>
-            <Input
-              min={0}
-              type="number"
-              value={loose}
-              onChange={(e) => {
-                setLoose(e.target.value);
-              }}
-            />
-          </FormControl>
-        </GridItem>
+            <GridItem colSpan={1}>
+              <FormControl>
+                <FormLabel>Loose</FormLabel>
+                <Input
+                  min={0}
+                  type="number"
+                  value={loose}
+                  onChange={(e) => {
+                    setLoose(e.target.value);
+                  }}
+                />
+              </FormControl>
+            </GridItem>
 
-        <GridItem colSpan={1}>
-          <FormControl>
-            <FormLabel>Unit</FormLabel>
-            <Input value={unit} onChange={(e) => setUnit(e.target.value)} />
-          </FormControl>
-        </GridItem>
+            <GridItem colSpan={1}>
+              <FormControl>
+                <FormLabel>Unit</FormLabel>
+                <Input value={unit} onChange={(e) => setUnit(e.target.value)} />
+              </FormControl>
+            </GridItem>
 
-        <GridItem colSpan={2}>
-          <FormControl>
-            <FormLabel>Total</FormLabel>
-            <Input
-              value={total}
-              disabled
-              background="#eee"
-              _readOnly
-              opacity={1}
-            />
-          </FormControl>
-        </GridItem>
+            <GridItem colSpan={2}>
+              <FormControl>
+                <FormLabel>Total</FormLabel>
+                <Input
+                  value={total}
+                  disabled
+                  background="#eee"
+                  _readOnly
+                  opacity={1}
+                />
+              </FormControl>
+            </GridItem>
 
-        <GridItem colSpan={3}>
-          <FormControl>
-            <FormLabel>Location</FormLabel>
+            <GridItem colSpan={3}>
+              <FormControl>
+                <FormLabel>Location</FormLabel>
 
-            <Select
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-              placeholder="- Selecet Location -"
-            >
-              <option value="MMS Main Storage Level 1">
-                MMS Main Storage Level 1
-              </option>
-              <option value="MMS Main Storage Level 2">
-                MMS Main Storage Level 2
-              </option>
-              <option value="Tent 1">Tent 1</option>
-              <option value="Tent 2">Tent 2</option>
-              <option value="Tower 1">Tower 1</option>
-            </Select>
-          </FormControl>
-        </GridItem>
+                <Select
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                  placeholder="- Selecet Location -"
+                >
+                  <option value="MMS Main Storage Level 1">
+                    MMS Main Storage Level 1
+                  </option>
+                  <option value="MMS Main Storage Level 2">
+                    MMS Main Storage Level 2
+                  </option>
+                  <option value="Tent 1">Tent 1</option>
+                  <option value="Tent 2">Tent 2</option>
+                  <option value="Tower 1">Tower 1</option>
+                </Select>
+              </FormControl>
+            </GridItem>
 
-        <GridItem colSpan={3}>
-          <FormControl>
-            <FormLabel>Supplier/Donor</FormLabel>
-            <Input
-              value={supplier}
-              onChange={(e) => setSupplier(e.target.value)}
-            />
-          </FormControl>
-        </GridItem>
+            <GridItem colSpan={3}>
+              <FormControl>
+                <FormLabel>Supplier/Donor</FormLabel>
+                <Input
+                  value={supplier}
+                  onChange={(e) => setSupplier(e.target.value)}
+                />
+              </FormControl>
+            </GridItem>
 
-        <GridItem colSpan={2}>
-          <FormControl>
-            <FormLabel>Manufacturer</FormLabel>
-            <Input
-              value={manufacturer}
-              onChange={(e) => setManufacturer(e.target.value)}
-            />
-          </FormControl>
-        </GridItem>
+            <GridItem colSpan={2}>
+              <FormControl>
+                <FormLabel>Manufacturer</FormLabel>
+                <Input
+                  value={manufacturer}
+                  onChange={(e) => setManufacturer(e.target.value)}
+                />
+              </FormControl>
+            </GridItem>
 
-        <GridItem colSpan={2}>
-          <FormControl>
-            <FormLabel>Origin</FormLabel>
-            <Input value={origin} onChange={(e) => setOrigin(e.target.value)} />
-          </FormControl>
-        </GridItem>
+            <GridItem colSpan={2}>
+              <FormControl>
+                <FormLabel>Origin</FormLabel>
+                <Input
+                  value={origin}
+                  onChange={(e) => setOrigin(e.target.value)}
+                />
+              </FormControl>
+            </GridItem>
 
-        <GridItem colSpan={2}>
-          <FormControl>
-            <FormLabel>Acquisition Mode</FormLabel>
-            <Select
-              value={acquisition}
-              onChange={(e) => setAcquisition(e.target.value)}
-              placeholder="- Select Acquisition -"
-            >
-              <option value="Purchase">Purchase</option>
-              <option value="Donation">Donation</option>
-            </Select>
-          </FormControl>
-        </GridItem>
+            <GridItem colSpan={2}>
+              <FormControl>
+                <FormLabel>Acquisition Mode</FormLabel>
+                <Select
+                  value={acquisition}
+                  onChange={(e) => setAcquisition(e.target.value)}
+                  placeholder="- Select Acquisition -"
+                >
+                  <option value="Purchase">Purchase</option>
+                  <option value="Donation">Donation</option>
+                </Select>
+              </FormControl>
+            </GridItem>
 
-        <GridItem colSpan={3}>
-          <FormControl>
-            <FormLabel>Condition</FormLabel>
-            <Input
-              value={condition}
-              onChange={(e) => setCondition(e.target.value)}
-            />
-          </FormControl>
-        </GridItem>
+            <GridItem colSpan={2}>
+              <FormControl>
+                <FormLabel>Condition</FormLabel>
+                <Input
+                  value={condition}
+                  onChange={(e) => setCondition(e.target.value)}
+                />
+              </FormControl>
+            </GridItem>
 
-        <GridItem colSpan={2}>
-          <FormControl>
-            <FormLabel>Fund Source</FormLabel>
-            <Input
-              value={fundSource}
-              onChange={(e) => setFundSource(e.target.value)}
-            />
-          </FormControl>
-        </GridItem>
+            <GridItem colSpan={2}>
+              <FormControl>
+                <FormLabel>Fund Source</FormLabel>
+                <Input
+                  value={fundSource}
+                  onChange={(e) => setFundSource(e.target.value)}
+                />
+              </FormControl>
+            </GridItem>
 
-        <GridItem colSpan={2}>
-          <FormControl>
-            <FormLabel>Acquisition Cost</FormLabel>
-            <Input
-              value={acquisitionCost}
-              onChange={(e) => setAcquisitionCost(e.target.value)}
-            />
-          </FormControl>
-        </GridItem>
+            <GridItem colSpan={2}>
+              <FormControl>
+                <FormLabel>Acquisition Cost</FormLabel>
+                <Input
+                  value={acquisitionCost}
+                  onChange={(e) => setAcquisitionCost(e.target.value)}
+                />
+              </FormControl>
+            </GridItem>
 
-        <GridItem colSpan={6}>
-          <FormControl>
-            <FormLabel>Remarks</FormLabel>
-            <Textarea
-              value={remarks}
-              onChange={(e) => setRemarks(e.target.value)}
-            />
-          </FormControl>
-        </GridItem>
+            <GridItem colSpan={6}>
+              <FormControl>
+                <FormLabel>Remarks</FormLabel>
+                <Textarea
+                  value={remarks}
+                  onChange={(e) => setRemarks(e.target.value)}
+                />
+              </FormControl>
+            </GridItem>
+          </>
+        )}
       </SimpleGrid>
 
-      <HStack marginTop={5} justifyContent="flex-end">
-        <Button
-          color="#fff"
-          isLoading={isClick ? true : false}
-          colorScheme="teal"
-          loadingText="Creating Item"
-          onClick={() => handleInItem()}
-          minW={100}
-        >
-          IN
-        </Button>
-      </HStack>
+      {desc !== "" && desc !== "#N/A" && (
+        <HStack marginTop={5} justifyContent="flex-end">
+          <Button
+            color="#fff"
+            isLoading={isClick ? true : false}
+            colorScheme="teal"
+            loadingText="Creating Item"
+            onClick={() => handleInItem()}
+            minW={100}
+          >
+            IN
+          </Button>
+        </HStack>
+      )}
     </>
   );
 };

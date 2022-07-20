@@ -27,9 +27,11 @@ const Out = () => {
   const [area, setArea] = useState("");
   const [available, setAvailable] = useState(0);
   const [unit, setUnit] = useState("");
-
+  const [brand, setBrand] = useState("");
   const [remark, setRemark] = useState("");
-
+  const [serialNum, setSerialNum] = useState("");
+  const [expiration, setExpiration] = useState("NOT INDICATED");
+  const [expirationMonth, setExpirationMonth] = useState("NOT INDICATED");
   const [inventory, setInventory] = useState([]);
 
   const clearForm = () => {
@@ -43,16 +45,22 @@ const Out = () => {
     setUnit("");
     setInventory(null);
     setRemark("");
+    setBrand("");
+    setSerialNum("");
+    setExpiration("NOT INDICATED");
+    setExpirationMonth("NOT INDICATED");
   };
 
   const outItemAPI =
-    "https://script.google.com/macros/s/AKfycbz00BMUuPS1w-g7VnEyM5JsxqsNkOS8boIWuUfv8vVpKmavPFUu2xnYW7qvu8fo9vuBRA/exec?action=outItem";
+    "https://script.google.com/macros/s/AKfycbxiAgzkHEIqcze2S1AxvBZ1-2qNKne6laYSYYX7O7bCPXiuoCjU9jstdGwT_EdVFP2Wrw/exec?action=outItem";
 
   const getAvailableAPI =
-    "https://script.google.com/macros/s/AKfycbz00BMUuPS1w-g7VnEyM5JsxqsNkOS8boIWuUfv8vVpKmavPFUu2xnYW7qvu8fo9vuBRA/exec?action=getAvailable";
+    "https://script.google.com/macros/s/AKfycbxiAgzkHEIqcze2S1AxvBZ1-2qNKne6laYSYYX7O7bCPXiuoCjU9jstdGwT_EdVFP2Wrw/exec?action=getAvailable";
 
   const getEquipmentAPI =
-    "https://script.google.com/macros/s/AKfycbz00BMUuPS1w-g7VnEyM5JsxqsNkOS8boIWuUfv8vVpKmavPFUu2xnYW7qvu8fo9vuBRA/exec?action=getEquipment";
+    "https://script.google.com/macros/s/AKfycbxiAgzkHEIqcze2S1AxvBZ1-2qNKne6laYSYYX7O7bCPXiuoCjU9jstdGwT_EdVFP2Wrw/exec?action=getEquipment";
+
+  const todate = new Date();
 
   useEffect(() => {
     fetch(getAvailableAPI, { method: "get" })
@@ -69,8 +77,7 @@ const Out = () => {
     fetch(getEquipmentAPI, { method: "get" })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.filter(e => e.desc !== ""
-        ))
+        console.log(data.filter((e) => e.desc !== ""));
         if (data) {
           setEquipment(
             data.filter((e) => e.desc !== "").filter((f) => f.desc === desc)[0]
@@ -135,17 +142,34 @@ const Out = () => {
           method: "POST",
           body: JSON.stringify({
             desc,
-            risDate,
+            risDate:
+              risDate !== ""
+                ? new Date(risDate).getMonth() +
+                  1 +
+                  "/" +
+                  new Date(risDate).getDate() +
+                  "/" +
+                  new Date(risDate).getFullYear()
+                : "",
             risNum,
-            brand: equipment?.brand,
-            serialNum: equipment?.serialNum,
-
+            brand,
+            serialNum,
             quantity,
             requester,
             area,
             available,
             unit,
             remark,
+            expiration:
+              expiration !== "NOT INDICATED"
+                ? new Date(expiration).getMonth() +
+                  1 +
+                  "/" +
+                  new Date(expiration).getDate() +
+                  "/" +
+                  new Date(expiration).getFullYear()
+                : "NOT INDICATED",
+            expirationMonth,
           }),
         })
           .then(async (response) => {
@@ -209,9 +233,20 @@ const Out = () => {
     );
   }, [desc, quantity]);
 
-  useEffect(() => {
-    console.log(equipment);
-  }, [equipment]);
+  const getExpirationMonth = (date1, date2) => {
+    let months;
+    months = (date2.getFullYear() - date1.getFullYear()) * 12;
+    months -= date1.getMonth();
+    months += date2.getMonth();
+
+    if (months < 0) {
+      return setExpirationMonth("EXPIRED");
+    } else {
+      return setExpirationMonth(
+        months > 1 ? `${months} MONTHS` : `${months} MONTH`
+      );
+    }
+  };
 
   return (
     <>
@@ -223,7 +258,7 @@ const Out = () => {
         h={"full"}
         p={6}
       >
-        <GridItem colSpan={5} width="80%" mb={7}>
+        <GridItem colSpan={4}>
           <FormControl isRequired>
             <FormLabel>Item Description </FormLabel>
             <Select
@@ -246,93 +281,137 @@ const Out = () => {
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={3}>
-          <FormControl isRequired>
-            <FormLabel>RIS Date</FormLabel>
-            <Input
-              value={risDate}
-              onChange={(e) => setRisDate(e.target.value)}
-              type="date"
-            />
-          </FormControl>
-        </GridItem>
+        {desc !== "#N/A" && desc !== "" && (
+          <>
+            <GridItem colSpan={2}>
+              <FormControl>
+                <FormLabel>Brand</FormLabel>
+                <Input
+                  value={brand}
+                  onChange={(e) => setBrand(e.target.value)}
+                  type="text"
+                />
+              </FormControl>
+            </GridItem>
 
-        <GridItem colSpan={2}>
-          <FormControl isRequired>
-            <FormLabel>RIS #</FormLabel>
-            <Input value={risNum} onChange={(e) => setRisNum(e.target.value)} />
-          </FormControl>
-        </GridItem>
+            <GridItem colSpan={2}>
+              <FormControl>
+                <FormLabel>RIS Date</FormLabel>
+                <Input
+                  value={risDate}
+                  onChange={(e) => setRisDate(e.target.value)}
+                  type="date"
+                />
+              </FormControl>
+            </GridItem>
 
-        <GridItem colSpan={1}>
-          <FormControl isRequired>
-            <FormLabel>Quantity</FormLabel>
-            <Input
-              value={quantity}
-              onChange={(e) => {
-                setQuantity(e.target.value);
-                setAvailable(available - e.target.value);
-              }}
-              type="number"
-            />
-          </FormControl>
-        </GridItem>
+            <GridItem colSpan={2}>
+              <FormControl>
+                <FormLabel>RIS #</FormLabel>
+                <Input
+                  value={risNum}
+                  onChange={(e) => setRisNum(e.target.value)}
+                />
+              </FormControl>
+            </GridItem>
 
-        <GridItem colSpan={4}>
-          <FormControl isRequired>
-            <FormLabel>Requester Name</FormLabel>
-            <Input
-              value={requester}
-              onChange={(e) => setRequester(e.target.value)}
-              placeholder="Full name"
-            />
-          </FormControl>
-        </GridItem>
+            <GridItem colSpan={1}>
+              <FormControl>
+                <FormLabel>LOT/Serial #</FormLabel>
+                <Input
+                  value={serialNum}
+                  onChange={(e) => setSerialNum(e.target.value)}
+                />
+              </FormControl>
+            </GridItem>
 
-        <GridItem colSpan={2}>
-          <FormControl isRequired>
-            <FormLabel>Area/Office</FormLabel>
-            <Input value={area} onChange={(e) => setArea(e.target.value)} />
-          </FormControl>
-        </GridItem>
+            <GridItem colSpan={1}>
+              <FormControl isRequired>
+                <FormLabel>Quantity</FormLabel>
+                <Input
+                  value={quantity}
+                  onChange={(e) => {
+                    setQuantity(e.target.value);
+                    setAvailable(available - e.target.value);
+                  }}
+                  type="number"
+                />
+              </FormControl>
+            </GridItem>
 
-        <GridItem colSpan={2}>
-          <FormControl isRequired>
-            <FormLabel>Available Stocks</FormLabel>
-            <Input value={available} />
-          </FormControl>
-        </GridItem>
+            <GridItem colSpan={2}>
+              <FormControl>
+                <FormLabel>Expiration</FormLabel>
+                <Input
+                  value={expiration}
+                  onChange={(e) => {
+                    setExpiration(e.target.value);
+                    getExpirationMonth(todate, new Date(e.target.value));
+                  }}
+                  type="date"
+                />
+              </FormControl>
+            </GridItem>
 
-        <GridItem colSpan={3}>
-          <FormControl isRequired>
-            <FormLabel>Unit</FormLabel>
-            <Input value={unit} onChange={(e) => setUnit(e.target.value)} />
-          </FormControl>
-        </GridItem>
+            <GridItem colSpan={2}>
+              <FormControl>
+                <FormLabel>Unit</FormLabel>
+                <Input value={unit} onChange={(e) => setUnit(e.target.value)} />
+              </FormControl>
+            </GridItem>
 
-        <GridItem colSpan={5}>
-          <FormControl isRequired>
-            <FormLabel>Remarks</FormLabel>
-            <Textarea
-              value={remark}
-              onChange={(e) => setRemark(e.target.value)}
-            />
-          </FormControl>
-        </GridItem>
+            <GridItem colSpan={2}>
+              <FormControl isRequired>
+                <FormLabel>Available Stocks</FormLabel>
+                <Input disabled background="#eee" _readOnly value={available} />
+              </FormControl>
+            </GridItem>
+
+            <GridItem colSpan={4}>
+              <FormControl isRequired>
+                <FormLabel>Requester Name</FormLabel>
+                <Input
+                  value={requester}
+                  onChange={(e) => setRequester(e.target.value)}
+                  placeholder="Full name"
+                />
+              </FormControl>
+            </GridItem>
+
+            <GridItem colSpan={2}>
+              <FormControl isRequired>
+                <FormLabel>Area/Office</FormLabel>
+                <Input value={area} onChange={(e) => setArea(e.target.value)} />
+              </FormControl>
+            </GridItem>
+
+            <GridItem colSpan={6}>
+              <FormControl>
+                <FormLabel>Remarks</FormLabel>
+                <Textarea
+                  value={remark}
+                  onChange={(e) => setRemark(e.target.value)}
+                />
+              </FormControl>
+            </GridItem>
+          </>
+        )}
       </SimpleGrid>
 
-      <HStack marginTop={5} justifyContent="flex-end">
-        <Button
-          color="#fff"
-          isLoading={isClick ? true : false}
-          colorScheme="teal"
-          loadingText="Creating Item"
-          onClick={() => handleOutItem()}
-          minW={100}
-        >
-          OUT
-        </Button>
-      </HStack>
+      {desc !== "" && desc !== "#N/A" && (
+        <HStack marginTop={5} justifyContent="flex-end">
+          <Button
+            color="#fff"
+            isLoading={isClick ? true : false}
+            colorScheme="teal"
+            loadingText="Processing"
+            onClick={() => handleOutItem()}
+            minW={100}
+          >
+            OUT
+          </Button>
+        </HStack>
+      )}
     </>
   );
 };
