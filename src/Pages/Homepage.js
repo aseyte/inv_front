@@ -8,14 +8,16 @@ import {
   TabPanels,
   Container,
   Text,
-  useToast,
 } from "@chakra-ui/react";
 import In from "../Components/In";
 import Out from "../Components/Out";
 import Return from "../Components/Return";
+import { useNavigate } from "react-router-dom";
 
 const Homepage = () => {
   const [alerts, setAlerts] = useState(false);
+
+  const navigate = useNavigate("");
 
   return (
     <>
@@ -62,16 +64,8 @@ const Homepage = () => {
           </Tabs>
         </Container>
 
-        <div
-          onClick={() =>
-            window.open(
-              "https://docs.google.com/spreadsheets/d/1wIKV8SyYJJfzyS7INWyOPtzM7BFYe0vbk0kHp5Sd-CQ/edit#gid=162947881",
-              "target: _blank"
-            )
-          }
-          className="spreadsheet"
-        >
-          Spread Sheet
+        <div onClick={() => navigate("/bin-card")} className="bin-card">
+          Bin Card
         </div>
       </div>
     </>

@@ -1,0 +1,42 @@
+.bincard-container {
+  width: 100%;
+  height: 100vh auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15%;
+  flex-direction: column;
+}
+
+.bincard-container h1 {
+  margin-bottom: 20px;
+  font-weight: 600;
+  font-size: 24px;
+}
+
+table {
+  width: 100%;
+}
+
+table td,
+table th {
+  border: 1px solid #d3d3d3;
+  padding: 4px 8px;
+}
+
+table th {
+  background: #575d69;
+  color: #fff;
+}
+
+th.ref {
+  flex: 1;
+}
+
+th.date,
+th.receipt,
+th.issued,
+th.balance {
+  width: 150px;
+  text-align: center;
+}
