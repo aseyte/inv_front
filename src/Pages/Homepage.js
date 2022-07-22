@@ -64,8 +64,18 @@ const Homepage = () => {
           </Tabs>
         </Container>
 
-        <div onClick={() => navigate("/bin-card")} className="bin-card">
+        <div
+          onClick={() => navigate("/bin-card")}
+          className="bin-card"
+        >
           Bin Card
+        </div>
+
+        <div
+          onClick={() => navigate("/inventory")}
+          className="inventory"
+        >
+          Inventory
         </div>
       </div>
     </>

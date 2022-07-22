@@ -77,7 +77,7 @@ const Out = () => {
     fetch(getEquipmentAPI, { method: "get" })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.filter((e) => e.desc !== ""));
+      
         if (data) {
           setEquipment(
             data.filter((e) => e.desc !== "").filter((f) => f.desc === desc)[0]
@@ -260,7 +260,7 @@ const Out = () => {
       >
         <GridItem colSpan={4}>
           <FormControl isRequired>
-            <FormLabel>Item Description </FormLabel>
+            <FormLabel>Item Description</FormLabel>
             <Select
               cursor="pointer"
               value={desc}

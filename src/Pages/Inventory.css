@@ -1,4 +1,4 @@
-.bincard-container {
+.inventory-container {
   width: 100%;
   min-height: 100vh;
   height: auto;
@@ -9,14 +9,14 @@
   background: #dce3eb;
 }
 
-.bincard-header {
+.inventory-header {
   width: 100%;
   display: flex;
   align-items: center;
   margin-bottom: 20px;
 }
 
-.bincard-header p {
+.inventory-header p {
   display: flex;
   align-items: center;
   margin-right: 20px;
@@ -25,52 +25,38 @@
   cursor: pointer;
 }
 
-.bincard-header p:hover {
+.inventory-header p:hover {
   background: #eee;
   border-radius: 4px;
 }
 
-.bincard-header h1 {
+.inventory-header h1 {
   font-weight: 600;
   font-size: 24px;
 }
 
-table {
-  width: 100%;
-  background: #fff;
-}
-
-table td,
-table th {
-  border: 1px solid #d3d3d3;
-  padding: 4px 8px;
-}
-
-table th {
-  background: #575d69;
-  color: #fff;
-}
-
-th.ref,
-td.ref {
+th.item-desc,
+td.item-desc {
   flex: 1;
   min-width: 200px;
 }
 
-th.date,
-td.date,
-th.receipt,
-td.receipt,
+th.available,
+td.available,
 th.issued,
 td.issued,
-th.balance,
-td.balance {
+th.returned,
+td.returned {
   width: 150px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-tr {
+th.category,
+td.category {
+  width: 200px;
   display: flex;
+  align-items: center;
+  justify-content: center;
 }

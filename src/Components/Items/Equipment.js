@@ -13,7 +13,6 @@ import {
 } from "@chakra-ui/react";
 import { listItems } from "../ListItems";
 import useAuth from "../../Hooks/useAuth";
-import axios from "axios";
 
 const Equipment = () => {
   const [article, setArticle] = useState("");

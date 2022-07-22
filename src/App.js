@@ -15,6 +15,7 @@ import useAuth from "./Hooks/useAuth";
 import CreateItem from "./Pages/CreateItem";
 import Homepage from "./Pages/Homepage";
 import BinCard from "./Pages/BinCard";
+import Inventory from "./Pages/Inventory";
 
 const App = () => {
   const { user } = useAuth();
@@ -25,6 +26,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route path="bin-card" element={<BinCard />} />
+            <Route path="/inventory" element={<Inventory />} />
             <Route path="/" element={<Homepage />} />
             <Route element={<ProtectedLoginRoute user={user} />}>
               <Route path="login" element={<Login />} />

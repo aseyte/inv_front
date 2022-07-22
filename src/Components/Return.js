@@ -65,6 +65,18 @@ const Return = () => {
         return;
       }
 
+      if (quantity === "") {
+        toast({
+          title: "Error",
+          description: "Input quantity",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+        setIsClick(false);
+        return;
+      }
+
       fetch(returnItemAPI, {
         method: "POST",
         body: JSON.stringify({
@@ -93,11 +105,11 @@ const Return = () => {
           if (response.ok) {
             setIsClick(false);
             clearForm();
-            setAppState("Item Created");
+            setAppState("Item return");
             setTimeout(() => setAppState(""), 100);
             toast({
-              title: "Item Created",
-              description: "Added one (1) item to the database",
+              title: "Item returned",
+              description: "Returned one (1) item to the database",
               status: "success",
               duration: 9000,
               isClosable: true,
@@ -139,7 +151,7 @@ const Return = () => {
       >
         <GridItem colSpan={4}>
           <FormControl isRequired>
-            <FormLabel>Item Description </FormLabel>
+            <FormLabel>Item Description</FormLabel>
             <Select
               cursor="pointer"
               value={desc}
@@ -158,83 +170,89 @@ const Return = () => {
             </Select>
           </FormControl>
         </GridItem>
-        <GridItem colSpan={2}>
-          <FormControl>
-            <FormLabel>Date</FormLabel>
-            <Input
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-              type="date"
-            />
-          </FormControl>
-        </GridItem>
 
-        <GridItem colSpan={3}>
-          <FormControl>
-            <FormLabel>Requester</FormLabel>
-            <Input
-              value={requester}
-              onChange={(e) => setRequester(e.target.value)}
-              type="text"
-            />
-          </FormControl>
-        </GridItem>
+        {desc !== "#N/A" && desc !== "" && (
+          <>
+            <GridItem colSpan={2}>
+              <FormControl>
+                <FormLabel>Date</FormLabel>
+                <Input
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
+                  type="date"
+                />
+              </FormControl>
+            </GridItem>
+            <GridItem colSpan={3}>
+              <FormControl>
+                <FormLabel>Requester</FormLabel>
+                <Input
+                  value={requester}
+                  onChange={(e) => setRequester(e.target.value)}
+                  type="text"
+                />
+              </FormControl>
+            </GridItem>
 
-        <GridItem colSpan={2}>
-          <FormControl>
-            <FormLabel>Storage Location</FormLabel>
-            <Select
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-              placeholder="- Select Location -"
-            >
-              <option value="MMS Main Storage Level 1">
-                MMS Main Storage Level 1
-              </option>
-              <option value="MMS Main Storage Level 2">
-                MMS Main Storage Level 2
-              </option>
-              <option value="Tent 1">Tent 1</option>
-              <option value="Tent 2">Tent 2</option>
-              <option value="Tower 1">Tower 1</option>
-            </Select>
-          </FormControl>
-        </GridItem>
+            <GridItem colSpan={2}>
+              <FormControl>
+                <FormLabel>Storage Location</FormLabel>
+                <Select
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                  placeholder="- Select Location -"
+                >
+                  <option value="MMS Main Storage Level 1">
+                    MMS Main Storage Level 1
+                  </option>
+                  <option value="MMS Main Storage Level 2">
+                    MMS Main Storage Level 2
+                  </option>
+                  <option value="Tent 1">Tent 1</option>
+                  <option value="Tent 2">Tent 2</option>
+                  <option value="Tower 1">Tower 1</option>
+                </Select>
+              </FormControl>
+            </GridItem>
 
-        <GridItem colSpan={1}>
-          <FormControl>
-            <FormLabel>Quantity</FormLabel>
-            <Input
-              value={quantity}
-              onChange={(e) => setQuantity(e.target.value)}
-              type="number"
-            />
-          </FormControl>
-        </GridItem>
+            <GridItem colSpan={1}>
+              <FormControl>
+                <FormLabel>Quantity</FormLabel>
+                <Input
+                  value={quantity}
+                  onChange={(e) => setQuantity(e.target.value)}
+                  type="number"
+                />
+              </FormControl>
+            </GridItem>
 
-        <GridItem colSpan={6}>
-          <FormControl>
-            <FormLabel>Reason of Return</FormLabel>
-            <Textarea
-              value={reason}
-              onChange={(e) => setReason(e.target.value)}
-            />
-          </FormControl>
-        </GridItem>
+            <GridItem colSpan={6}>
+              <FormControl>
+                <FormLabel>Reason of Return</FormLabel>
+                <Textarea
+                  value={reason}
+                  onChange={(e) => setReason(e.target.value)}
+                />
+              </FormControl>
+            </GridItem>
+          </>
+        )}
       </SimpleGrid>
 
-      <HStack marginTop={5} justifyContent="flex-end">
-        <Button
-          color="#fff"
-          isLoading={isClick ? true : false}
-          colorScheme="teal"
-          loadingText="Processing"
-          onClick={() => handleReturnItem()}
-          minW={100}
-        >
-          Return Item
-        </Button>
-      </HStack>
+      {desc !== "#N/A" && desc !== "" && (
+        <HStack marginTop={5} justifyContent="flex-end">
+          <Button
+            color="#fff"
+            isLoading={isClick ? true : false}
+            colorScheme="teal"
+            loadingText="Processing"
+            onClick={() => handleReturnItem()}
+            minW={100}
+          >
+            Return Item
+          </Button>
+        </HStack>
+      )}
     </>
   );
 };
