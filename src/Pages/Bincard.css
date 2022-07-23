@@ -51,6 +51,12 @@ table th {
   color: #fff;
 }
 
+table th.ref {
+  height: 50px;
+  display: flex;
+  align-items: center;
+}
+
 th.ref,
 td.ref {
   flex: 1;

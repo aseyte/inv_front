@@ -35,6 +35,17 @@
   font-size: 24px;
 }
 
+table th,
+table td {
+  font-size: 14px;
+}
+
+table th.item-desc {
+  height: 50px;
+  display: flex;
+  align-items: center;
+}
+
 th.item-desc,
 td.item-desc {
   flex: 1;

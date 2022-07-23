@@ -52,13 +52,13 @@ const Out = () => {
   };
 
   const outItemAPI =
-    "https://script.google.com/macros/s/AKfycbxiAgzkHEIqcze2S1AxvBZ1-2qNKne6laYSYYX7O7bCPXiuoCjU9jstdGwT_EdVFP2Wrw/exec?action=outItem";
+    "https://script.google.com/macros/s/AKfycbwggpx26Z2x2sk9q5tpkQzH8vx8UDubO7IiGpT-1yfQ9Lumih5Xd4PuUqnjGwMggthVwg/exec?action=outItem";
 
   const getAvailableAPI =
-    "https://script.google.com/macros/s/AKfycbxiAgzkHEIqcze2S1AxvBZ1-2qNKne6laYSYYX7O7bCPXiuoCjU9jstdGwT_EdVFP2Wrw/exec?action=getAvailable";
+    "https://script.google.com/macros/s/AKfycbwggpx26Z2x2sk9q5tpkQzH8vx8UDubO7IiGpT-1yfQ9Lumih5Xd4PuUqnjGwMggthVwg/exec?action=getAvailable";
 
   const getEquipmentAPI =
-    "https://script.google.com/macros/s/AKfycbxiAgzkHEIqcze2S1AxvBZ1-2qNKne6laYSYYX7O7bCPXiuoCjU9jstdGwT_EdVFP2Wrw/exec?action=getEquipment";
+    "https://script.google.com/macros/s/AKfycbwggpx26Z2x2sk9q5tpkQzH8vx8UDubO7IiGpT-1yfQ9Lumih5Xd4PuUqnjGwMggthVwg/exec?action=getEquipment";
 
   const todate = new Date();
 
