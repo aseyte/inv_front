@@ -13,6 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { listItems } from "../ListItems";
 import useAuth from "../../Hooks/useAuth";
+import uniqid from "uniqid";
 
 const Equipment = () => {
   const [article, setArticle] = useState("");
@@ -87,7 +88,7 @@ const Equipment = () => {
   const { setAppState } = useAuth();
 
   const createItemAPI =
-    "https://script.google.com/macros/s/AKfycbzZM6VnNwm2loeSooYPlsJQnDubY9-TRdzrEzmASC5TFQxa4SgXjwXcNOnmhXtHeC6jYg/exec?action=createEquipment";
+    "https://script.google.com/macros/s/AKfycbyxBp9do-NGrzPUXE_ZNnwRIuJtlm7yYDWp9Cum4vrvw6IsmY1U1GSuCAwU7xwR78wNzw/exec?action=createEquipment";
 
   const handleCreate = async () => {
     setIsClick(true);
@@ -117,6 +118,7 @@ const Equipment = () => {
     fetch(createItemAPI, {
       method: "POST",
       body: JSON.stringify({
+        uniqueId: "unique id",
         descOrig,
         desc,
         article: article === "Other" ? articleOther : article,

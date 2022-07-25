@@ -13,6 +13,7 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import useAuth from "../Hooks/useAuth";
+import uniqid from "uniqid";
 
 const In = () => {
   const toast = useToast();
@@ -64,8 +65,18 @@ const In = () => {
   const [fundSource, setFundSource] = useState("");
   const [acquisitionCost, setAcquisitionCost] = useState("");
 
+  const donors = [
+    "doh",
+    "department of health",
+    "icrc",
+    "international committee of the red cross",
+    "biatf",
+    "who",
+    "world health organization",
+  ];
+
   const inItemAPI =
-    "https://script.google.com/macros/s/AKfycbz00BMUuPS1w-g7VnEyM5JsxqsNkOS8boIWuUfv8vVpKmavPFUu2xnYW7qvu8fo9vuBRA/exec?action=inItem";
+    "https://script.google.com/macros/s/AKfycbz_LF3oWt7c7GedCppOfL0gLTNIZAcZhaHvR6cABCOCWaU30_spODMYaEFXOl5WaPHfIQ/exec?action=inItem";
 
   const clearForm = () => {
     setDesc("");
@@ -165,7 +176,9 @@ const In = () => {
         supplier,
         manufacturer,
         origin,
-        acquisition,
+        acquisition: donors.includes(supplier.toLocaleLowerCase())
+          ? "Donation"
+          : "Purchase",
         expirationMonths,
         remarks,
         condition,
@@ -448,20 +461,6 @@ const In = () => {
                   value={origin}
                   onChange={(e) => setOrigin(e.target.value)}
                 />
-              </FormControl>
-            </GridItem>
-
-            <GridItem colSpan={2}>
-              <FormControl>
-                <FormLabel>Acquisition Mode</FormLabel>
-                <Select
-                  value={acquisition}
-                  onChange={(e) => setAcquisition(e.target.value)}
-                  placeholder="- Select Acquisition -"
-                >
-                  <option value="Purchase">Purchase</option>
-                  <option value="Donation">Donation</option>
-                </Select>
               </FormControl>
             </GridItem>
 
