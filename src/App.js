@@ -25,9 +25,9 @@ const App = () => {
       <Router>
         <Routes>
           <Route path="/" element={<Layout />}>
-            <Route path="bin-card" element={<BinCard />} />
+            {/* <Route path="bin-card" element={<BinCard />} />
             <Route path="/inventory" element={<Inventory />} />
-            <Route path="/" element={<Homepage />} />
+            <Route path="/" element={<Homepage />} /> */}
             <Route element={<ProtectedLoginRoute user={user} />}>
               <Route path="login" element={<Login />} />
               <Route path="register" element={<Register />} />

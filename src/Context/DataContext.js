@@ -10,6 +10,7 @@ export const DataProvider = ({ children }) => {
   const [outItem, setOutItem] = useState([]);
   const [inventory, setInventory] = useState([]);
   const [equipment, setEquipment] = useState([]);
+  const [verified, setVerified] = useState(null);
 
   const getUniqueAPI =
     "https://script.google.com/macros/s/AKfycbwhWmYEWBY18WKMVOjokhBVZLC8eR-8OWB-QesfBxqBeO99z3Jo-HNshTxO133P8CIVtA/exec?action=getUnique";
@@ -89,11 +90,25 @@ export const DataProvider = ({ children }) => {
     }
   };
 
+  const fetchVerification = async () => {
+    try {
+      const response = await api.get(`/api/auth/user/${user?._id}`);
+
+
+      if(response) {
+        setVerified(response.data.verified)
+      }
+    } catch (error) {
+        console.log(error)
+    }
+  }
+
   useEffect(() => {
     fetchOutItem();
     fetchInventory();
     fetchEquipment();
-  }, [appState]);
+    fetchVerification();
+  }, [appState, user]);
 
   return (
     <DataContext.Provider
@@ -105,6 +120,7 @@ export const DataProvider = ({ children }) => {
         outItem,
         inventory,
         equipment,
+        verified
       }}
     >
       {children}

@@ -118,7 +118,7 @@ const Equipment = () => {
     fetch(createItemAPI, {
       method: "POST",
       body: JSON.stringify({
-        uniqueId: "unique id",
+        uniqueId: uniqid() + uniqid(),
         descOrig,
         desc,
         article: article === "Other" ? articleOther : article,

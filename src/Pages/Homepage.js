@@ -13,6 +13,7 @@ import In from "../Components/In";
 import Out from "../Components/Out";
 import Return from "../Components/Return";
 import { useNavigate } from "react-router-dom";
+import Sidebar from "../Components/Sidebar";
 
 const Homepage = () => {
   const [alerts, setAlerts] = useState(false);
@@ -22,6 +23,7 @@ const Homepage = () => {
   return (
     <>
       <div className="container">
+        <Sidebar />
         <Container
           boxShadow="rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;"
           bg="#fff"
