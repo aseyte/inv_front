@@ -23,7 +23,6 @@ const Homepage = () => {
   return (
     <>
       <div className="container">
-        <Sidebar />
         <Container
           boxShadow="rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;"
           bg="#fff"
@@ -45,9 +44,6 @@ const Homepage = () => {
               <Tab borderRadius={5} _hover={{ background: "#e6eaec" }}>
                 <Text fontSize="xl">RETURN</Text>
               </Tab>
-              <Tab borderRadius={5} _hover={{ background: "#e6eaec" }}>
-                <Text fontSize="xl">CREATE ITEM</Text>
-              </Tab>
             </TabList>
             <TabPanels>
               <TabPanel>
@@ -59,24 +55,15 @@ const Homepage = () => {
               <TabPanel>
                 <Return />
               </TabPanel>
-              <TabPanel>
-                <CreateItem />
-              </TabPanel>
             </TabPanels>
           </Tabs>
         </Container>
 
-        <div
-          onClick={() => navigate("/bin-card")}
-          className="bin-card"
-        >
+        <div onClick={() => navigate("/bin-card")} className="bin-card">
           Bin Card
         </div>
 
-        <div
-          onClick={() => navigate("/inventory")}
-          className="inventory"
-        >
+        <div onClick={() => navigate("/inventory")} className="inventory">
           Inventory
         </div>
       </div>

@@ -15,7 +15,7 @@ import { listItems } from "../ListItems";
 import useAuth from "../../Hooks/useAuth";
 import uniqid from "uniqid";
 
-const Equipment = () => {
+const Equipment = ({ setTypes }) => {
   const [article, setArticle] = useState("");
   const [articleOther, setArticleOther] = useState("");
   const [type, setType] = useState("");
@@ -168,6 +168,7 @@ const Equipment = () => {
             duration: 9000,
             isClosable: true,
           });
+          setTypes("in");
         }
 
         // check for error response
@@ -206,6 +207,9 @@ const Equipment = () => {
         other
     );
   }, [article, articleOther, type, typeOther, model, variant, details, other]);
+
+
+  const [term, setTerm] = useState("");
 
   return (
     <>
@@ -545,6 +549,13 @@ const Equipment = () => {
       </SimpleGrid>
 
       <HStack marginTop={5} justifyContent="flex-end">
+        <Button
+          color="#808080"
+          colorScheme="gray"
+          onClick={() => setTypes("in")}
+        >
+          Cancel
+        </Button>
         <Button
           color="#fff"
           isLoading={isClick ? true : false}
