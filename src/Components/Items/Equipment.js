@@ -16,6 +16,16 @@ import useAuth from "../../Hooks/useAuth";
 import uniqid from "uniqid";
 
 const Equipment = ({ setTypes }) => {
+  const donors = [
+    "doh",
+    "department of health",
+    "icrc",
+    "international committee of the red cross",
+    "biatf",
+    "who",
+    "world health organization",
+  ];
+
   const [article, setArticle] = useState("");
   const [articleOther, setArticleOther] = useState("");
   const [type, setType] = useState("");
@@ -32,7 +42,6 @@ const Equipment = ({ setTypes }) => {
   const [serialNum, setSerialNum] = useState("");
   const [warranty, setWarranty] = useState("");
   const [acquisitation, setAcquisition] = useState("");
-  const [supplier, setSupplier] = useState("");
   const [propertyNum, setPropertyNum] = useState("");
   const [quantity, setQuantity] = useState(0);
   const [pack, setPack] = useState("");
@@ -40,7 +49,6 @@ const Equipment = ({ setTypes }) => {
   const [physical, setPhysical] = useState("");
   const [unit, setUnit] = useState("");
   const [location, setLocation] = useState("");
-  const [acquisitionMode, setAcquisitionMode] = useState("");
   const [donor, setDonor] = useState("");
   const [remarks, setRemarks] = useState("");
   const [out, setOut] = useState("");
@@ -69,7 +77,6 @@ const Equipment = ({ setTypes }) => {
     setSerialNum("");
     setWarranty("");
     setAcquisition("");
-    setSupplier("");
     setPropertyNum("");
     setQuantity("");
     setPack("");
@@ -77,7 +84,6 @@ const Equipment = ({ setTypes }) => {
     setPhysical("");
     setUnit("");
     setLocation("");
-    setAcquisitionMode("");
     setDonor("");
     setRemarks("");
     setOut("");
@@ -88,7 +94,7 @@ const Equipment = ({ setTypes }) => {
   const { setAppState } = useAuth();
 
   const createItemAPI =
-    "https://script.google.com/macros/s/AKfycbyxBp9do-NGrzPUXE_ZNnwRIuJtlm7yYDWp9Cum4vrvw6IsmY1U1GSuCAwU7xwR78wNzw/exec?action=createEquipment";
+    "https://script.google.com/macros/s/AKfycby9YK1q3CQDA_vESrSQpylqOCIvAirNfkifar2-79o-8enMFT6E-b3Gt8a_qrVnFlmEfg/exec?action=createEquipment";
 
   const handleCreate = async () => {
     setIsClick(true);
@@ -133,7 +139,6 @@ const Equipment = ({ setTypes }) => {
         serialNum,
         warranty,
         acquisitation,
-        supplier,
         propertyNum,
         quantity,
         pack,
@@ -141,7 +146,9 @@ const Equipment = ({ setTypes }) => {
         physical,
         unit,
         location,
-        acquisitionMode,
+        acquisitionMode: donors.includes(donor.toLocaleLowerCase())
+          ? "Donation"
+          : "Purchase",
         donor,
         remarks,
         out,
@@ -207,7 +214,6 @@ const Equipment = ({ setTypes }) => {
         other
     );
   }, [article, articleOther, type, typeOther, model, variant, details, other]);
-
 
   const [term, setTerm] = useState("");
 
@@ -393,16 +399,6 @@ const Equipment = ({ setTypes }) => {
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={4}>
-          <FormControl>
-            <FormLabel>Supplier</FormLabel>
-            <Input
-              value={supplier}
-              onChange={(e) => setSupplier(e.target.value)}
-            />
-          </FormControl>
-        </GridItem>
-
         <GridItem colSpan={3}>
           <FormControl>
             <FormLabel>Property Number</FormLabel>
@@ -489,22 +485,7 @@ const Equipment = ({ setTypes }) => {
 
         <GridItem colSpan={3}>
           <FormControl>
-            <FormLabel>Acquisition Mode</FormLabel>
-
-            <Select
-              value={acquisitionMode}
-              onChange={(e) => setAcquisitionMode(e.target.value)}
-              placeholder="- Select Item -"
-            >
-              <option value="Purchase">Purchase</option>
-              <option value="Donation">Donation</option>
-            </Select>
-          </FormControl>
-        </GridItem>
-
-        <GridItem colSpan={3}>
-          <FormControl>
-            <FormLabel>Donor</FormLabel>
+            <FormLabel>Supplier/Donor</FormLabel>
             <Input value={donor} onChange={(e) => setDonor(e.target.value)} />
           </FormControl>
         </GridItem>

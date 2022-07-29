@@ -31,7 +31,7 @@ const Homepage = () => {
           maxW="container.lg"
           w="full"
           h="full"
-          overflowY={"scroll"}
+
         >
           <Tabs isFitted variant="enclosed-colored">
             <TabList mb="1em">

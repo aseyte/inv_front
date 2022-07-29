@@ -13,16 +13,16 @@ export const DataProvider = ({ children }) => {
   const [verified, setVerified] = useState(null);
 
   const getUniqueAPI =
-    "https://script.google.com/macros/s/AKfycbwhWmYEWBY18WKMVOjokhBVZLC8eR-8OWB-QesfBxqBeO99z3Jo-HNshTxO133P8CIVtA/exec?action=getUnique";
+    "https://script.google.com/macros/s/AKfycby9YK1q3CQDA_vESrSQpylqOCIvAirNfkifar2-79o-8enMFT6E-b3Gt8a_qrVnFlmEfg/exec?action=getUnique";
 
   const outItemAPI =
-    "https://script.google.com/macros/s/AKfycbxjKxe95IzeGmNShKpx_PURziX7Df72r6YfUUZ3yqmZrglSiMn67st4LSdsZqA2hFDp/exec?action=getOut";
+    "https://script.google.com/macros/s/AKfycby9YK1q3CQDA_vESrSQpylqOCIvAirNfkifar2-79o-8enMFT6E-b3Gt8a_qrVnFlmEfg/exec?action=getOut";
 
   const inventoryAPI =
-    "https://script.google.com/macros/s/AKfycbybjiAertzVLW19ggnEaNYoiC5bBmIyNC9M01w71KoH70s_t4fubP67ZlnrPtChwfqTfw/exec?action=getAvailable";
+    "https://script.google.com/macros/s/AKfycby9YK1q3CQDA_vESrSQpylqOCIvAirNfkifar2-79o-8enMFT6E-b3Gt8a_qrVnFlmEfg/exec?action=getAvailable";
 
   const equipmentAPI =
-    "https://script.google.com/macros/s/AKfycbybjiAertzVLW19ggnEaNYoiC5bBmIyNC9M01w71KoH70s_t4fubP67ZlnrPtChwfqTfw/exec?action=getEquipment";
+    "https://script.google.com/macros/s/AKfycby9YK1q3CQDA_vESrSQpylqOCIvAirNfkifar2-79o-8enMFT6E-b3Gt8a_qrVnFlmEfg/exec?action=getEquipment";
 
   const fetchUser = async () => {
     try {

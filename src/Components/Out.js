@@ -10,8 +10,13 @@ import {
   HStack,
   Button,
   Textarea,
+  Icon,
+  InputLeftElement,
+  InputGroup,
 } from "@chakra-ui/react";
 import useAuth from "../Hooks/useAuth";
+import { useClickOutside } from "./useClickOutside";
+import { HiSearch } from "react-icons/hi";
 
 const Out = () => {
   const { setAppState, item, appState } = useAuth();
@@ -31,7 +36,6 @@ const Out = () => {
   const [remark, setRemark] = useState("");
   const [serialNum, setSerialNum] = useState("");
   const [expiration, setExpiration] = useState("NOT INDICATED");
-  const [expirationMonth, setExpirationMonth] = useState("NOT INDICATED");
   const [inventory, setInventory] = useState([]);
 
   const clearForm = () => {
@@ -48,17 +52,16 @@ const Out = () => {
     setBrand("");
     setSerialNum("");
     setExpiration("NOT INDICATED");
-    setExpirationMonth("NOT INDICATED");
   };
 
   const outItemAPI =
-    "https://script.google.com/macros/s/AKfycbwggpx26Z2x2sk9q5tpkQzH8vx8UDubO7IiGpT-1yfQ9Lumih5Xd4PuUqnjGwMggthVwg/exec?action=outItem";
+    "https://script.google.com/macros/s/AKfycby9YK1q3CQDA_vESrSQpylqOCIvAirNfkifar2-79o-8enMFT6E-b3Gt8a_qrVnFlmEfg/exec?action=outItem";
 
   const getAvailableAPI =
-    "https://script.google.com/macros/s/AKfycbwggpx26Z2x2sk9q5tpkQzH8vx8UDubO7IiGpT-1yfQ9Lumih5Xd4PuUqnjGwMggthVwg/exec?action=getAvailable";
+    "https://script.google.com/macros/s/AKfycby9YK1q3CQDA_vESrSQpylqOCIvAirNfkifar2-79o-8enMFT6E-b3Gt8a_qrVnFlmEfg/exec?action=getAvailable";
 
   const getEquipmentAPI =
-    "https://script.google.com/macros/s/AKfycbwggpx26Z2x2sk9q5tpkQzH8vx8UDubO7IiGpT-1yfQ9Lumih5Xd4PuUqnjGwMggthVwg/exec?action=getEquipment";
+    "https://script.google.com/macros/s/AKfycby9YK1q3CQDA_vESrSQpylqOCIvAirNfkifar2-79o-8enMFT6E-b3Gt8a_qrVnFlmEfg/exec?action=getEquipment";
 
   const todate = new Date();
 
@@ -77,7 +80,6 @@ const Out = () => {
     fetch(getEquipmentAPI, { method: "get" })
       .then((res) => res.json())
       .then((data) => {
-      
         if (data) {
           setEquipment(
             data.filter((e) => e.desc !== "").filter((f) => f.desc === desc)[0]
@@ -168,8 +170,7 @@ const Out = () => {
                   new Date(expiration).getDate() +
                   "/" +
                   new Date(expiration).getFullYear()
-                : "NOT INDICATED",
-            expirationMonth,
+                : "",
           }),
         })
           .then(async (response) => {
@@ -233,20 +234,14 @@ const Out = () => {
     );
   }, [desc, quantity]);
 
-  const getExpirationMonth = (date1, date2) => {
-    let months;
-    months = (date2.getFullYear() - date1.getFullYear()) * 12;
-    months -= date1.getMonth();
-    months += date2.getMonth();
 
-    if (months < 0) {
-      return setExpirationMonth("EXPIRED");
-    } else {
-      return setExpirationMonth(
-        months > 1 ? `${months} MONTHS` : `${months} MONTH`
-      );
-    }
-  };
+
+  const [term, setTerm] = useState("");
+  const [dropdown, setDropdown] = useState(false);
+
+  const domNod = useClickOutside(() => {
+    setDropdown(false);
+  });
 
   return (
     <>
@@ -261,23 +256,80 @@ const Out = () => {
         <GridItem colSpan={4}>
           <FormControl isRequired>
             <FormLabel>Item Description</FormLabel>
-            <Select
-              cursor="pointer"
-              value={desc}
-              onChange={(e) => {
-                setDesc(e.target.value);
-                setEquipment([]);
-              }}
-              placeholder="- Select Item -"
+            <div
+              ref={domNod}
+              onClick={() => setDropdown(!dropdown)}
+              className="custom-select"
             >
-              {item?.map((item, index) => {
-                return (
-                  <option key={index} value={item.desc}>
-                    {item.desc}
-                  </option>
-                );
-              })}
-            </Select>
+              <p>{desc === "" ? "- Select Item -" : desc}</p>
+              {dropdown && (
+                <div
+                  onClick={(e) => e.stopPropagation()}
+                  className="select-dropdown"
+                >
+                  <div className="select-input-container">
+                    <InputGroup>
+                      <InputLeftElement
+                        pointerEvents="none"
+                        color="gray.300"
+                        fontSize="1.2em"
+                        children={<Icon as={HiSearch} />}
+                      />
+                      <Input
+                        background="#fff"
+                        value={term}
+                        onChange={(e) => {
+                          setTerm(e.target.value);
+                        }}
+                        fontSize="14px"
+                        placeholder="Search"
+                      />
+                    </InputGroup>
+                  </div>
+
+                  {item
+                    ?.filter((val) => {
+                      if (term === "") {
+                        return val;
+                      } else if (
+                        val.desc
+                          .toLowerCase()
+                          .includes(term.toLocaleLowerCase())
+                      ) {
+                        return val;
+                      }
+                    })
+                    .map((item, index) => {
+                      return (
+                        <p
+                          className={desc === item.desc ? "active" : ""}
+                          onClick={() => {
+                            setDesc(item.desc);
+                            setDropdown(false);
+                          }}
+                          key={index}
+                        >
+                          {item.desc}
+                          <span
+                            className={
+                              inventory?.filter((e) => e.desc === item.desc)[0]
+                                ?.available === 0
+                                ? "empty"
+                                : ""
+                            }
+                          >
+                            {
+                              inventory?.filter((e) => e.desc === item.desc)[0]
+                                ?.available
+                            }
+                          </span>
+                        </p>
+                      );
+                    })}
+                </div>
+              )}
+            </div>
+           
           </FormControl>
         </GridItem>
 
@@ -346,7 +398,7 @@ const Out = () => {
                   value={expiration}
                   onChange={(e) => {
                     setExpiration(e.target.value);
-                    getExpirationMonth(todate, new Date(e.target.value));
+                   
                   }}
                   type="date"
                 />

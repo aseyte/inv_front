@@ -24,10 +24,10 @@ import { useClickOutside } from "../Components/useClickOutside";
 const In = () => {
   const toast = useToast();
   const [item, setItem] = useState([]);
-  const { appState, setAppState } = useAuth();
+  const { appState, setAppState, inventory, user } = useAuth();
   const [isClick, setIsClick] = useState(false);
   const getUniqueAPI =
-    "https://script.google.com/macros/s/AKfycbz00BMUuPS1w-g7VnEyM5JsxqsNkOS8boIWuUfv8vVpKmavPFUu2xnYW7qvu8fo9vuBRA/exec?action=getUnique";
+    "https://script.google.com/macros/s/AKfycby9YK1q3CQDA_vESrSQpylqOCIvAirNfkifar2-79o-8enMFT6E-b3Gt8a_qrVnFlmEfg/exec?action=getUnique";
 
   useEffect(() => {
     fetch(getUniqueAPI, { method: "get" })
@@ -290,6 +290,7 @@ const In = () => {
             h={"full"}
             p={6}
           >
+          
             <GridItem colSpan={4}>
               <FormControl isRequired>
                 <FormLabel>Item Description</FormLabel>
@@ -358,7 +359,22 @@ const In = () => {
                               }}
                               key={index}
                             >
-                              {item.desc}
+                              {item.desc}{" "}
+                              <span
+                                className={
+                                  inventory?.filter(
+                                    (e) => e.desc === item.desc
+                                  )[0]?.available === 0
+                                    ? "empty"
+                                    : ""
+                                }
+                              >
+                                {
+                                  inventory?.filter(
+                                    (e) => e.desc === item.desc
+                                  )[0]?.available
+                                }
+                              </span>
                             </p>
                           );
                         })}

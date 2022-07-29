@@ -10,8 +10,13 @@ import {
   HStack,
   Button,
   Textarea,
+  InputGroup,
+  InputLeftElement,
+  Icon
 } from "@chakra-ui/react";
 import useAuth from "../Hooks/useAuth";
+import { useClickOutside } from "./useClickOutside";
+import { HiSearch } from "react-icons/hi";
 
 const Return = () => {
   const [date, setDate] = useState("");
@@ -33,10 +38,10 @@ const Return = () => {
   };
 
   //Global state
-  const { setAppState, item, appState } = useAuth();
+  const { setAppState, item, appState, inventory } = useAuth();
 
   const returnItemAPI =
-    "https://script.google.com/macros/s/AKfycbze3m1dnq2zR-wJmm5goK-3F86bZwUly1COb5liosstv7XKhbOYToz55G8uj-3UfhnIOA/exec?action=returnItem";
+    "https://script.google.com/macros/s/AKfycby9YK1q3CQDA_vESrSQpylqOCIvAirNfkifar2-79o-8enMFT6E-b3Gt8a_qrVnFlmEfg/exec?action=returnItem";
 
   const handleReturnItem = async () => {
     setIsClick(true);
@@ -139,6 +144,14 @@ const Return = () => {
       console.log(error);
     }
   };
+
+  const [term, setTerm] = useState("");
+  const [dropdown, setDropdown] = useState(null)
+
+
+  const domNod = useClickOutside(() => {
+    setDropdown(false)
+  })
   return (
     <>
       <SimpleGrid
@@ -152,22 +165,79 @@ const Return = () => {
         <GridItem colSpan={4}>
           <FormControl isRequired>
             <FormLabel>Item Description</FormLabel>
-            <Select
-              cursor="pointer"
-              value={desc}
-              onChange={(e) => {
-                setDesc(e.target.value);
-              }}
-              placeholder="- Select Item -"
+            <div
+              ref={domNod}
+              onClick={() => setDropdown(!dropdown)}
+              className="custom-select"
             >
-              {item?.map((item, index) => {
-                return (
-                  <option key={index} value={item.desc}>
-                    {item.desc}
-                  </option>
-                );
-              })}
-            </Select>
+              <p>{desc === "" ? "- Select Item -" : desc}</p>
+              {dropdown && (
+                <div
+                  onClick={(e) => e.stopPropagation()}
+                  className="select-dropdown"
+                >
+                  <div className="select-input-container">
+                    <InputGroup>
+                      <InputLeftElement
+                        pointerEvents="none"
+                        color="gray.300"
+                        fontSize="1.2em"
+                        children={<Icon as={HiSearch} />}
+                      />
+                      <Input
+                        background="#fff"
+                        value={term}
+                        onChange={(e) => {
+                          setTerm(e.target.value);
+                        }}
+                        fontSize="14px"
+                        placeholder="Search"
+                      />
+                    </InputGroup>
+                  </div>
+
+                  {item
+                    ?.filter((val) => {
+                      if (term === "") {
+                        return val;
+                      } else if (
+                        val.desc
+                          .toLowerCase()
+                          .includes(term.toLocaleLowerCase())
+                      ) {
+                        return val;
+                      }
+                    })
+                    .map((item, index) => {
+                      return (
+                        <p
+                          className={desc === item.desc ? "active" : ""}
+                          onClick={() => {
+                            setDesc(item.desc);
+                            setDropdown(false);
+                          }}
+                          key={index}
+                        >
+                          {item.desc}
+                          <span
+                            className={
+                              inventory?.filter((e) => e.desc === item.desc)[0]
+                                ?.available === 0
+                                ? "empty"
+                                : ""
+                            }
+                          >
+                            {
+                              inventory?.filter((e) => e.desc === item.desc)[0]
+                                ?.available
+                            }
+                          </span>
+                        </p>
+                      );
+                    })}
+                </div>
+              )}
+            </div>
           </FormControl>
         </GridItem>
 
