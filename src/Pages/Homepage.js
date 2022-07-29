@@ -14,58 +14,32 @@ import Out from "../Components/Out";
 import Return from "../Components/Return";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "../Components/Sidebar";
+import Equipment from "../Components/Items/Equipment";
+import InventoryTable from "../Components/InventoryTable";
 
 const Homepage = () => {
-  const [alerts, setAlerts] = useState(false);
-
-  const navigate = useNavigate("");
+  const [tab, setTab] = useState("create");
 
   return (
     <>
       <div className="container">
-        <Container
-          boxShadow="rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;"
-          bg="#fff"
-          padding={5}
-          borderRadius={8}
-          maxW="container.lg"
-          w="full"
-          h="full"
+        <Sidebar setTab={setTab} tab={tab} />
+        <div className="component-wrapper">
+          {tab === "create" && <CreateItem />}
+          {tab === "inItem" && <In setTab={setTab} />}
+          {tab === "outItem" && <Out setTab={setTab} />}
+          {tab === "returnItem" && <Return setTab={setTab} />}
 
-        >
-          <Tabs isFitted variant="enclosed-colored">
-            <TabList mb="1em">
-              <Tab borderRadius={5} _hover={{ background: "#e6eaec" }}>
-                <Text fontSize="xl">IN</Text>
-              </Tab>
-              <Tab borderRadius={5} _hover={{ background: "#e6eaec" }}>
-                <Text fontSize="xl">OUT</Text>
-              </Tab>
-              <Tab borderRadius={5} _hover={{ background: "#e6eaec" }}>
-                <Text fontSize="xl">RETURN</Text>
-              </Tab>
-            </TabList>
-            <TabPanels>
-              <TabPanel>
-                <In />
-              </TabPanel>
-              <TabPanel>
-                <Out />
-              </TabPanel>
-              <TabPanel>
-                <Return />
-              </TabPanel>
-            </TabPanels>
-          </Tabs>
-        </Container>
+          {tab === "inventory" && <InventoryTable />}
+        </div>
 
-        <div onClick={() => navigate("/bin-card")} className="bin-card">
+        {/* <div onClick={() => navigate("/bin-card")} className="bin-card">
           Bin Card
         </div>
 
         <div onClick={() => navigate("/inventory")} className="inventory">
           Inventory
-        </div>
+        </div> */}
       </div>
     </>
   );

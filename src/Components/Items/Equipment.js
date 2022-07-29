@@ -530,13 +530,7 @@ const Equipment = ({ setTypes }) => {
       </SimpleGrid>
 
       <HStack marginTop={5} justifyContent="flex-end">
-        <Button
-          color="#808080"
-          colorScheme="gray"
-          onClick={() => setTypes("in")}
-        >
-          Cancel
-        </Button>
+        
         <Button
           color="#fff"
           isLoading={isClick ? true : false}

@@ -12,7 +12,8 @@ import {
   Textarea,
   InputGroup,
   InputLeftElement,
-  Icon
+  Icon,
+  Container,
 } from "@chakra-ui/react";
 import useAuth from "../Hooks/useAuth";
 import { useClickOutside } from "./useClickOutside";
@@ -146,170 +147,175 @@ const Return = () => {
   };
 
   const [term, setTerm] = useState("");
-  const [dropdown, setDropdown] = useState(null)
-
+  const [dropdown, setDropdown] = useState(null);
 
   const domNod = useClickOutside(() => {
-    setDropdown(false)
-  })
+    setDropdown(false);
+  });
   return (
     <>
-      <SimpleGrid
-        columns={6}
-        columnGap={3}
-        rowGap={6}
+      <Container
+        boxShadow="rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;"
+        bg="#fff"
+        padding={5}
+        borderRadius={8}
+        maxW="container.lg"
         w="full"
-        h={"full"}
-        p={6}
+        h="full"
       >
-        <GridItem colSpan={4}>
-          <FormControl isRequired>
-            <FormLabel>Item Description</FormLabel>
-            <div
-              ref={domNod}
-              onClick={() => setDropdown(!dropdown)}
-              className="custom-select"
-            >
-              <p>{desc === "" ? "- Select Item -" : desc}</p>
-              {dropdown && (
-                <div
-                  onClick={(e) => e.stopPropagation()}
-                  className="select-dropdown"
-                >
-                  <div className="select-input-container">
-                    <InputGroup>
-                      <InputLeftElement
-                        pointerEvents="none"
-                        color="gray.300"
-                        fontSize="1.2em"
-                        children={<Icon as={HiSearch} />}
-                      />
-                      <Input
-                        background="#fff"
-                        value={term}
-                        onChange={(e) => {
-                          setTerm(e.target.value);
-                        }}
-                        fontSize="14px"
-                        placeholder="Search"
-                      />
-                    </InputGroup>
-                  </div>
-
-                  {item
-                    ?.filter((val) => {
-                      if (term === "") {
-                        return val;
-                      } else if (
-                        val.desc
-                          .toLowerCase()
-                          .includes(term.toLocaleLowerCase())
-                      ) {
-                        return val;
-                      }
-                    })
-                    .map((item, index) => {
-                      return (
-                        <p
-                          className={desc === item.desc ? "active" : ""}
-                          onClick={() => {
-                            setDesc(item.desc);
-                            setDropdown(false);
+        <SimpleGrid
+          columns={6}
+          columnGap={3}
+          rowGap={6}
+          w="full"
+          h={"full"}
+          p={6}
+        >
+          <GridItem colSpan={4}>
+            <FormControl isRequired>
+              <FormLabel>Item Description</FormLabel>
+              <div
+                ref={domNod}
+                onClick={() => setDropdown(!dropdown)}
+                className="custom-select"
+              >
+                <p>{desc === "" ? "- Select Item -" : desc}</p>
+                {dropdown && (
+                  <div
+                    onClick={(e) => e.stopPropagation()}
+                    className="select-dropdown"
+                  >
+                    <div className="select-input-container">
+                      <InputGroup>
+                        <InputLeftElement
+                          pointerEvents="none"
+                          color="gray.300"
+                          fontSize="1.2em"
+                          children={<Icon as={HiSearch} />}
+                        />
+                        <Input
+                          background="#fff"
+                          value={term}
+                          onChange={(e) => {
+                            setTerm(e.target.value);
                           }}
-                          key={index}
-                        >
-                          {item.desc}
-                          <span
-                            className={
-                              inventory?.filter((e) => e.desc === item.desc)[0]
-                                ?.available === 0
-                                ? "empty"
-                                : ""
-                            }
+                          fontSize="14px"
+                          placeholder="Search"
+                        />
+                      </InputGroup>
+                    </div>
+
+                    {item
+                      ?.filter((val) => {
+                        if (term === "") {
+                          return val;
+                        } else if (
+                          val.desc
+                            .toLowerCase()
+                            .includes(term.toLocaleLowerCase())
+                        ) {
+                          return val;
+                        }
+                      })
+                      .map((item, index) => {
+                        return (
+                          <p
+                            className={desc === item.desc ? "active" : ""}
+                            onClick={() => {
+                              setDesc(item.desc);
+                              setDropdown(false);
+                            }}
+                            key={index}
                           >
-                            {
-                              inventory?.filter((e) => e.desc === item.desc)[0]
-                                ?.available
-                            }
-                          </span>
-                        </p>
-                      );
-                    })}
-                </div>
-              )}
-            </div>
-          </FormControl>
-        </GridItem>
+                            {item.desc}
+                            <span
+                              className={
+                                inventory?.filter(
+                                  (e) => e.desc === item.desc
+                                )[0]?.available === 0
+                                  ? "empty"
+                                  : ""
+                              }
+                            >
+                              {
+                                inventory?.filter(
+                                  (e) => e.desc === item.desc
+                                )[0]?.available
+                              }
+                            </span>
+                          </p>
+                        );
+                      })}
+                  </div>
+                )}
+              </div>
+            </FormControl>
+          </GridItem>
 
-        {desc !== "#N/A" && desc !== "" && (
-          <>
-            <GridItem colSpan={2}>
-              <FormControl>
-                <FormLabel>Date</FormLabel>
-                <Input
-                  value={date}
-                  onChange={(e) => setDate(e.target.value)}
-                  type="date"
-                />
-              </FormControl>
-            </GridItem>
-            <GridItem colSpan={3}>
-              <FormControl>
-                <FormLabel>Requester</FormLabel>
-                <Input
-                  value={requester}
-                  onChange={(e) => setRequester(e.target.value)}
-                  type="text"
-                />
-              </FormControl>
-            </GridItem>
+          <GridItem colSpan={2}>
+            <FormControl>
+              <FormLabel>Date</FormLabel>
+              <Input
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+                type="date"
+              />
+            </FormControl>
+          </GridItem>
+          <GridItem colSpan={3}>
+            <FormControl>
+              <FormLabel>Requester</FormLabel>
+              <Input
+                value={requester}
+                onChange={(e) => setRequester(e.target.value)}
+                type="text"
+              />
+            </FormControl>
+          </GridItem>
 
-            <GridItem colSpan={2}>
-              <FormControl>
-                <FormLabel>Storage Location</FormLabel>
-                <Select
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value)}
-                  placeholder="- Select Location -"
-                >
-                  <option value="MMS Main Storage Level 1">
-                    MMS Main Storage Level 1
-                  </option>
-                  <option value="MMS Main Storage Level 2">
-                    MMS Main Storage Level 2
-                  </option>
-                  <option value="Tent 1">Tent 1</option>
-                  <option value="Tent 2">Tent 2</option>
-                  <option value="Tower 1">Tower 1</option>
-                </Select>
-              </FormControl>
-            </GridItem>
+          <GridItem colSpan={2}>
+            <FormControl>
+              <FormLabel>Storage Location</FormLabel>
+              <Select
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+                placeholder="- Select Location -"
+              >
+                <option value="MMS Main Storage Level 1">
+                  MMS Main Storage Level 1
+                </option>
+                <option value="MMS Main Storage Level 2">
+                  MMS Main Storage Level 2
+                </option>
+                <option value="Tent 1">Tent 1</option>
+                <option value="Tent 2">Tent 2</option>
+                <option value="Tower 1">Tower 1</option>
+              </Select>
+            </FormControl>
+          </GridItem>
 
-            <GridItem colSpan={1}>
-              <FormControl>
-                <FormLabel>Quantity</FormLabel>
-                <Input
-                  value={quantity}
-                  onChange={(e) => setQuantity(e.target.value)}
-                  type="number"
-                />
-              </FormControl>
-            </GridItem>
+          <GridItem colSpan={1}>
+            <FormControl>
+              <FormLabel>Quantity</FormLabel>
+              <Input
+                value={quantity}
+                onChange={(e) => setQuantity(e.target.value)}
+                type="number"
+              />
+            </FormControl>
+          </GridItem>
 
-            <GridItem colSpan={6}>
-              <FormControl>
-                <FormLabel>Reason of Return</FormLabel>
-                <Textarea
-                  value={reason}
-                  onChange={(e) => setReason(e.target.value)}
-                />
-              </FormControl>
-            </GridItem>
-          </>
-        )}
-      </SimpleGrid>
+          <GridItem colSpan={6}>
+            <FormControl>
+              <FormLabel>Reason of Return</FormLabel>
+              <Textarea
+                value={reason}
+                onChange={(e) => setReason(e.target.value)}
+              />
+            </FormControl>
+          </GridItem>
+        </SimpleGrid>
 
-      {desc !== "#N/A" && desc !== "" && (
         <HStack marginTop={5} justifyContent="flex-end">
           <Button
             color="#fff"
@@ -322,7 +328,7 @@ const Return = () => {
             Return Item
           </Button>
         </HStack>
-      )}
+      </Container>
     </>
   );
 };

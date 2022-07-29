@@ -13,13 +13,14 @@ import {
   Icon,
   InputLeftElement,
   InputGroup,
+  Container
 } from "@chakra-ui/react";
 import useAuth from "../Hooks/useAuth";
 import { useClickOutside } from "./useClickOutside";
 import { HiSearch } from "react-icons/hi";
 
 const Out = () => {
-  const { setAppState, item, appState } = useAuth();
+  const { setAppState, item, appState, inventory } = useAuth();
   const [isClick, setIsClick] = useState(false);
   const toast = useToast();
   const [equipment, setEquipment] = useState([]);
@@ -36,7 +37,6 @@ const Out = () => {
   const [remark, setRemark] = useState("");
   const [serialNum, setSerialNum] = useState("");
   const [expiration, setExpiration] = useState("NOT INDICATED");
-  const [inventory, setInventory] = useState([]);
 
   const clearForm = () => {
     setDesc("");
@@ -47,7 +47,6 @@ const Out = () => {
     setArea("");
     setAvailable("");
     setUnit("");
-    setInventory(null);
     setRemark("");
     setBrand("");
     setSerialNum("");
@@ -63,18 +62,9 @@ const Out = () => {
   const getEquipmentAPI =
     "https://script.google.com/macros/s/AKfycby9YK1q3CQDA_vESrSQpylqOCIvAirNfkifar2-79o-8enMFT6E-b3Gt8a_qrVnFlmEfg/exec?action=getEquipment";
 
-  const todate = new Date();
 
-  useEffect(() => {
-    fetch(getAvailableAPI, { method: "get" })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data) {
-          setInventory(data);
-        }
-      })
-      .catch((error) => console.log(error));
-  }, [appState]);
+
+
 
   useEffect(() => {
     fetch(getEquipmentAPI, { method: "get" })
@@ -245,6 +235,15 @@ const Out = () => {
 
   return (
     <>
+     <Container
+        boxShadow="rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;"
+        bg="#fff"
+        padding={5}
+        borderRadius={8}
+        maxW="container.lg"
+        w="full"
+        h="full"
+      >
       <SimpleGrid
         columns={6}
         columnGap={3}
@@ -333,8 +332,7 @@ const Out = () => {
           </FormControl>
         </GridItem>
 
-        {desc !== "#N/A" && desc !== "" && (
-          <>
+       
             <GridItem colSpan={2}>
               <FormControl>
                 <FormLabel>Brand</FormLabel>
@@ -446,11 +444,10 @@ const Out = () => {
                 />
               </FormControl>
             </GridItem>
-          </>
-        )}
+        
       </SimpleGrid>
 
-      {desc !== "" && desc !== "#N/A" && (
+     
         <HStack marginTop={5} justifyContent="flex-end">
           <Button
             color="#fff"
@@ -463,7 +460,7 @@ const Out = () => {
             OUT
           </Button>
         </HStack>
-      )}
+        </Container>
     </>
   );
 };
