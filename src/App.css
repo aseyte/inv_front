@@ -227,7 +227,8 @@ div.select-dropdown p.no-data {
 
 .available,
 .issued,
-.returned {
+.returned,
+.date {
   width: 150px;
   display: flex;
   align-items: center;
@@ -237,4 +238,8 @@ div.select-dropdown p.no-data {
 .category {
   width: 200px;
   margin-left: 20px;
+}
+
+.ref {
+  flex: 1;
 }

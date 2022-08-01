@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import Sidebar from "../Components/Sidebar";
 import Equipment from "../Components/Items/Equipment";
 import InventoryTable from "../Components/InventoryTable";
+import BincardTable from "../Components/BincardTable";
 
 const Homepage = () => {
   const [tab, setTab] = useState("create");
@@ -31,6 +32,7 @@ const Homepage = () => {
           {tab === "returnItem" && <Return setTab={setTab} />}
 
           {tab === "inventory" && <InventoryTable />}
+          {tab === "binCard" && <BincardTable />}
         </div>
 
         {/* <div onClick={() => navigate("/bin-card")} className="bin-card">
