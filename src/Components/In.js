@@ -19,7 +19,6 @@ import {
 } from "@chakra-ui/react";
 import useAuth from "../Hooks/useAuth";
 import { HiSearch } from "react-icons/hi";
-import Equipment from "./Items/Equipment";
 import { useClickOutside } from "../Components/useClickOutside";
 
 const In = ({ setTab }) => {
@@ -83,7 +82,7 @@ const In = ({ setTab }) => {
   ];
 
   const inItemAPI =
-    "https://script.google.com/macros/s/AKfycbz_LF3oWt7c7GedCppOfL0gLTNIZAcZhaHvR6cABCOCWaU30_spODMYaEFXOl5WaPHfIQ/exec?action=inItem";
+    "https://script.google.com/macros/s/AKfycbzD3yhqneDKW_UvKgr-H6AGA1J3o3Jei_Ql3_t2MMQW7_XrdJ1vF3Th2kZyU7Mv2M5J9Q/exec?action=inItem";
 
   const clearForm = () => {
     setDesc("");
@@ -191,6 +190,7 @@ const In = ({ setTab }) => {
         condition,
         fundSource,
         acquisitionCost,
+        user: user?.firstname,
       }),
     })
       .then(async (response) => {

@@ -17,6 +17,8 @@ import Sidebar from "../Components/Sidebar";
 import Equipment from "../Components/Items/Equipment";
 import InventoryTable from "../Components/InventoryTable";
 import BincardTable from "../Components/BincardTable";
+import InTable from "../Components/InTable";
+import OutTable from "../Components/OutTable";
 
 const Homepage = () => {
   const [tab, setTab] = useState("create");
@@ -33,6 +35,8 @@ const Homepage = () => {
 
           {tab === "inventory" && <InventoryTable />}
           {tab === "binCard" && <BincardTable />}
+          {tab === "listIn" && <InTable />}
+          {tab === "listOut" && <OutTable />}
         </div>
 
         {/* <div onClick={() => navigate("/bin-card")} className="bin-card">

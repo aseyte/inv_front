@@ -206,6 +206,9 @@ div.select-dropdown p.no-data {
   height: auto;
   background: #fff;
   padding: 10px;
+  min-height: 80vh;
+  position: relative;
+  overflow-x: auto;
 }
 
 .table-body-item {
@@ -215,6 +218,9 @@ div.select-dropdown p.no-data {
   border-bottom: 1px solid #edf3f8;
   cursor: pointer;
   padding: 0px 10px;
+  overflow-y: hidden;
+  overflow-x: auto;
+  font-size: 14px;
 }
 
 .table-body-item:hover {
@@ -228,11 +234,38 @@ div.select-dropdown p.no-data {
 .available,
 .issued,
 .returned,
-.date {
+.receipt,
+.return,
+.balance,
+.total {
   width: 150px;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.date,
+.user,
+.brand {
+  width: 200px;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+}
+
+.user img {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #d3d3d3;
+  background: #eee;
+  border-radius: 50%;
+  margin-right: 10px;
 }
 
 .category {
@@ -242,4 +275,21 @@ div.select-dropdown p.no-data {
 
 .ref {
   flex: 1;
+}
+
+div.no-data {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: 400;
+  color: #808080;
+  font-style: italic;
+}
+
+div.no-data p {
+  font-size: 18px;
+  margin-right: 10px;
 }

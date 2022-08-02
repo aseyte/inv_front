@@ -34,9 +34,9 @@ const BincardTable = () => {
         <div className="table-header">
           <div className="date">DATE</div>
           <div className="ref">REF (PO#, INV./DR#, RIS#)</div>
-          <div className="issued">RECEIPT</div>
+          <div className="receipt">RECEIPT</div>
           <div className="returned">ISSUED</div>
-          <div className="category">BALANCE</div>
+          <div className="balance">BALANCE</div>
         </div>
         <div className="table-body">
           {outItem?.map((item, index) => {
@@ -49,7 +49,7 @@ const BincardTable = () => {
                 <div className="receipt">
                   {inventory.filter((e) => e.desc === item.desc)[0]?.available}
                 </div>
-                <div className="issued">{item.quantity}</div>
+                <div className="return">{item.quantity}</div>
                 <div className="balance">{item.available}</div>
               </div>
             );

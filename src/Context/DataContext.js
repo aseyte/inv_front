@@ -11,18 +11,21 @@ export const DataProvider = ({ children }) => {
   const [inventory, setInventory] = useState([]);
   const [equipment, setEquipment] = useState([]);
   const [verified, setVerified] = useState(null);
+  const [inItem, setInItem] = useState([]);
 
   const getUniqueAPI =
-    "https://script.google.com/macros/s/AKfycbyMYqr3OhJu3MsoH96a38caZSFF4PIv8H13jm_RLh3wI9_rq81JjkQA3AjE9ZOmI9x2KA/exec?action=getUnique";
+    "https://script.google.com/macros/s/AKfycbznd89hipclktNONwyP8FxT3knuC99CFMZm7Vb6q090t14XC8lmDzz0WDfC933GN4h_jA/exec?action=getUnique";
 
   const outItemAPI =
-    "https://script.google.com/macros/s/AKfycbyMYqr3OhJu3MsoH96a38caZSFF4PIv8H13jm_RLh3wI9_rq81JjkQA3AjE9ZOmI9x2KA/exec?action=getOut";
+    "https://script.google.com/macros/s/AKfycbxbWHaXsOuQ4mM-_5XubyokXQe9LnjUxZbqfFENsOOHR4W9DPaa6toclZPQAfDbIbDsmw/exec?action=getOut";
 
   const inventoryAPI =
-    "https://script.google.com/macros/s/AKfycbyMYqr3OhJu3MsoH96a38caZSFF4PIv8H13jm_RLh3wI9_rq81JjkQA3AjE9ZOmI9x2KA/exec?action=getAvailable";
+    "https://script.google.com/macros/s/AKfycbznd89hipclktNONwyP8FxT3knuC99CFMZm7Vb6q090t14XC8lmDzz0WDfC933GN4h_jA/exec?action=getAvailable";
 
   const equipmentAPI =
-    "https://script.google.com/macros/s/AKfycbyMYqr3OhJu3MsoH96a38caZSFF4PIv8H13jm_RLh3wI9_rq81JjkQA3AjE9ZOmI9x2KA/exec?action=getEquipment";
+    "https://script.google.com/macros/s/AKfycbznd89hipclktNONwyP8FxT3knuC99CFMZm7Vb6q090t14XC8lmDzz0WDfC933GN4h_jA/exec?action=getEquipment";
+
+  const getInAPI = "https://script.google.com/macros/s/AKfycbznd89hipclktNONwyP8FxT3knuC99CFMZm7Vb6q090t14XC8lmDzz0WDfC933GN4h_jA/exec?action=getIn"
 
   const fetchUser = async () => {
     try {
@@ -58,6 +61,7 @@ export const DataProvider = ({ children }) => {
 
       if (outItem) {
         setOutItem(outItem.filter((e) => e.desc !== ""));
+        console.log(outItem)
       }
     } catch (error) {
       console.log(error);
@@ -90,6 +94,20 @@ export const DataProvider = ({ children }) => {
     }
   };
 
+
+  const fetchInItem = async () => {
+    try {
+      const response = await fetch(getInAPI, { method: "get" });
+      const inItem = await response.json();
+
+      if (inItem) {
+        setInItem(inItem.filter((e) => e.desc !== "" || e.total !== "" ));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const fetchVerification = async () => {
     try {
       const response = await api.get(`/api/auth/user/${user?._id}`);
@@ -103,11 +121,14 @@ export const DataProvider = ({ children }) => {
     }
   }
 
+  
+
   useEffect(() => {
     fetchOutItem();
     fetchInventory();
     fetchEquipment();
     fetchVerification();
+    fetchInItem()
   }, [appState, user]);
 
   return (
@@ -120,7 +141,8 @@ export const DataProvider = ({ children }) => {
         outItem,
         inventory,
         equipment,
-        verified
+        verified,
+        inItem
       }}
     >
       {children}

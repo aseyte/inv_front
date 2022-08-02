@@ -1,25 +1,33 @@
 import React, { useState } from "react";
-import {
-  Table,
-  Th,
-  Tr,
-  Thead,
-  Td,
-  Tbody,
-  Tfoot,
-  TableContainer,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  Icon,
-} from "@chakra-ui/react";
+import { Input, InputGroup, InputLeftElement, Icon } from "@chakra-ui/react";
 import useAuth from "../Hooks/useAuth";
 import { HiSearch } from "react-icons/hi";
 import { VscBracketError } from "react-icons/vsc";
+import Nouser from "../Assets/nouser.png";
 
-const InventoryTable = () => {
-  const { inventory, equipment } = useAuth();
+const InTable = () => {
+  const { inItem, equipment } = useAuth();
   const [term, setTerm] = useState("");
+
+  const getDate = (date) => {
+    const todate = new Date(date);
+    let today =
+      todate.getMonth() + "/" + todate.getDate() + "/" + todate.getFullYear();
+
+    return today;
+  };
+
+  const getTime = (date) => {
+    var options = {
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+    };
+    let today = new Date(date).toLocaleString("en-US", options);
+
+    return today;
+  };
+
   return (
     <>
       <div className="table-container">
@@ -40,14 +48,14 @@ const InventoryTable = () => {
         </InputGroup>
 
         <div className="table-header">
+          <div className="date">Date & Time</div>
           <div className="item-desc">ITEM DESCRIPTION</div>
-          <div className="available">AVAILABLE</div>
-          <div className="issued">ISSUED</div>
-          <div className="returned">RETURNED</div>
-          <div className="category">CATEGORY</div>
+          <div className="brand">BRAND</div>
+          <div className="total">TOTAL QTY</div>
+          <div className="user">MMS USER</div>
         </div>
         <div className="table-body">
-          {inventory
+          {inItem
             ?.filter((e) => {
               if (term) {
                 return e.desc.toLowerCase().includes(term.toLowerCase());
@@ -58,24 +66,21 @@ const InventoryTable = () => {
             ?.map((item, index) => {
               return (
                 <div className="table-body-item" key={index}>
+                  <div className="date">
+                    {getTime(item.timestamp)} {getDate(item.timestamp)}
+                  </div>
                   <div className="item-desc">{item.desc}</div>
-                  <div className="available">{item.available}</div>
-                  <div className="issued">{item.issued}</div>
-                  <div className="returned">{item.returned}</div>
-                  <div className="category">
-                    {
-                      equipment.filter(
-                        (e) =>
-                          e.desc ===
-                          `Fan Electric Orbit Master-RF400M Ceiling 16"`
-                      )[0]?.assigned
-                    }
+                  <div className="brand">{item.brand}</div>
+                  <div className="total">{item.total}</div>
+                  <div className="user">
+                    <img src={Nouser} alt="User Avatar" />
+                    {item.user}
                   </div>
                 </div>
               );
             })}
 
-          {inventory.filter((e) => {
+          {inItem.filter((e) => {
             if (term) {
               return e.desc.toLowerCase().includes(term.toLowerCase());
             } else {
@@ -95,4 +100,4 @@ const InventoryTable = () => {
   );
 };
 
-export default InventoryTable;
+export default InTable;
