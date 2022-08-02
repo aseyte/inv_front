@@ -65,7 +65,7 @@ const InTable = () => {
             })
             ?.map((item, index) => {
               return (
-                <div className="table-body-item" key={index}>
+                <div className={index%2 === 0 ? "table-body-item" : "table-body-item-2"} key={index}>
                   <div className="date">
                     {getTime(item.timestamp)} {getDate(item.timestamp)}
                   </div>

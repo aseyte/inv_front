@@ -57,7 +57,7 @@ const InventoryTable = () => {
             })
             ?.map((item, index) => {
               return (
-                <div className="table-body-item" key={index}>
+                <div className={index % 2 === 0 ? "table-body-item" : "table-body-item-2"} key={index}>
                   <div className="item-desc">{item.desc}</div>
                   <div className="available">{item.available}</div>
                   <div className="issued">{item.issued}</div>

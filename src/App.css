@@ -159,7 +159,7 @@ div.select-dropdown p.no-data {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-left: 300px;
+  padding-left: 250px;
 }
 
 .h1-header {
@@ -214,17 +214,35 @@ div.select-dropdown p.no-data {
 .table-body-item {
   display: flex;
   align-items: center;
-  height: 35px;
+  min-height: 35px;
   border-bottom: 1px solid #edf3f8;
   cursor: pointer;
-  padding: 0px 10px;
+  padding: 5px 10px;
   overflow-y: hidden;
   overflow-x: auto;
   font-size: 14px;
 }
 
-.table-body-item:hover {
+.table-body-item-2 {
+  display: flex;
+  align-items: center;
+  min-height: 35px;
+  border-bottom: 1px solid #edf3f8;
+  cursor: pointer;
+  padding: 5px 10px;
+  overflow-y: hidden;
+  overflow-x: auto;
+  font-size: 14px;
   background: rgb(244, 246, 247);
+}
+
+.table-body-item:hover,
+.table-body-item-2:hover {
+  background: rgb(232, 245, 255);
+  font-weight: 600;
+  color: rgb(37, 131, 207);
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border: 1px solid rgb(192, 221, 245);
 }
 
 .item-desc {
@@ -247,13 +265,12 @@ div.select-dropdown p.no-data {
 .date,
 .user,
 .brand {
-  width: 200px;
+  width: 150px;
 }
 
 .user {
   display: flex;
   align-items: center;
-  font-weight: 600;
 }
 
 .user img {

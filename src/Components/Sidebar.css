@@ -1,13 +1,12 @@
 .sidebar {
-  width: 300px;
-  min-height: 100vh;
+  width: 250px;
+  height: 100vh;
   background: rgb(255, 255, 255);
   position: fixed;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 50px 20px;
-  height: auto;
+  padding: 50px 10px;
   overflow-y: auto;
 }
 
@@ -55,7 +54,6 @@
 
 .navigation {
   width: 100%;
-  min-height: 100px;
   background: #f3f7fa;
   margin-top: 20px;
   height: auto;
@@ -86,12 +84,13 @@
   padding: 0px 10px;
   cursor: pointer;
   position: relative;
+  font-size: 14px;
 }
 
 .navigation ul li p {
   display: flex;
   margin-right: 10px;
-  font-size: 14px;
+  font-size: 18px;
 }
 
 .navigation ul li:hover {

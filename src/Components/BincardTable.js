@@ -41,7 +41,7 @@ const BincardTable = () => {
         <div className="table-body">
           {outItem?.map((item, index) => {
             return (
-              <div className="table-body-item" key={index}>
+              <div className={index %2 === 0  ? "table-body-item" : "table-body-item-2"} key={index}>
                 <div className="date">
                   {!item.risDate ? "NOT INDICATED" : getDate(item.risDate)}
                 </div>

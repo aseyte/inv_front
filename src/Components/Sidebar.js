@@ -2,14 +2,8 @@ import React from "react";
 import "./Sidebar.css";
 import Nouser from "../Assets/nouser.png";
 import useAuth from "../Hooks/useAuth";
-import {
-  HiDocumentText,
-  HiLogin,
-  HiLogout,
-  HiReply,
-  HiPlus,
-} from "react-icons/hi";
 import api from "../API/Api";
+import {FcDocument, FcAddDatabase, FcRight, FcLeft, FcUpLeft} from 'react-icons/fc'
 
 const Sidebar = ({ setTab, tab }) => {
   const { user } = useAuth();
@@ -45,7 +39,7 @@ const Sidebar = ({ setTab, tab }) => {
             className={tab === "create" ? "active" : ""}
           >
             <p>
-              <HiPlus />
+              <FcAddDatabase />
             </p>
             Create
           </li>
@@ -54,7 +48,7 @@ const Sidebar = ({ setTab, tab }) => {
             className={tab === "inItem" ? "active" : ""}
           >
             <p>
-              <HiLogout />
+              <FcRight />
             </p>
             In{" "}
           </li>
@@ -63,7 +57,7 @@ const Sidebar = ({ setTab, tab }) => {
             className={tab === "outItem" ? "active" : ""}
           >
             <p>
-              <HiLogin />
+              <FcLeft />
             </p>{" "}
             Out{" "}
           </li>
@@ -72,7 +66,7 @@ const Sidebar = ({ setTab, tab }) => {
             className={tab === "returnItem" ? "active" : ""}
           >
             <p>
-              <HiReply />
+              <FcUpLeft />
             </p>
             Return{" "}
           </li>
@@ -85,7 +79,7 @@ const Sidebar = ({ setTab, tab }) => {
             className={tab === "inventory" ? "active" : ""}
           >
             <p>
-              <HiDocumentText />
+              <FcDocument />
             </p>
             Inventory
           </li>
@@ -94,7 +88,7 @@ const Sidebar = ({ setTab, tab }) => {
             className={tab === "listIn" ? "active" : ""}
           >
             <p>
-              <HiDocumentText />
+              <FcDocument />
             </p>
             List of In
           </li>
@@ -103,7 +97,7 @@ const Sidebar = ({ setTab, tab }) => {
             className={tab === "listOut" ? "active" : ""}
           >
             <p>
-              <HiDocumentText />
+              <FcDocument />
             </p>
             List of Out
           </li>
@@ -112,7 +106,7 @@ const Sidebar = ({ setTab, tab }) => {
             className={tab === "listReturn" ? "active" : ""}
           >
             <p>
-              <HiDocumentText />
+              <FcDocument />
             </p>
             List of Return
           </li>
@@ -121,7 +115,7 @@ const Sidebar = ({ setTab, tab }) => {
             className={tab === "binCard" ? "active" : ""}
           >
             <p>
-              <HiDocumentText />
+              <FcDocument />
             </p>
             Bin Card
           </li>
