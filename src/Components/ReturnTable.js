@@ -77,10 +77,7 @@ const ReturnTable = () => {
                   </div>
                   <div className="item-desc">{item.desc}</div>
                   <div className="total">{item.quantity}</div>
-                  <div className="user">
-                    <img src={Nouser} alt="User Avatar" />
-                    {item.requester}
-                  </div>
+                  <div className="user">{item.requester}</div>
                   <div className="requesterLocation">
                     {item.requesterLocation}
                   </div>
