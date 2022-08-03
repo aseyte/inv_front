@@ -1,14 +1,6 @@
 import React, { useState } from "react";
 import CreateItem from "../Components/CreateItem";
-import {
-  Tabs,
-  TabList,
-  Tab,
-  TabPanel,
-  TabPanels,
-  Container,
-  Text,
-} from "@chakra-ui/react";
+
 import In from "../Components/In";
 import Out from "../Components/Out";
 import Return from "../Components/Return";
@@ -20,19 +12,18 @@ import BincardTable from "../Components/BincardTable";
 import InTable from "../Components/InTable";
 import OutTable from "../Components/OutTable";
 import ReturnTable from "../Components/ReturnTable";
+import AdminSidebar from "../Components/AdminSidebar";
+import Accounts from "../Components/Accounts";
 
-const Homepage = () => {
-  const [tab, setTab] = useState("create");
+const AdminDashboard = () => {
+  const [tab, setTab] = useState("accounts");
 
   return (
     <>
       <div className="container">
-        <Sidebar setTab={setTab} tab={tab} />
+        <AdminSidebar setTab={setTab} tab={tab} />
         <div className="component-wrapper">
-          {tab === "create" && <CreateItem />}
-          {tab === "inItem" && <In setTab={setTab} />}
-          {tab === "outItem" && <Out setTab={setTab} />}
-          {tab === "returnItem" && <Return setTab={setTab} />}
+          {tab === "accounts" && <Accounts />}
 
           {tab === "inventory" && <InventoryTable />}
           {tab === "binCard" && <BincardTable />}
@@ -45,4 +36,4 @@ const Homepage = () => {
   );
 };
 
-export default Homepage;
+export default AdminDashboard;

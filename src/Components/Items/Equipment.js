@@ -56,6 +56,9 @@ const Equipment = ({ setTypes }) => {
   const [cost, setCost] = useState(0);
   const [assigned, setAssigned] = useState("");
 
+
+  const {user} = useAuth()
+
   //Utilities State
   const toast = useToast();
   const [isClick, setIsClick] = useState(false);
@@ -152,7 +155,7 @@ const Equipment = ({ setTypes }) => {
         donor,
         remarks,
         out,
-        assigned,
+        assigned: user?.firstname + " " + user?.lastname,
         cost,
         category,
       }),
@@ -175,7 +178,7 @@ const Equipment = ({ setTypes }) => {
             duration: 9000,
             isClosable: true,
           });
-          setTypes("in");
+          // setTypes("in");
         }
 
         // check for error response
@@ -189,6 +192,7 @@ const Equipment = ({ setTypes }) => {
       })
       .catch((error) => {
         setIsClick(false);
+        console.log(error)
         toast({
           title: "Error",
           description: "An error occured",
@@ -490,15 +494,7 @@ const Equipment = ({ setTypes }) => {
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={3}>
-          <FormControl>
-            <FormLabel>Personnel Assigned</FormLabel>
-            <Input
-              value={assigned}
-              onChange={(e) => setAssigned(e.target.value)}
-            />
-          </FormControl>
-        </GridItem>
+       
 
         <GridItem colSpan={1}>
           <FormControl>

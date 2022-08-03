@@ -28,6 +28,7 @@ const Return = () => {
   const [location, setLocation] = useState("");
   const [isClick, setIsClick] = useState(false);
   const toast = useToast();
+  const {user} = useAuth();
 
   const clearForm = () => {
     setRequesterLocation("");
@@ -51,7 +52,7 @@ const Return = () => {
   const { setAppState, item, appState, inventory } = useAuth();
 
   const returnItemAPI =
-    "https://script.google.com/macros/s/AKfycbwOiAOwz57_Bw4OhsMp0Mv_-UcCyMHL0PTST6WVVRRbwAOm1J20O8jkOIGlIq6NVhXt6g/exec?action=returnItem";
+    "https://script.google.com/macros/s/AKfycbyYlkWXHZDKcaGxzhPxFi5uL5OtwPWAMrAcV8vZE8k3h5piH6Jvc1Uy-Z5BbunIoDX4Cg/exec?action=returnItem";
 
   const handleReturnItem = async () => {
     setIsClick(true);
@@ -101,7 +102,8 @@ const Return = () => {
           reason,
           quantity,
           location,
-          requesterLocation
+          requesterLocation,
+          user: user?.firstname + " " + user?.lastname,
         }),
       })
         .then(async (response) => {

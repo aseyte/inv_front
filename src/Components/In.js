@@ -190,7 +190,7 @@ const In = ({ setTab }) => {
         condition,
         fundSource,
         acquisitionCost,
-        user: user?.firstname,
+        user: user?.firstname + " " + user?.lastname,
       }),
     })
       .then(async (response) => {

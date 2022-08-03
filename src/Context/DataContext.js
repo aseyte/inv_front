@@ -13,24 +13,25 @@ export const DataProvider = ({ children }) => {
   const [verified, setVerified] = useState(null);
   const [inItem, setInItem] = useState([]);
   const [returnItem, setReturnItem] = useState([]);
+  const [people, setPeople] = useState([]);
 
   const getUniqueAPI =
-    "https://script.google.com/macros/s/AKfycbznd89hipclktNONwyP8FxT3knuC99CFMZm7Vb6q090t14XC8lmDzz0WDfC933GN4h_jA/exec?action=getUnique";
+    "https://script.google.com/macros/s/AKfycbyV510xFb5cjX5DCSmJ3nkJzqBctSHR1UkKqU7-cCK6S3VcbRX2dqhqHzcHDWCY4siPCA/exec?action=getUnique";
 
   const outItemAPI =
-    "https://script.google.com/macros/s/AKfycbxbWHaXsOuQ4mM-_5XubyokXQe9LnjUxZbqfFENsOOHR4W9DPaa6toclZPQAfDbIbDsmw/exec?action=getOut";
+    "https://script.google.com/macros/s/AKfycbyV510xFb5cjX5DCSmJ3nkJzqBctSHR1UkKqU7-cCK6S3VcbRX2dqhqHzcHDWCY4siPCA/exec?action=getOut";
 
   const inventoryAPI =
-    "https://script.google.com/macros/s/AKfycbznd89hipclktNONwyP8FxT3knuC99CFMZm7Vb6q090t14XC8lmDzz0WDfC933GN4h_jA/exec?action=getAvailable";
+    "https://script.google.com/macros/s/AKfycbyV510xFb5cjX5DCSmJ3nkJzqBctSHR1UkKqU7-cCK6S3VcbRX2dqhqHzcHDWCY4siPCA/exec?action=getAvailable";
 
   const equipmentAPI =
-    "https://script.google.com/macros/s/AKfycbznd89hipclktNONwyP8FxT3knuC99CFMZm7Vb6q090t14XC8lmDzz0WDfC933GN4h_jA/exec?action=getEquipment";
+    "https://script.google.com/macros/s/AKfycbyV510xFb5cjX5DCSmJ3nkJzqBctSHR1UkKqU7-cCK6S3VcbRX2dqhqHzcHDWCY4siPCA/exec?action=getEquipment";
 
   const getInAPI =
-    "https://script.google.com/macros/s/AKfycbznd89hipclktNONwyP8FxT3knuC99CFMZm7Vb6q090t14XC8lmDzz0WDfC933GN4h_jA/exec?action=getIn";
+    "https://script.google.com/macros/s/AKfycbyV510xFb5cjX5DCSmJ3nkJzqBctSHR1UkKqU7-cCK6S3VcbRX2dqhqHzcHDWCY4siPCA/exec?action=getIn";
 
   const getReturnAPI =
-    "https://script.google.com/macros/s/AKfycbzqfMnKSJi_YKcEtzruHf6Bgtgol6KfsOjzRF_UslbzLgD-XG1IOKGr1-UTE78gxM0__Q/exec?action=getReturn";
+    "https://script.google.com/macros/s/AKfycbyV510xFb5cjX5DCSmJ3nkJzqBctSHR1UkKqU7-cCK6S3VcbRX2dqhqHzcHDWCY4siPCA/exec?action=getReturn";
 
   const fetchUser = async () => {
     try {
@@ -85,6 +86,22 @@ export const DataProvider = ({ children }) => {
     }
   };
 
+  const fetchPeople = async () => {
+    try {
+      const response = await fetch(
+        "https://mms-inventory.herokuapp.com/api/auth/users",
+        { method: "get" }
+      );
+      const listPeople = await response.json();
+
+      if (listPeople) {
+        setPeople(listPeople.filter((e) => e.userType !== "admin"));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const fetchReturn = async () => {
     try {
       const response = await fetch(getReturnAPI, { method: "get" });
@@ -94,7 +111,7 @@ export const DataProvider = ({ children }) => {
         setReturnItem(returnItems.filter((e) => e.desc !== ""));
       }
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   };
 
@@ -143,6 +160,7 @@ export const DataProvider = ({ children }) => {
     fetchVerification();
     fetchInItem();
     fetchReturn();
+    fetchPeople();
   }, [appState, user]);
 
   return (
@@ -158,6 +176,7 @@ export const DataProvider = ({ children }) => {
         verified,
         inItem,
         returnItem,
+        people,
       }}
     >
       {children}

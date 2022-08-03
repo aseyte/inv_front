@@ -1,10 +1,26 @@
-import React from "react";
+import React, {useState} from "react";
 import { Input, InputGroup, InputLeftElement, Icon } from "@chakra-ui/react";
 import useAuth from "../Hooks/useAuth";
-import { HiSearch } from "react-icons/hi";
+import { HiSearch, HiRefresh } from "react-icons/hi";
 
 const BincardTable = () => {
-  const { outItem, inventory } = useAuth();
+  const { outItem, inventory, setAppState } = useAuth();
+  const [term, setTerm] = useState("");
+  const [refresh, setRefresh] = useState(false);
+
+  const refreshData = () => {
+    setRefresh(true);
+    try {
+      setAppState("Fetcing updated list");
+      setTimeout(() => {
+        setAppState("");
+        setRefresh(false);
+      }, 3000);
+    } catch (error) {
+      console.log(error);
+      setRefresh(false);
+    }
+  };
   const getDate = (e) => {
     let todate = new Date(e);
 
@@ -21,15 +37,18 @@ const BincardTable = () => {
   return (
     <>
       <div className="table-container">
-        <InputGroup mb={6}>
-          <InputLeftElement
-            pointerEvents="none"
-            color="gray.300"
-            fontSize="1.2em"
-            children={<Icon as={HiSearch} />}
-          />
-          <Input placeholder="Search Item" background="#fff" w={"md"} />
-        </InputGroup>
+      <div className="above-table-container">
+        <div></div>
+          
+
+          <button onClick={() => refreshData()}>
+            <p className={refresh ? "animate" : ""}>
+              <HiRefresh />
+            </p>{" "}
+            Refresh Items
+          </button>
+        </div>
+
 
         <div className="table-header">
           <div className="date">DATE</div>

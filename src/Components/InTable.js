@@ -1,13 +1,28 @@
 import React, { useState } from "react";
 import { Input, InputGroup, InputLeftElement, Icon } from "@chakra-ui/react";
 import useAuth from "../Hooks/useAuth";
-import { HiSearch } from "react-icons/hi";
+import { HiSearch, HiRefresh } from "react-icons/hi";
 import { VscBracketError } from "react-icons/vsc";
 import Nouser from "../Assets/nouser.png";
 
 const InTable = () => {
-  const { inItem, equipment } = useAuth();
+  const { inItem, equipment, setAppState, appState } = useAuth();
   const [term, setTerm] = useState("");
+  const [refresh, setRefresh] = useState(false);
+
+  const refreshData = () => {
+    setRefresh(true);
+    try {
+      setAppState("Fetcing updated list");
+      setTimeout(() => {
+        setAppState("");
+        setRefresh(false);
+      }, 3000);
+    } catch (error) {
+      console.log(error);
+      setRefresh(false);
+    }
+  };
 
   const getDate = (date) => {
     const todate = new Date(date);
@@ -31,21 +46,30 @@ const InTable = () => {
   return (
     <>
       <div className="table-container">
-        <InputGroup mb={6}>
-          <InputLeftElement
-            pointerEvents="none"
-            color="gray.300"
-            fontSize="1.2em"
-            children={<Icon as={HiSearch} />}
-          />
-          <Input
-            value={term}
-            onChange={(e) => setTerm(e.target.value)}
-            placeholder="Search Item"
-            background="#fff"
-            w={"md"}
-          />
-        </InputGroup>
+        <div className="above-table-container">
+          <InputGroup>
+            <InputLeftElement
+              pointerEvents="none"
+              color="gray.300"
+              fontSize="1.2em"
+              children={<Icon as={HiSearch} />}
+            />
+            <Input
+              value={term}
+              onChange={(e) => setTerm(e.target.value)}
+              placeholder="Search Item Description"
+              background="#fff"
+              w={"md"}
+            />
+          </InputGroup>
+
+          <button onClick={() => refreshData()}>
+            <p className={refresh ? "animate" : ""}>
+              <HiRefresh />
+            </p>{" "}
+            Refresh Items
+          </button>
+        </div>
 
         <div className="table-header">
           <div className="date">Date & Time</div>
@@ -65,9 +89,14 @@ const InTable = () => {
             })
             ?.map((item, index) => {
               return (
-                <div className={index%2 === 0 ? "table-body-item" : "table-body-item-2"} key={index}>
+                <div
+                  className={
+                    index % 2 === 0 ? "table-body-item" : "table-body-item-2"
+                  }
+                  key={index}
+                >
                   <div className="date">
-                  {getDate(item.timestamp)} - {getTime(item.timestamp)} 
+                    {getDate(item.timestamp)} - {getTime(item.timestamp)}
                   </div>
                   <div className="item-desc">{item.desc}</div>
                   <div className="brand">{item.brand}</div>

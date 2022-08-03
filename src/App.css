@@ -243,7 +243,8 @@ div.select-dropdown p.no-data {
   border: 1px solid rgb(192, 221, 245);
 }
 
-.item-desc {
+.item-desc,
+.employee {
   flex: 1;
 }
 
@@ -262,7 +263,16 @@ div.select-dropdown p.no-data {
 
 .date,
 .user,
-.brand {
+.brand,
+.username,
+.status {
+  width: 150px;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 150px;
 }
 
@@ -283,6 +293,10 @@ div.select-dropdown p.no-data {
   margin-right: 10px;
 }
 
+.email {
+  width: 250px;
+  margin-left: 20px;
+}
 .category {
   width: 200px;
   margin-left: 20px;
@@ -311,4 +325,95 @@ div.no-data p {
 
 .requesterLocation {
   width: 200px;
+}
+
+.above-table-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.above-table-container button {
+  background: rgb(37, 131, 207);
+  padding: 8px 10px;
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 14px;
+  color: #fff;
+  min-width: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  transition: 0.1s ease-in-out;
+}
+
+.above-table-container button:hover {
+  transition: 0.1s ease-in-out;
+  background: rgb(32, 112, 179);
+}
+
+.above-table-container button p {
+  margin-right: 5px;
+  font-size: 16px;
+}
+
+.above-table-container button p.animate {
+  margin-right: 5px;
+  font-size: 16px;
+  animation: refresh 1s infinite linear;
+}
+
+.modal {
+  width: 95%;
+  max-width: 500px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+}
+
+.modal h1 {
+  color: #272727;
+  font-weight: 600;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.above-table-container h1 {
+  color: #272727;
+  font-weight: 400;
+  font-size: 20px;
+}
+
+.approve,
+.delete {
+  width: 25px;
+  height: 25px;
+  border-radius: 2px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  cursor: pointer;
+  margin: 0px 5px;
+}
+
+.approve {
+  color: green;
+}
+
+.delete {
+  color: red;
+}
+
+@keyframes refresh {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

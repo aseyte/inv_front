@@ -3,10 +3,10 @@ import "./Sidebar.css";
 import Nouser from "../Assets/nouser.png";
 import useAuth from "../Hooks/useAuth";
 import api from "../API/Api";
-import {FcDocument, FcAddDatabase, FcRight, FcLeft, FcUpLeft} from 'react-icons/fc'
+import {FcDocument, FcConferenceCall, FcRight, FcLeft, FcUpLeft} from 'react-icons/fc'
 import LogoutModal from "./LogoutModal";
 
-const Sidebar = ({ setTab, tab }) => {
+const AdminSidebar = ({ setTab, tab }) => {
   const { user } = useAuth();
   const [modal, setModal] = useState(false)
   const submitLogout = async () => {
@@ -42,41 +42,15 @@ const Sidebar = ({ setTab, tab }) => {
         <label>Manage</label>
         <ul style={{ marginBottom: "40px" }}>
           <li
-            onClick={() => setTab("create")}
-            className={tab === "create" ? "active" : ""}
+            onClick={() => setTab("accounts")}
+            className={tab === "accounts" ? "active" : ""}
           >
             <p>
-              <FcAddDatabase />
+              <FcConferenceCall />
             </p>
-            Create
+            MMS Users
           </li>
-          <li
-            onClick={() => setTab("inItem")}
-            className={tab === "inItem" ? "active" : ""}
-          >
-            <p>
-              <FcRight />
-            </p>
-            In{" "}
-          </li>
-          <li
-            onClick={() => setTab("outItem")}
-            className={tab === "outItem" ? "active" : ""}
-          >
-            <p>
-              <FcLeft />
-            </p>{" "}
-            Out{" "}
-          </li>
-          <li
-            onClick={() => setTab("returnItem")}
-            className={tab === "returnItem" ? "active" : ""}
-          >
-            <p>
-              <FcUpLeft />
-            </p>
-            Return{" "}
-          </li>
+          
         </ul>
 
         <label>Monitor</label>
@@ -133,4 +107,4 @@ const Sidebar = ({ setTab, tab }) => {
   );
 };
 
-export default Sidebar;
+export default AdminSidebar;

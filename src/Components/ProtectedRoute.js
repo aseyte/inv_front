@@ -2,18 +2,16 @@ import { Navigate, Outlet, useLocation } from "react-router-dom";
 import FetchLoader from "./FetchLoader";
 import VerificationModal from "./VerificationModal";
 
-const ProtectedRoute = ({ user, verified }) => {
+const ProtectedRoute = ({ user, role }) => {
   const location = useLocation();
 
   if (user === null) {
     return <FetchLoader />;
   }
 
-  if (user?.loggedIn && user?.verified) {
+  if (user?.loggedIn && user?.userType === role) {
     return <Outlet />;
-  } else if (user?.loggedIn && user?.verified === false) {
-    return <VerificationModal />;
-  } else {
+  }  else {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 };

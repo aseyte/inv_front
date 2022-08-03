@@ -55,6 +55,7 @@
 .navigation {
   width: 100%;
   background: #f3f7fa;
+
   margin-top: 20px;
   height: auto;
   border-radius: 10px;
@@ -85,6 +86,7 @@
   cursor: pointer;
   position: relative;
   font-size: 14px;
+  border-radius: 8px;
 }
 
 .navigation ul li p {
@@ -114,7 +116,7 @@
   width: 2px;
   height: 20px;
   position: absolute;
-  right: 4px;
+  right: 6px;
   background: rgb(37, 131, 207);
   border-radius: 100px;
 }

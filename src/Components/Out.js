@@ -167,7 +167,7 @@ const Out = () => {
                   "/" +
                   new Date(expiration).getFullYear()
                 : "",
-            user: user?.firstname,
+            user: user?.firstname + " " + user?.lastname,
           }),
         })
           .then(async (response) => {
