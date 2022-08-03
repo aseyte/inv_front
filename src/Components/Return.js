@@ -20,7 +20,7 @@ import { useClickOutside } from "./useClickOutside";
 import { HiSearch } from "react-icons/hi";
 
 const Return = () => {
-  const [date, setDate] = useState("");
+  const [requesterLocation, setRequesterLocation] = useState("");
   const [desc, setDesc] = useState("");
   const [requester, setRequester] = useState("");
   const [reason, setReason] = useState("");
@@ -30,7 +30,7 @@ const Return = () => {
   const toast = useToast();
 
   const clearForm = () => {
-    setDate("");
+    setRequesterLocation("");
     setDesc("");
     setRequester("");
     setReason("");
@@ -38,11 +38,20 @@ const Return = () => {
     setLocation("");
   };
 
+  const todate = new Date();
+
+  const [todayTime, setTodayTime] = useState(
+    todate.getHours() + ":" + todate.getMinutes() + ":" + todate.getSeconds()
+  );
+  const [todayDate, setTodayDate] = useState(
+    todate.getMonth() + 1 + "/" + todate.getDate() + "/" + todate.getFullYear()
+  );
+
   //Global state
   const { setAppState, item, appState, inventory } = useAuth();
 
   const returnItemAPI =
-    "https://script.google.com/macros/s/AKfycby9YK1q3CQDA_vESrSQpylqOCIvAirNfkifar2-79o-8enMFT6E-b3Gt8a_qrVnFlmEfg/exec?action=returnItem";
+    "https://script.google.com/macros/s/AKfycbwOiAOwz57_Bw4OhsMp0Mv_-UcCyMHL0PTST6WVVRRbwAOm1J20O8jkOIGlIq6NVhXt6g/exec?action=returnItem";
 
   const handleReturnItem = async () => {
     setIsClick(true);
@@ -86,20 +95,13 @@ const Return = () => {
       fetch(returnItemAPI, {
         method: "POST",
         body: JSON.stringify({
-          date:
-            date !== ""
-              ? new Date(date).getMonth() +
-                1 +
-                "/" +
-                new Date(date).getDate() +
-                "/" +
-                new Date(date).getFullYear()
-              : "NOT INDICATED",
+          date: todayTime + " " + todayDate,
           desc,
           requester,
           reason,
           quantity,
           location,
+          requesterLocation
         }),
       })
         .then(async (response) => {
@@ -254,14 +256,16 @@ const Return = () => {
 
           <GridItem colSpan={2}>
             <FormControl>
-              <FormLabel>Date</FormLabel>
+              <FormLabel>Quantity</FormLabel>
               <Input
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-                type="date"
+                value={quantity}
+                onChange={(e) => setQuantity(e.target.value)}
+                type="number"
               />
             </FormControl>
           </GridItem>
+
+          
           <GridItem colSpan={3}>
             <FormControl>
               <FormLabel>Requester</FormLabel>
@@ -269,11 +273,22 @@ const Return = () => {
                 value={requester}
                 onChange={(e) => setRequester(e.target.value)}
                 type="text"
+                placeholder="Requester's Full Name"
               />
             </FormControl>
           </GridItem>
 
-          <GridItem colSpan={2}>
+          <GridItem colSpan={3}>
+            <FormControl>
+              <FormLabel>Requester Location</FormLabel>
+              <Input
+                value={requesterLocation}
+                onChange={(e) => setRequesterLocation(e.target.value)}
+              />
+            </FormControl>
+          </GridItem>
+
+          <GridItem colSpan={6}>
             <FormControl>
               <FormLabel>Storage Location</FormLabel>
               <Select
@@ -294,16 +309,7 @@ const Return = () => {
             </FormControl>
           </GridItem>
 
-          <GridItem colSpan={1}>
-            <FormControl>
-              <FormLabel>Quantity</FormLabel>
-              <Input
-                value={quantity}
-                onChange={(e) => setQuantity(e.target.value)}
-                type="number"
-              />
-            </FormControl>
-          </GridItem>
+          
 
           <GridItem colSpan={6}>
             <FormControl>

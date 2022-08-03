@@ -19,6 +19,7 @@ import InventoryTable from "../Components/InventoryTable";
 import BincardTable from "../Components/BincardTable";
 import InTable from "../Components/InTable";
 import OutTable from "../Components/OutTable";
+import ReturnTable from "../Components/ReturnTable";
 
 const Homepage = () => {
   const [tab, setTab] = useState("create");
@@ -37,6 +38,7 @@ const Homepage = () => {
           {tab === "binCard" && <BincardTable />}
           {tab === "listIn" && <InTable />}
           {tab === "listOut" && <OutTable />}
+          {tab === "listReturn" && <ReturnTable />}
         </div>
 
         {/* <div onClick={() => navigate("/bin-card")} className="bin-card">

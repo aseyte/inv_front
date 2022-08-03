@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Input, InputGroup, InputLeftElement, Icon } from "@chakra-ui/react";
 import useAuth from "../Hooks/useAuth";
 import { HiSearch } from "react-icons/hi";
 import { VscBracketError } from "react-icons/vsc";
 import Nouser from "../Assets/nouser.png";
 
-const OutTable = () => {
-  const { outItem, equipment } = useAuth();
+const ReturnTable = () => {
+  const { returnItem, equipment } = useAuth();
   const [term, setTerm] = useState("");
 
   const getDate = (date) => {
@@ -18,6 +18,7 @@ const OutTable = () => {
   };
 
   const getTime = (date) => {
+    const todate = new Date(date);
     var options = {
       hour: "numeric",
       minute: "numeric",
@@ -50,13 +51,12 @@ const OutTable = () => {
         <div className="table-header">
           <div className="date">Date & Time</div>
           <div className="item-desc">ITEM DESCRIPTION</div>
-          <div className="brand">BRAND</div>
           <div className="total">QTY</div>
-          <div className="total">AVAILABLE</div>
-          <div className="user">MMS USER</div>
+          <div className="user">REQUESTER</div>
+          <div className="requesterLocation">Requester Location</div>
         </div>
         <div className="table-body">
-          {outItem
+          {returnItem
             ?.filter((e) => {
               if (term) {
                 return e.desc.toLowerCase().includes(term.toLowerCase());
@@ -73,21 +73,22 @@ const OutTable = () => {
                   key={index}
                 >
                   <div className="date">
-                    {getDate(item.timestamp)} - {getTime(item.timestamp)}
+                    {getDate(item.date)} - {getTime(item.date)}
                   </div>
                   <div className="item-desc">{item.desc}</div>
-                  <div className="brand">{item.brand}</div>
                   <div className="total">{item.quantity}</div>
-                  <div className="total">{item.available}</div>
                   <div className="user">
                     <img src={Nouser} alt="User Avatar" />
-                    {item.user}
+                    {item.requester}
+                  </div>
+                  <div className="requesterLocation">
+                    {item.requesterLocation}
                   </div>
                 </div>
               );
             })}
 
-          {outItem.filter((e) => {
+          {returnItem.filter((e) => {
             if (term) {
               return e.desc.toLowerCase().includes(term.toLowerCase());
             } else {
@@ -107,4 +108,4 @@ const OutTable = () => {
   );
 };
 
-export default OutTable;
+export default ReturnTable;

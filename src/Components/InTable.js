@@ -51,7 +51,7 @@ const InTable = () => {
           <div className="date">Date & Time</div>
           <div className="item-desc">ITEM DESCRIPTION</div>
           <div className="brand">BRAND</div>
-          <div className="total">TOTAL QTY</div>
+          <div className="total">QTY</div>
           <div className="user">MMS USER</div>
         </div>
         <div className="table-body">
@@ -67,7 +67,7 @@ const InTable = () => {
               return (
                 <div className={index%2 === 0 ? "table-body-item" : "table-body-item-2"} key={index}>
                   <div className="date">
-                    {getTime(item.timestamp)} {getDate(item.timestamp)}
+                  {getDate(item.timestamp)} - {getTime(item.timestamp)} 
                   </div>
                   <div className="item-desc">{item.desc}</div>
                   <div className="brand">{item.brand}</div>

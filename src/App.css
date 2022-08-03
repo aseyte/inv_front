@@ -215,7 +215,6 @@ div.select-dropdown p.no-data {
   display: flex;
   align-items: center;
   min-height: 35px;
-  border-bottom: 1px solid #edf3f8;
   cursor: pointer;
   padding: 5px 10px;
   overflow-y: hidden;
@@ -227,7 +226,6 @@ div.select-dropdown p.no-data {
   display: flex;
   align-items: center;
   min-height: 35px;
-  border-bottom: 1px solid #edf3f8;
   cursor: pointer;
   padding: 5px 10px;
   overflow-y: hidden;
@@ -309,4 +307,8 @@ div.no-data {
 div.no-data p {
   font-size: 18px;
   margin-right: 10px;
+}
+
+.requesterLocation {
+  width: 200px;
 }
