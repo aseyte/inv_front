@@ -4,7 +4,7 @@ import "./Accounts.css";
 import { VscBracketError } from "react-icons/vsc";
 import { HiTrash, HiCheck } from "react-icons/hi";
 
-const Accounts = () => {
+const Accounts = ({ setDeleteModal, setId, setVerifyModal }) => {
   const { people } = useAuth();
   return (
     <div className="table-container">
@@ -80,10 +80,22 @@ const Accounts = () => {
                   {item.verified ? "Verified" : "Not Verified"}
                 </div>
                 <div className="actions">
-                  <div className="approve">
+                  <div
+                    onClick={() => {
+                      setId(item._id);
+                      setVerifyModal(true);
+                    }}
+                    className="approve"
+                  >
                     <HiCheck />
                   </div>
-                  <div className="delete">
+                  <div
+                    onClick={() => {
+                      setId(item._id);
+                      setDeleteModal(true);
+                    }}
+                    className="delete"
+                  >
                     <HiTrash />
                   </div>
                 </div>

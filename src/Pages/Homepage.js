@@ -20,12 +20,15 @@ import BincardTable from "../Components/BincardTable";
 import InTable from "../Components/InTable";
 import OutTable from "../Components/OutTable";
 import ReturnTable from "../Components/ReturnTable";
+import DeleteModal from "../Components/DeleteModal";
 
 const Homepage = () => {
   const [tab, setTab] = useState("create");
 
+
   return (
     <>
+
       <div className="container">
         <Sidebar setTab={setTab} tab={tab} />
         <div className="component-wrapper">

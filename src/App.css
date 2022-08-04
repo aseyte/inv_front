@@ -371,6 +371,8 @@ div.no-data p {
   padding: 20px;
   background: #fff;
   border-radius: 8px;
+  display: flex;
+  flex-direction: column;
 }
 
 .modal h1 {
@@ -399,14 +401,99 @@ div.no-data p {
   background: #fff;
   cursor: pointer;
   margin: 0px 5px;
+  transition: 0.1s ease-in-out;
 }
 
 .approve {
   color: green;
 }
 
+.approve:hover {
+  background: rgb(36, 153, 36);
+  color: #fff;
+  transition: 0.1s ease-in-out;
+}
+
+.delete:hover {
+  background: rgb(206, 53, 53);
+  color: #fff;
+  transition: 0.1s ease-in-out;
+}
+
 .delete {
   color: red;
+}
+
+.modal-btns {
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.modal-btns button {
+  padding: 0px 8px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  height: 30px;
+  outline-style: none;
+  border: none;
+  min-width: 80px;
+  transition: 0.1s ease-in-out;
+}
+
+button.green {
+  background: rgb(32, 128, 218);
+  color: #fff;
+  transition: 0.1s ease-in-out;
+}
+
+button.green:hover {
+  background: rgb(27, 110, 187);
+  color: #fff;
+  transition: 0.1s ease-in-out;
+}
+
+button.green-disable {
+  background: rgb(32, 128, 218);
+  color: #fff;
+  transition: 0.1s ease-in-out;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+button.red {
+  background: rgb(228, 66, 66);
+  color: #fff;
+  transition: 0.1s ease-in-out;
+}
+
+button.red:hover {
+  background: rgb(192, 54, 54);
+  transition: 0.1s ease-in-out;
+}
+
+button.red-disable {
+  background: rgb(228, 66, 66);
+  color: #fff;
+  transition: 0.1s ease-in-out;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+button.gray {
+  border: 1px solid #d3d3d3;
+}
+
+button.gray:hover {
+  background: #eee;
+  transition: 0.1s ease-in-out;
 }
 
 @keyframes refresh {
