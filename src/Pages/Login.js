@@ -13,6 +13,7 @@ import {
 } from "../Animations/Animations";
 import useAuth from "../Hooks/useAuth";
 import Logo from "../Assets/zcmc_logo.png";
+import { useToast } from "@chakra-ui/react";
 
 const formVariants = {
   hidden: {
@@ -31,6 +32,7 @@ const formVariants = {
 };
 
 const Login = () => {
+  const toast = useToast();
   Axios.defaults.withCredentials = true;
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -63,6 +65,17 @@ const Login = () => {
         setMessage("");
         setPrompt(false);
         setUserEmail(response.data.email);
+        toast({
+          title: "Error",
+          description: "Your acount is pending for approval.",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+        setLogin({
+          username: login.username, 
+          password: ""
+        })
         return;
       }
 

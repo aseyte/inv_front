@@ -34,7 +34,7 @@ const Accounts = ({ setDeleteModal, setId, setVerifyModal }) => {
                 <div className="username">@{item.username}</div>
                 <div className="email">{item.email}</div>
                 <div className="status">
-                  {item.verified ? "Verified" : "Not Verified"}
+                  {item.verified ? "Verified" : "For Approval"}
                 </div>
               </div>
             );
@@ -77,7 +77,7 @@ const Accounts = ({ setDeleteModal, setId, setVerifyModal }) => {
                 <div className="username">@{item.username}</div>
                 <div className="email">{item.email}</div>
                 <div className="status">
-                  {item.verified ? "Verified" : "Not Verified"}
+                  {item.verified ? "Verified" : "For Approval"}
                 </div>
                 <div className="actions">
                   <div

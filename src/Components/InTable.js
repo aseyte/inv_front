@@ -4,11 +4,14 @@ import useAuth from "../Hooks/useAuth";
 import { HiSearch, HiRefresh } from "react-icons/hi";
 import { VscBracketError } from "react-icons/vsc";
 import Nouser from "../Assets/nouser.png";
+import ModalIn from "./ModalIn";
 
 const InTable = () => {
   const { inItem, equipment, setAppState, appState } = useAuth();
   const [term, setTerm] = useState("");
   const [refresh, setRefresh] = useState(false);
+  const [inModal, setInModal] = useState(false);
+  const [item, setItem] = useState([]);
 
   const refreshData = () => {
     setRefresh(true);
@@ -45,6 +48,7 @@ const InTable = () => {
 
   return (
     <>
+      {/* {inModal && <ModalIn item={item} setInModal={setInModal} />} */}
       <div className="table-container">
         <div className="above-table-container">
           <InputGroup>
@@ -90,6 +94,10 @@ const InTable = () => {
             ?.map((item, index) => {
               return (
                 <div
+                  onClick={() => {
+                    setInModal(true);
+                    setItem(item);
+                  }}
                   className={
                     index % 2 === 0 ? "table-body-item" : "table-body-item-2"
                   }
