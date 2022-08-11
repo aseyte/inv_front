@@ -48,7 +48,7 @@ const Sidebar = ({ setTab, tab }) => {
             <p>
               <FcAddDatabase />
             </p>
-            Create
+            Create Item
           </li>
           <li
             onClick={() => setTab("inItem")}
@@ -57,7 +57,7 @@ const Sidebar = ({ setTab, tab }) => {
             <p>
               <FcRight />
             </p>
-            In{" "}
+            In Item
           </li>
           <li
             onClick={() => setTab("outItem")}
@@ -66,7 +66,7 @@ const Sidebar = ({ setTab, tab }) => {
             <p>
               <FcLeft />
             </p>{" "}
-            Out{" "}
+            Out Item
           </li>
           <li
             onClick={() => setTab("returnItem")}
@@ -75,7 +75,7 @@ const Sidebar = ({ setTab, tab }) => {
             <p>
               <FcUpLeft />
             </p>
-            Return{" "}
+            Return Item
           </li>
         </ul>
 
