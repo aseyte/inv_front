@@ -32,7 +32,7 @@ const Homepage = () => {
       <div className="container">
         <Sidebar setTab={setTab} tab={tab} />
         <div className="component-wrapper">
-          {tab === "create" && <CreateItem />}
+          {tab === "create" && <CreateItem setTab={setTab}/>}
           {tab === "inItem" && <In setTab={setTab} />}
           {tab === "outItem" && <Out setTab={setTab} />}
           {tab === "returnItem" && <Return setTab={setTab} />}

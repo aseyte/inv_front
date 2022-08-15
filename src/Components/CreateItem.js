@@ -4,8 +4,8 @@ import Equipment from "../Components/Items/Equipment";
 import Janitorial from "../Components/Items/Janitorial";
 import Medical from "../Components/Items/Medical";
 import Office from "../Components/Items/Office";
-const CreateItem = () => {
-  const [selected, setSelected] = useState("");
+const CreateItem = ({setTab}) => {
+  const [selected, setSelected] = useState("equipment");
   return (
     <>
       {" "}
@@ -25,6 +25,7 @@ const CreateItem = () => {
             onChange={(e) => setSelected(e.target.value)}
             id="items"
             placeholder="- Select Category -"
+            value={selected}
           >
             <option value="equipment">Equipment</option>
             <option value="janitorial">Janitorial Supplies</option>
@@ -32,7 +33,7 @@ const CreateItem = () => {
             <option value="medical">Medical/Dental Supplies</option>
           </Select>
         </FormControl>
-        {selected === "equipment" && <Equipment />}
+        {selected === "equipment" && <Equipment setTab={setTab}/>}
         {selected === "janitorial" && <Janitorial />}
         {selected === "medical" && <Medical />}
         {selected === "office" && <Office />}

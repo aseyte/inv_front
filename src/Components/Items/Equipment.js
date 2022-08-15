@@ -10,12 +10,14 @@ import {
   Select,
   Button,
   useToast,
+  InputLeftAddon,
+  InputGroup,
 } from "@chakra-ui/react";
 import { listItems } from "../ListItems";
 import useAuth from "../../Hooks/useAuth";
 import uniqid from "uniqid";
 
-const Equipment = ({ setTypes }) => {
+const Equipment = ({ setTab }) => {
   const donors = [
     "doh",
     "department of health",
@@ -43,25 +45,37 @@ const Equipment = ({ setTypes }) => {
   const [warranty, setWarranty] = useState("");
   const [acquisitation, setAcquisition] = useState("");
   const [propertyNum, setPropertyNum] = useState("");
-  const [quantity, setQuantity] = useState(0);
-  const [pack, setPack] = useState("");
-  const [loose, setLoose] = useState("");
-  const [physical, setPhysical] = useState("");
   const [unit, setUnit] = useState("");
   const [location, setLocation] = useState("");
   const [donor, setDonor] = useState("");
   const [remarks, setRemarks] = useState("");
-  const [out, setOut] = useState("");
   const [category, setCategory] = useState("Equipment");
   const [cost, setCost] = useState(0);
-  const [assigned, setAssigned] = useState("");
-
-
-  const {user} = useAuth()
+  const { user } = useAuth();
 
   //Utilities State
+  const todate = new Date();
   const toast = useToast();
   const [isClick, setIsClick] = useState(false);
+  const [todayTime, setTodayTime] = useState(
+    todate.getHours() + ":" + todate.getMinutes() + ":" + todate.getSeconds()
+  );
+  const [todayDate, setTodayDate] = useState(
+    todate.getMonth() + 1 + "/" + todate.getDate() + "/" + todate.getFullYear()
+  );
+
+  const inItemAPI =
+    "https://script.google.com/macros/s/AKfycbzD3yhqneDKW_UvKgr-H6AGA1J3o3Jei_Ql3_t2MMQW7_XrdJ1vF3Th2kZyU7Mv2M5J9Q/exec?action=inItem";
+
+  //In state
+  const [lot, setLot] = useState("");
+  const [expiration, setExpiration] = useState("NOT INDICATED");
+  const [iar, setIar] = useState("");
+  const [iarDate, setIarDate] = useState("");
+  const [delivery, setDelivery] = useState("");
+  const [total, setTotal] = useState("");
+  const [condition, setCondition] = useState("");
+  const [fundSource, setFundSource] = useState("");
 
   const clearForm = () => {
     setArticle("");
@@ -81,23 +95,25 @@ const Equipment = ({ setTypes }) => {
     setWarranty("");
     setAcquisition("");
     setPropertyNum("");
-    setQuantity("");
-    setPack("");
-    setLoose("");
-    setPhysical("");
     setUnit("");
     setLocation("");
     setDonor("");
     setRemarks("");
-    setOut("");
     setCost("");
-    setAssigned("");
+    setLot("");
+    setExpiration("NOT INDICATED");
+    setIar("");
+    setIarDate("");
+    setDelivery("");
+    setTotal("");
+    setCondition("");
+    setFundSource("");
   };
 
   const { setAppState } = useAuth();
 
   const createItemAPI =
-    "https://script.google.com/macros/s/AKfycby9YK1q3CQDA_vESrSQpylqOCIvAirNfkifar2-79o-8enMFT6E-b3Gt8a_qrVnFlmEfg/exec?action=createEquipment";
+    "https://script.google.com/macros/s/AKfycbwSKHgXCCpP70HGGC8m7V3McqJV5K2j7zN4zCAcTzSL-dcd13--QJlOY9XWxu4HV97KVQ/exec?action=createEquipment";
 
   const handleCreate = async () => {
     setIsClick(true);
@@ -113,6 +129,30 @@ const Equipment = ({ setTypes }) => {
         !details &&
         !other)
     ) {
+      setIsClick(false);
+      toast({
+        title: "Error",
+        description: "Enter Item Description",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+      return;
+    }
+
+    if (total <= 0) {
+      setIsClick(false);
+      toast({
+        title: "Error",
+        description: "Please enter quantity",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+      return;
+    }
+
+    if (!desc) {
       setIsClick(false);
       toast({
         title: "Error",
@@ -143,10 +183,6 @@ const Equipment = ({ setTypes }) => {
         warranty,
         acquisitation,
         propertyNum,
-        quantity,
-        pack,
-        loose,
-        physical,
         unit,
         location,
         acquisitionMode: donors.includes(donor.toLocaleLowerCase())
@@ -154,7 +190,6 @@ const Equipment = ({ setTypes }) => {
           : "Purchase",
         donor,
         remarks,
-        out,
         assigned: user?.firstname + " " + user?.lastname,
         cost,
         category,
@@ -167,18 +202,7 @@ const Equipment = ({ setTypes }) => {
         const data = isJson && (await response.json());
 
         if (response.ok) {
-          setIsClick(false);
-          clearForm();
-          setAppState("Item Created");
-          setTimeout(() => setAppState(""), 500);
-          toast({
-            title: "Item Created",
-            description: "Added one (1) item to the database",
-            status: "success",
-            duration: 9000,
-            isClosable: true,
-          });
-          // setTypes("in");
+          handleInItem();
         }
 
         // check for error response
@@ -192,7 +216,7 @@ const Equipment = ({ setTypes }) => {
       })
       .catch((error) => {
         setIsClick(false);
-        console.log(error)
+        console.log(error);
         toast({
           title: "Error",
           description: "An error occured",
@@ -219,7 +243,105 @@ const Equipment = ({ setTypes }) => {
     );
   }, [article, articleOther, type, typeOther, model, variant, details, other]);
 
-  const [term, setTerm] = useState("");
+  const handleInItem = async () => {
+    setIsClick(true);
+
+    fetch(inItemAPI, {
+      method: "POST",
+      body: JSON.stringify({
+        timestamp: todayTime + " " + todayDate,
+        desc,
+        brand,
+        lot,
+        expiration:
+          expiration !== "NOT INDICATED"
+            ? new Date(expiration).getMonth() +
+              1 +
+              "/" +
+              new Date(expiration).getDate() +
+              "/" +
+              new Date(expiration).getFullYear()
+            : "NOT INDICATED",
+        iar,
+        iarDate:
+          iarDate !== ""
+            ? new Date(iarDate).getMonth() +
+              1 +
+              "/" +
+              new Date(iarDate).getDate() +
+              "/" +
+              new Date(iarDate).getFullYear()
+            : null,
+
+        delivery:
+          delivery !== ""
+            ? new Date(delivery).getMonth() +
+              1 +
+              "/" +
+              new Date(delivery).getDate() +
+              "/" +
+              new Date(delivery).getFullYear()
+            : null,
+
+        quantity: "",
+        pack: "",
+        loose: "",
+        unit,
+        total,
+        location,
+        supplier: donor,
+        manufacturer,
+        origin,
+        acquisition: donors.includes(donor.toLocaleLowerCase())
+          ? "Donation"
+          : "Purchase",
+        remarks,
+        condition,
+        fundSource,
+        acquisitionCost: cost,
+        user: user?.firstname + " " + user?.lastname,
+      }),
+    })
+      .then(async (response) => {
+        const isJson = response.headers
+          .get("content-type")
+          ?.includes("application/json");
+        const data = isJson && (await response.json());
+
+        if (response.ok) {
+          setIsClick(false);
+          clearForm();
+          setAppState("Item Created");
+          setTimeout(() => setAppState(""), 500);
+          toast({
+            title: "Item Created",
+            description: "Added one (1) item to the database",
+            status: "success",
+            duration: 9000,
+            isClosable: true,
+          });
+        }
+
+        // check for error response
+        if (!response.ok) {
+          setIsClick(false);
+          // get error message from body or default to response status
+          const error = (data && data.message) || response.status;
+
+          return Promise.reject(error);
+        }
+      })
+      .catch((error) => {
+        setIsClick(false);
+        toast({
+          title: "Error",
+          description: "An error occured",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+      });
+  };
 
   return (
     <>
@@ -248,7 +370,7 @@ const Equipment = ({ setTypes }) => {
             <Textarea isReadOnly background="#eee" disabled value={desc} />
           </FormControl>
         </GridItem>
-        <GridItem colSpan={3}>
+        <GridItem colSpan={2}>
           <FormControl>
             <FormLabel>Article</FormLabel>
 
@@ -280,7 +402,7 @@ const Equipment = ({ setTypes }) => {
             )}
           </FormControl>
         </GridItem>
-        <GridItem colSpan={3}>
+        <GridItem colSpan={2}>
           <FormControl>
             <FormLabel>Type/Form</FormLabel>
 
@@ -314,14 +436,14 @@ const Equipment = ({ setTypes }) => {
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={2}>
+        <GridItem colSpan={1}>
           <FormControl>
             <FormLabel>Model</FormLabel>
             <Input value={model} onChange={(e) => setModel(e.target.value)} />
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={2}>
+        <GridItem colSpan={1}>
           <FormControl>
             <FormLabel>Variety/Color</FormLabel>
             <Input
@@ -331,7 +453,7 @@ const Equipment = ({ setTypes }) => {
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={2}>
+        <GridItem colSpan={1}>
           <FormControl>
             <FormLabel>Details2</FormLabel>
             <Input
@@ -341,21 +463,21 @@ const Equipment = ({ setTypes }) => {
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={2}>
+        <GridItem colSpan={1}>
           <FormControl>
             <FormLabel>Other</FormLabel>
             <Input value={other} onChange={(e) => setOther(e.target.value)} />
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={2}>
+        <GridItem colSpan={1}>
           <FormControl>
             <FormLabel>Brand</FormLabel>
             <Input value={brand} onChange={(e) => setBrand(e.target.value)} />
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={2}>
+        <GridItem colSpan={1}>
           <FormControl>
             <FormLabel>Manufacturer</FormLabel>
             <Input
@@ -388,6 +510,7 @@ const Equipment = ({ setTypes }) => {
             <Input
               value={warranty}
               onChange={(e) => setWarranty(e.target.value)}
+              type="date"
             />
           </FormControl>
         </GridItem>
@@ -403,57 +526,12 @@ const Equipment = ({ setTypes }) => {
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={3}>
+        <GridItem colSpan={2}>
           <FormControl>
             <FormLabel>Property Number</FormLabel>
             <Input
               value={propertyNum}
               onChange={(e) => setPropertyNum(e.target.value)}
-            />
-          </FormControl>
-        </GridItem>
-
-        <GridItem colSpan={1}>
-          <FormControl>
-            <FormLabel>Quantity</FormLabel>
-            <Input
-              value={quantity}
-              onChange={(e) => setQuantity(e.target.value)}
-              type="number"
-              min={0}
-            />
-          </FormControl>
-        </GridItem>
-
-        <GridItem colSpan={1}>
-          <FormControl>
-            <FormLabel>Pack Size</FormLabel>
-            <Input
-              type="number"
-              value={pack}
-              onChange={(e) => setPack(e.target.value)}
-            />
-          </FormControl>
-        </GridItem>
-
-        <GridItem colSpan={1}>
-          <FormControl>
-            <FormLabel>Loose Count</FormLabel>
-            <Input
-              type="number"
-              value={loose}
-              onChange={(e) => setLoose(e.target.value)}
-            />
-          </FormControl>
-        </GridItem>
-
-        <GridItem colSpan={2}>
-          <FormControl>
-            <FormLabel>Physical Count(pcs)</FormLabel>
-            <Input
-              type="number"
-              value={physical}
-              onChange={(e) => setPhysical(e.target.value)}
             />
           </FormControl>
         </GridItem>
@@ -468,22 +546,10 @@ const Equipment = ({ setTypes }) => {
         <GridItem colSpan={2}>
           <FormControl>
             <FormLabel>Location</FormLabel>
-
-            <Select
+            <Input
               value={location}
               onChange={(e) => setLocation(e.target.value)}
-              placeholder="- Select Location -"
-            >
-              <option value="MMS Main Storage Level 1">
-                MMS Main Storage Level 1
-              </option>
-              <option value="MMS Main Storage Level 2">
-                MMS Main Storage Level 2
-              </option>
-              <option value="Tent 1">Tent 1</option>
-              <option value="Tent 2">Tent 2</option>
-              <option value="Tower 1">Tower 1</option>
-            </Select>
+            />
           </FormControl>
         </GridItem>
 
@@ -494,22 +560,97 @@ const Equipment = ({ setTypes }) => {
           </FormControl>
         </GridItem>
 
-       
-
-        <GridItem colSpan={1}>
+        <GridItem colSpan={2}>
           <FormControl>
-            <FormLabel>Out</FormLabel>
-            <Input value={out} onChange={(e) => setOut(e.target.value)} />
+            <FormLabel>Cost</FormLabel>
+            <InputGroup>
+              <InputLeftAddon children="₱" />
+              <Input
+                type="number"
+                value={cost}
+                onChange={(e) => setCost(e.target.value)}
+                placeholder="Pesos (php)"
+              />
+            </InputGroup>
           </FormControl>
         </GridItem>
 
         <GridItem colSpan={2}>
           <FormControl>
-            <FormLabel>Cost</FormLabel>
+            <FormLabel>Lot/Serial #</FormLabel>
+            <Input value={lot} onChange={(e) => setLot(e.target.value)} />
+          </FormControl>
+        </GridItem>
+
+        <GridItem colSpan={2}>
+          <FormControl>
+            <FormLabel>Expiration</FormLabel>
+            <Input
+              value={expiration}
+              onChange={(e) => {
+                setExpiration(e.target.value);
+              }}
+              type="date"
+            />
+          </FormControl>
+        </GridItem>
+
+        <GridItem colSpan={2} width="100%">
+          <FormControl>
+            <FormLabel>IAR #</FormLabel>
+            <Input value={iar} onChange={(e) => setIar(e.target.value)} />
+          </FormControl>
+        </GridItem>
+
+        <GridItem colSpan={2}>
+          <FormControl>
+            <FormLabel>IAR Date</FormLabel>
+            <Input
+              value={iarDate}
+              onChange={(e) => setIarDate(e.target.value)}
+              type="date"
+            />
+          </FormControl>
+        </GridItem>
+
+        <GridItem colSpan={2}>
+          <FormControl>
+            <FormLabel>Delivery Date</FormLabel>
+            <Input
+              value={delivery}
+              onChange={(e) => setDelivery(e.target.value)}
+              type="date"
+            />
+          </FormControl>
+        </GridItem>
+
+        <GridItem colSpan={2}>
+          <FormControl>
+            <FormLabel>Total</FormLabel>
             <Input
               type="number"
-              value={cost}
-              onChange={(e) => setCost(e.target.value)}
+              value={total}
+              onChange={(e) => setTotal(e.target.value)}
+            />
+          </FormControl>
+        </GridItem>
+
+        <GridItem colSpan={2}>
+          <FormControl>
+            <FormLabel>Condition</FormLabel>
+            <Input
+              value={condition}
+              onChange={(e) => setCondition(e.target.value)}
+            />
+          </FormControl>
+        </GridItem>
+
+        <GridItem colSpan={2}>
+          <FormControl>
+            <FormLabel>Fund Source</FormLabel>
+            <Input
+              value={fundSource}
+              onChange={(e) => setFundSource(e.target.value)}
             />
           </FormControl>
         </GridItem>
@@ -526,7 +667,7 @@ const Equipment = ({ setTypes }) => {
       </SimpleGrid>
 
       <HStack marginTop={5} justifyContent="flex-end">
-        
+        <Button onClick={() => setTab("inItem")}>Cancel</Button>
         <Button
           color="#fff"
           isLoading={isClick ? true : false}

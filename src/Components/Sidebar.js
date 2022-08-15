@@ -41,7 +41,7 @@ const Sidebar = ({ setTab, tab }) => {
       <div className="navigation">
         <label>Manage</label>
         <ul style={{ marginBottom: "40px" }}>
-          <li
+          {/* <li
             onClick={() => setTab("create")}
             className={tab === "create" ? "active" : ""}
           >
@@ -49,10 +49,10 @@ const Sidebar = ({ setTab, tab }) => {
               <FcAddDatabase />
             </p>
             Create Item
-          </li>
+          </li> */}
           <li
             onClick={() => setTab("inItem")}
-            className={tab === "inItem" ? "active" : ""}
+            className={tab === "inItem" || tab === "create" ? "active" : ""}
           >
             <p>
               <FcRight />

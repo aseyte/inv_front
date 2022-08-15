@@ -5,7 +5,7 @@ export const listItems = [
   },
   {
     article: "Computer",
-    type: ["Desktop", "N-Series", "Other"],
+    type: ["Desktop", "N-Series", "Laptop/Mobile", "Other"],
   },
   {
     article: "Fan",

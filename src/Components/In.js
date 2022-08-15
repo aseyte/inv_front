@@ -16,6 +16,7 @@ import {
   Select,
   Icon,
   Container,
+  InputLeftAddon,
 } from "@chakra-ui/react";
 import useAuth from "../Hooks/useAuth";
 import { HiSearch } from "react-icons/hi";
@@ -64,7 +65,6 @@ const In = ({ setTab }) => {
   const [supplier, setSupplier] = useState("");
   const [manufacturer, setManufacturer] = useState("");
   const [origin, setOrigin] = useState("");
-  const [acquisition, setAcquisition] = useState("");
   const [expirationMonths, setExpirationMonths] = useState("NOT INDICATED");
   const [remarks, setRemarks] = useState("");
   const [condition, setCondition] = useState("");
@@ -101,7 +101,6 @@ const In = ({ setTab }) => {
     setSupplier("");
     setManufacturer("");
     setOrigin("");
-    setAcquisition("");
     setExpirationMonths("NOT INDICATED");
     setRemarks("");
     setCondition("");
@@ -273,7 +272,6 @@ const In = ({ setTab }) => {
 
   const [dropdown, setDropdown] = useState(false);
   const [term, setTerm] = useState("");
-  const [types, setTypes] = useState("in");
 
   const domNod = useClickOutside(() => {
     setDropdown(false);
@@ -596,10 +594,15 @@ const In = ({ setTab }) => {
           <GridItem colSpan={2}>
             <FormControl>
               <FormLabel>Acquisition Cost</FormLabel>
-              <Input
-                value={acquisitionCost}
-                onChange={(e) => setAcquisitionCost(e.target.value)}
-              />
+              <InputGroup>
+                <InputLeftAddon children="₱" />
+                <Input
+                  type="number"
+                  value={acquisitionCost}
+                  onChange={(e) => setAcquisitionCost(e.target.value)}
+                  placeholder="Pesos (php)"
+                />
+              </InputGroup>
             </FormControl>
           </GridItem>
 
