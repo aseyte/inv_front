@@ -21,6 +21,7 @@ import {
 import useAuth from "../Hooks/useAuth";
 import { HiSearch } from "react-icons/hi";
 import { useClickOutside } from "../Components/useClickOutside";
+import InItemModal from "./InItemModal";
 
 const In = ({ setTab }) => {
   const toast = useToast();

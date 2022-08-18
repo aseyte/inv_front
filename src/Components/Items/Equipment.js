@@ -73,7 +73,7 @@ const Equipment = ({ setTab }) => {
   const [iar, setIar] = useState("");
   const [iarDate, setIarDate] = useState("");
   const [delivery, setDelivery] = useState("");
-  const [total, setTotal] = useState("");
+  const [total, setTotal] = useState(1);
   const [condition, setCondition] = useState("");
   const [fundSource, setFundSource] = useState("");
 
@@ -105,7 +105,6 @@ const Equipment = ({ setTab }) => {
     setIar("");
     setIarDate("");
     setDelivery("");
-    setTotal("");
     setCondition("");
     setFundSource("");
   };
@@ -560,7 +559,7 @@ const Equipment = ({ setTab }) => {
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={2}>
+        <GridItem colSpan={1}>
           <FormControl>
             <FormLabel>Cost</FormLabel>
             <InputGroup>
@@ -624,16 +623,7 @@ const Equipment = ({ setTab }) => {
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={2}>
-          <FormControl>
-            <FormLabel>Total</FormLabel>
-            <Input
-              type="number"
-              value={total}
-              onChange={(e) => setTotal(e.target.value)}
-            />
-          </FormControl>
-        </GridItem>
+
 
         <GridItem colSpan={2}>
           <FormControl>

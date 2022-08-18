@@ -5,12 +5,12 @@ import { HiSearch, HiRefresh } from "react-icons/hi";
 import { VscBracketError } from "react-icons/vsc";
 import Nouser from "../Assets/nouser.png";
 import ModalIn from "./ModalIn";
+import InItemModal from "./InItemModal";
 
 const InTable = () => {
   const { inItem, equipment, setAppState, appState } = useAuth();
   const [term, setTerm] = useState("");
   const [refresh, setRefresh] = useState(false);
-  const [inModal, setInModal] = useState(false);
   const [item, setItem] = useState([]);
 
   const refreshData = () => {
@@ -46,9 +46,11 @@ const InTable = () => {
     return today;
   };
 
+  const [modal, setModal] = useState(false);
+
   return (
     <>
-      {/* {inModal && <ModalIn item={item} setInModal={setInModal} />} */}
+      {modal && <InItemModal setModal={setModal} />}
       <div className="table-container">
         <div className="above-table-container">
           <InputGroup>
@@ -95,8 +97,8 @@ const InTable = () => {
               return (
                 <div
                   onClick={() => {
-                    setInModal(true);
                     setItem(item);
+                    setModal(true);
                   }}
                   className={
                     index % 2 === 0 ? "table-body-item" : "table-body-item-2"

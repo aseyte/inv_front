@@ -87,7 +87,18 @@ const Out = () => {
   const handleOutItem = async () => {
     setIsClick(true);
     try {
-      if (available < 0) {
+      if (available === 0) {
+        toast({
+          title: "Error",
+          description: "Cannot out item with quantity 0",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+        setIsClick(false);
+        return;
+      }
+      if (available < 1) {
         toast({
           title: "Error",
           description: "Not enough stocks",
