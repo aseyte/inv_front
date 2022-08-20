@@ -452,10 +452,10 @@ const Equipment = ({ setTab }) => {
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={1}>
+        <GridItem colSpan={6}>
           <FormControl>
             <FormLabel>Details2</FormLabel>
-            <Input
+            <Textarea
               value={details}
               onChange={(e) => setDetails(e.target.value)}
             />

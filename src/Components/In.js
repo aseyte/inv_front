@@ -355,7 +355,7 @@ const In = ({ setTab }) => {
                         ) {
                           return val;
                         }
-                      })
+                      }).filter(e => e.desc !== '#N/A')
                       .map((item, index) => {
                         return (
                           <p
@@ -388,7 +388,8 @@ const In = ({ setTab }) => {
 
                     {item?.filter((f) =>
                       f.desc.toLowerCase().includes(term.toLocaleLowerCase())
-                    ).length === 0 && (
+                    ).filter(e => e.desc !== '#N/A')
+                    .length === 0 && (
                       <p
                         onClick={() => {
                           setDesc("");
