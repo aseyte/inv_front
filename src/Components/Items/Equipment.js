@@ -51,6 +51,7 @@ const Equipment = ({ setTab }) => {
   const [remarks, setRemarks] = useState("");
   const [category, setCategory] = useState("Equipment");
   const [cost, setCost] = useState(0);
+  const [accessories, setAccessories] = useState("");
   const { user } = useAuth();
 
   //Utilities State
@@ -76,6 +77,8 @@ const Equipment = ({ setTab }) => {
   const [total, setTotal] = useState(1);
   const [condition, setCondition] = useState("");
   const [fundSource, setFundSource] = useState("");
+  const [itemStatus, setItemStatus] = useState("");
+  const [itemStatusOther, setItemStatusOther] = useState("");
 
   const clearForm = () => {
     setArticle("");
@@ -107,12 +110,15 @@ const Equipment = ({ setTab }) => {
     setDelivery("");
     setCondition("");
     setFundSource("");
+    setAccessories("");
+    setItemStatus("");
+    setItemStatusOther("");
   };
 
   const { setAppState } = useAuth();
 
   const createItemAPI =
-    "https://script.google.com/macros/s/AKfycbwSKHgXCCpP70HGGC8m7V3McqJV5K2j7zN4zCAcTzSL-dcd13--QJlOY9XWxu4HV97KVQ/exec?action=createEquipment";
+    "https://script.google.com/macros/s/AKfycbzXd94zGJsT3QoIxdq5S7WfLU_pMOveu72MqQnU-_ELxpExfG-ef60INLjEmf1iwC6wzg/exec?action=createEquipment";
 
   const handleCreate = async () => {
     setIsClick(true);
@@ -171,6 +177,7 @@ const Equipment = ({ setTab }) => {
         desc,
         article: article === "Other" ? articleOther : article,
         type: type === "Other" ? typeOther : type,
+        itemStatus: itemStatus === "Other" ? itemStatusOther : itemStatus,
         model,
         variant,
         details,
@@ -192,6 +199,7 @@ const Equipment = ({ setTab }) => {
         assigned: user?.firstname + " " + user?.lastname,
         cost,
         category,
+        accessories,
       }),
     })
       .then(async (response) => {
@@ -452,13 +460,51 @@ const Equipment = ({ setTab }) => {
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={6}>
+        <GridItem colSpan={3}>
           <FormControl>
             <FormLabel>Details2</FormLabel>
             <Textarea
               value={details}
               onChange={(e) => setDetails(e.target.value)}
             />
+          </FormControl>
+        </GridItem>
+
+        <GridItem colSpan={3}>
+          <FormControl>
+            <FormLabel>Accessories</FormLabel>
+            <Textarea
+              value={accessories}
+              onChange={(e) => setAccessories(e.target.value)}
+            />
+          </FormControl>
+        </GridItem>
+
+        <GridItem colSpan={2}>
+          <FormControl>
+            <FormLabel>Status</FormLabel>
+
+            <Select
+              value={itemStatus}
+              onChange={(e) => {
+                setItemStatus(e.target.value);
+              }}
+              placeholder="- Select Status -"
+            >
+              <option value="Functioning">Functioning</option>
+              <option value="Deffective">Deffective</option>
+              <option value="Disposal">Disposal</option>
+              <option value="Other">Other</option>
+            </Select>
+            {itemStatus === "Other" && (
+              <Input
+                value={itemStatusOther}
+                onChange={(e) => setItemStatusOther(e.target.value)}
+                marginTop={4}
+                variant="filled"
+                placeholder="If other, please specify"
+              />
+            )}
           </FormControl>
         </GridItem>
 
@@ -476,7 +522,7 @@ const Equipment = ({ setTab }) => {
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={1}>
+        <GridItem colSpan={2}>
           <FormControl>
             <FormLabel>Manufacturer</FormLabel>
             <Input
@@ -552,14 +598,14 @@ const Equipment = ({ setTab }) => {
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={3}>
+        <GridItem colSpan={2}>
           <FormControl>
             <FormLabel>Supplier/Donor</FormLabel>
             <Input value={donor} onChange={(e) => setDonor(e.target.value)} />
           </FormControl>
         </GridItem>
 
-        <GridItem colSpan={1}>
+        <GridItem colSpan={2}>
           <FormControl>
             <FormLabel>Cost</FormLabel>
             <InputGroup>
@@ -622,8 +668,6 @@ const Equipment = ({ setTab }) => {
             />
           </FormControl>
         </GridItem>
-
-
 
         <GridItem colSpan={2}>
           <FormControl>
