@@ -4,7 +4,7 @@ import api from "../API/Api";
 const DataContext = createContext({});
 
 export const DataProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState();
   const [appState, setAppState] = useState(null);
   const [item, setItem] = useState([]);
   const [outItem, setOutItem] = useState([]);
@@ -89,8 +89,8 @@ export const DataProvider = ({ children }) => {
   const fetchPeople = async () => {
     try {
       const response = await fetch(
-        "https://mms-inventory.herokuapp.com/api/auth/users",
-        { method: "get" }
+        "http://localhost:3001/api/auth/users",
+        { method: "get", mode: 'no-cors' }
       );
       const listPeople = await response.json();
 

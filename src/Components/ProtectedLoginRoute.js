@@ -8,6 +8,8 @@ const ProtectedLoginRoute = ({ user }) => {
     return <FetchLoader />;
   }
 
+
+
   if (user.loggedIn && user.userType === "admin") {
     return (
       <Navigate to="/admin/dashboard" state={{ from: location }} replace />

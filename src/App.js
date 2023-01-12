@@ -30,18 +30,18 @@ const App = () => {
               <Route path="login" element={<Login />} />
               <Route path="register" element={<Register />} />
             </Route>
-            <Route element={<ProtectedRoute user={user} role="user"/>}>
+            <Route element={<ProtectedRoute user={user} role="user" />}>
               <Route path="/" element={<Homepage />} />
               <Route path="bin-card" element={<BinCard />} />
               <Route path="inventory" element={<Inventory />} />
             </Route>
 
-            <Route element={<ProtectedRoute user={user} role="admin"/>}>
+            <Route element={<ProtectedRoute user={user} role="admin" />}>
               <Route path="admin/dashboard" element={<AdminDashboard />} />
-              
+
             </Route>
 
-            
+
           </Route>
         </Routes>
       </Router>

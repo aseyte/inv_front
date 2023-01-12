@@ -68,7 +68,6 @@ const InTable = () => {
               w={"md"}
             />
           </InputGroup>
-
           <button onClick={() => refreshData()}>
             <p className={refresh ? "animate" : ""}>
               <HiRefresh />
@@ -126,13 +125,13 @@ const InTable = () => {
               return e;
             }
           }).length === 0 && (
-            <div className="no-data">
-              <p>
-                <VscBracketError />
-              </p>{" "}
-              No data found.
-            </div>
-          )}
+              <div className="no-data">
+                <p>
+                  <VscBracketError />
+                </p>{" "}
+                No data found.
+              </div>
+            )}
         </div>
       </div>
     </>
