@@ -22,6 +22,7 @@ import useAuth from "../Hooks/useAuth";
 import { HiSearch } from "react-icons/hi";
 import { useClickOutside } from "../Components/useClickOutside";
 import InItemModal from "./InItemModal";
+import api from "../API/Api";
 
 const In = ({ setTab }) => {
   const toast = useToast();
@@ -71,6 +72,7 @@ const In = ({ setTab }) => {
   const [condition, setCondition] = useState("");
   const [fundSource, setFundSource] = useState("");
   const [acquisitionCost, setAcquisitionCost] = useState("");
+  const [term, setTerm] = useState(null);
 
   const donors = [
     "doh",
@@ -253,8 +255,23 @@ const In = ({ setTab }) => {
       }
     };
 
+    fetchitem();
     fetchTotal();
-  }, [quantity, pack, loose]);
+  }, [quantity, pack, loose, term]);
+
+  const [searchTerm, setSearchterm] = useState("");
+
+  const fetchitem = async () => {
+    setSearchterm(
+      await (
+        await api.get(`/api/item`, {
+          params: {
+            q: term,
+          },
+        })
+      ).data
+    );
+  };
 
   const getExpirationMonth = (date1, date2) => {
     let months;
@@ -272,7 +289,6 @@ const In = ({ setTab }) => {
   };
 
   const [dropdown, setDropdown] = useState(false);
-  const [term, setTerm] = useState("");
 
   const domNod = useClickOutside(() => {
     setDropdown(false);
@@ -300,7 +316,7 @@ const In = ({ setTab }) => {
         >
           <GridItem colSpan={4}>
             <FormControl isRequired>
-              <FormLabel>Item Description</FormLabel>
+              <FormLabel>Item Description:{desc && desc}</FormLabel>
               <div
                 ref={domNod}
                 onClick={() => setDropdown(!dropdown)}
@@ -344,66 +360,24 @@ const In = ({ setTab }) => {
                       </Button>
                     </div>
 
-                    {item
-                      ?.filter((val) => {
-                        if (term === "") {
-                          return val;
-                        } else if (
-                          val.desc
-                            .toLowerCase()
-                            .includes(term.toLocaleLowerCase())
-                        ) {
-                          return val;
-                        }
-                      })
-                      .filter((e) => e.desc !== "#N/A")
-                      .map((item, index) => {
-                        return (
-                          <p
-                            className={desc === item.desc ? "active" : ""}
-                            onClick={() => {
-                              setDesc(item.desc);
-                              setDropdown(false);
-                            }}
-                            key={index}
-                          >
-                            {item.desc}{" "}
-                            <span
-                              className={
-                                inventory?.filter(
-                                  (e) => e.desc === item.desc
-                                )[0]?.available === 0
-                                  ? "empty"
-                                  : ""
-                              }
-                            >
-                              {
-                                inventory?.filter(
-                                  (e) => e.desc === item.desc
-                                )[0]?.available
-                              }
-                            </span>
-                          </p>
-                        );
-                      })}
-
-                    {item
-                      ?.filter((f) =>
-                        f.desc.toLowerCase().includes(term.toLocaleLowerCase())
-                      )
-                      .filter((e) => e.desc !== "#N/A").length === 0 && (
-                      <p
-                        onClick={() => {
-                          setDesc("");
-                          setTerm("");
-                          setDropdown(false);
-                          setTab("create");
-                        }}
-                        className="no-data"
-                      >
-                        No data found. Create new.
-                      </p>
-                    )}
+                    {searchTerm?.map((item, index) => {
+                      return (
+                        <p
+                          // className={desc === item.desc ? "active" : ""}
+                          // onClick={() => {
+                          //   // setDesc(item.desc);
+                          //   setDropdown(false);
+                          // }}
+                          onClick={() => {
+                            setDesc(item.PK_Iditem);
+                            setDropdown(false);
+                          }}
+                          key={index}
+                        >
+                          {item.item_Name}
+                        </p>
+                      );
+                    })}
                   </div>
                 )}
               </div>

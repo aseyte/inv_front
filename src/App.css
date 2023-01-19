@@ -127,6 +127,12 @@
   font-weight: 500;
 }
 
+.custom-select1 {
+  position: absolute;
+  background-color: #000;
+  top: 0px;
+}
+
 .select-dropdown p span.empty {
   background: rgb(230, 181, 181);
 }
