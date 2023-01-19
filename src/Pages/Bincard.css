@@ -1,0 +1,82 @@
+/* .bincard-container {
+  width: 100%;
+  min-height: 100vh;
+  height: auto;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 100px 15%;
+  background: #dce3eb;
+}
+
+.bincard-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.bincard-header p {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+  font-size: 14px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.bincard-header p:hover {
+  background: #eee;
+  border-radius: 4px;
+}
+
+.bincard-header h1 {
+  font-weight: 600;
+  font-size: 24px;
+}
+
+table {
+  width: 100%;
+  background: #fff;
+}
+
+table td,
+table th {
+  border: 1px solid #d3d3d3;
+  padding: 4px 8px;
+}
+
+table th {
+  background: #575d69;
+  color: #fff;
+}
+
+table th.ref {
+  height: 50px;
+  display: flex;
+  align-items: center;
+}
+
+th.ref,
+td.ref {
+  flex: 1;
+  min-width: 200px;
+}
+
+th.date,
+td.date,
+th.receipt,
+td.receipt,
+th.issued,
+td.issued,
+th.balance,
+td.balance {
+  width: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+tr {
+  display: flex;
+} */
