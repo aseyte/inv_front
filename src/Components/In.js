@@ -52,7 +52,7 @@ const In = ({ setTab }) => {
     todate.getMonth() + 1 + "/" + todate.getDate() + "/" + todate.getFullYear()
   );
   const [desc, setDesc] = useState("");
-  const [brand, setBrand] = useState("");
+
   const [lot, setLot] = useState("");
   const [expiration, setExpiration] = useState("NOT INDICATED");
   const [iar, setIar] = useState("");
@@ -73,6 +73,100 @@ const In = ({ setTab }) => {
   const [fundSource, setFundSource] = useState("");
   const [acquisitionCost, setAcquisitionCost] = useState("");
   const [term, setTerm] = useState(null);
+
+  const [brand, setBrand] = useState("");
+  const [brandData, setBrandData] = useState("");
+  const [isSelectBrand, setSelectBrand] = useState();
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const handleKeyDown = (ev, opt) => {
+    if (ev.key === "ArrowDown") {
+      setSelectedIndex((selectedIndex + 1) % brandData.length);
+      setBrand(brandData[(selectedIndex + 1) % brandData.length].brand_name);
+    } else if (ev.key === "ArrowUp") {
+      setSelectedIndex(
+        (selectedIndex - 1 + brandData.length) % brandData.length
+      );
+      setBrand(
+        brandData[(selectedIndex - 1 + brandData.length) % brandData.length]
+          .brand_name
+      );
+    } else if (ev.key === "Enter") {
+      setSelectBrand(brandData[selectedIndex].Pk_brandId);
+      setBrand(brandData[selectedIndex].brand_name);
+    }
+  };
+
+  const SearchSelectComponent = ({
+    isdrop,
+    datSetter,
+    datGetter,
+    valSetter,
+    valGetter,
+    setlectedSetter,
+    selectedGetter,
+  }) => {
+    const [selectedIndex, setSelectedIndex] = useState(0);
+    const handleKeyDown = (ev, opt) => {
+      if (ev.key === "ArrowDown") {
+        setSelectedIndex((selectedIndex + 1) % brandData.length);
+        setBrand(brandData[selectedIndex].brand_name);
+      } else if (ev.key === "ArrowUp") {
+        setSelectedIndex(
+          (selectedIndex - 1 + brandData.length) % brandData.length
+        );
+        setBrand(brandData[selectedIndex].brand_name);
+      } else if (ev.key === "Enter") {
+        setSelectBrand(brandData[selectedIndex].Pk_brandId);
+        setBrand(brandData[selectedIndex].brand_name);
+      }
+    };
+    return (
+      <>
+        <FormControl>
+          <FormLabel>Brand</FormLabel>
+          <Input
+            tabIndex={0}
+            onKeyDown={handleKeyDown}
+            value={brand}
+            onChange={(e) => {
+              setBrand(e.target.value);
+              fetchbrand(e.target.value);
+              setSelectBrand(null);
+            }}
+          />
+          {
+            //if input tempsearchSTATE here has a brand and !isSELECTEDbrandID it will display the drop down
+            brandData && !isSelectBrand && (
+              <div className="select-dropdown" style={{ top: "75px" }}>
+                {brandData.map((e, index) => {
+                  return (
+                    <p
+                      onMouseEnter={() => {
+                        setBrand(e.brand_name);
+                      }}
+                      onClick={() => {
+                        setSelectBrand(e.Pk_brandId);
+                        setBrand(e.brand_name);
+                      }}
+                      key={index}
+                      style={{
+                        backgroundColor:
+                          index === selectedIndex && `rgb(238, 240, 241)`,
+                      }}
+                    >
+                      {e.brand_name}
+                    </p>
+                  );
+                })}
+              </div>
+            )
+            //if user click on brand it will close the dropdown and SETisSELECTEDbrandID
+            //
+          }
+        </FormControl>
+      </>
+    );
+  };
 
   const donors = [
     "doh",
@@ -255,19 +349,27 @@ const In = ({ setTab }) => {
       }
     };
 
-    fetchitem();
     fetchTotal();
-  }, [quantity, pack, loose, term]);
+  }, [quantity, pack, loose]);
 
   const [searchTerm, setSearchterm] = useState();
 
-  const fetchitem = async () => {
+  const fetchitem = async (value) => {
     const result = await api.get(`/api/item`, {
       params: {
-        q: term,
+        q: value,
       },
     });
     setSearchterm(result.data);
+  };
+
+  const fetchbrand = async (value) => {
+    const result = await api.get(`/api/brand`, {
+      params: {
+        q: value,
+      },
+    });
+    setBrandData(result.data);
   };
 
   const getExpirationMonth = (date1, date2) => {
@@ -338,6 +440,7 @@ const In = ({ setTab }) => {
                           value={term}
                           onChange={(e) => {
                             setTerm(e.target.value);
+                            fetchitem(e.target.value);
                           }}
                           fontSize="14px"
                           placeholder="Search"
@@ -386,7 +489,45 @@ const In = ({ setTab }) => {
           <GridItem colSpan={2}>
             <FormControl>
               <FormLabel>Brand</FormLabel>
-              <Input value={brand} onChange={(e) => setBrand(e.target.value)} />
+              <Input
+                tabIndex={0}
+                onKeyDown={handleKeyDown}
+                value={brand}
+                onChange={(e) => {
+                  setBrand(e.target.value);
+                  fetchbrand(e.target.value);
+                  setSelectBrand(null);
+                }}
+              />
+              {
+                //if input tempsearchSTATE here has a brand and !isSELECTEDbrandID it will display the drop down
+                brandData && !isSelectBrand && (
+                  <div className="select-dropdown" style={{ top: "75px" }}>
+                    {brandData.map((e, index) => {
+                      return (
+                        <p
+                          onMouseEnter={() => {
+                            setBrand(e.brand_name);
+                          }}
+                          onClick={() => {
+                            setSelectBrand(e.Pk_brandId);
+                            setBrand(e.brand_name);
+                          }}
+                          key={index}
+                          style={{
+                            backgroundColor:
+                              index === selectedIndex && `rgb(238, 240, 241)`,
+                          }}
+                        >
+                          {e.brand_name}
+                        </p>
+                      );
+                    })}
+                  </div>
+                )
+                //if user click on brand it will close the dropdown and SETisSELECTEDbrandID
+                //
+              }
             </FormControl>
           </GridItem>
 

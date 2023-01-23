@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 
 export const useClickOutside = (handler) => {
-    let domNode = useRef();
+  let domNode = useRef();
 
   useEffect(() => {
     let maybeHandler = (event) => {
@@ -17,5 +17,4 @@ export const useClickOutside = (handler) => {
     };
   });
   return domNode;
-}
-
+};
