@@ -259,18 +259,15 @@ const In = ({ setTab }) => {
     fetchTotal();
   }, [quantity, pack, loose, term]);
 
-  const [searchTerm, setSearchterm] = useState("");
+  const [searchTerm, setSearchterm] = useState();
 
   const fetchitem = async () => {
-    setSearchterm(
-      await (
-        await api.get(`/api/item`, {
-          params: {
-            q: term,
-          },
-        })
-      ).data
-    );
+    const result = await api.get(`/api/item`, {
+      params: {
+        q: term,
+      },
+    });
+    setSearchterm(result.data);
   };
 
   const getExpirationMonth = (date1, date2) => {
@@ -362,20 +359,22 @@ const In = ({ setTab }) => {
 
                     {searchTerm?.map((item, index) => {
                       return (
-                        <p
-                          // className={desc === item.desc ? "active" : ""}
-                          // onClick={() => {
-                          //   // setDesc(item.desc);
-                          //   setDropdown(false);
-                          // }}
-                          onClick={() => {
-                            setDesc(item.PK_Iditem);
-                            setDropdown(false);
-                          }}
-                          key={index}
-                        >
-                          {item.item_Name}
-                        </p>
+                        <>
+                          <p
+                            // className={desc === item.desc ? "active" : ""}
+                            // onClick={() => {
+                            //   // setDesc(item.desc);
+                            //   setDropdown(false);
+                            // }}
+                            onClick={() => {
+                              setDesc(item.Pk_itemId);
+                              setDropdown(false);
+                            }}
+                            key={index}
+                          >
+                            {item.item_name}
+                          </p>
+                        </>
                       );
                     })}
                   </div>
