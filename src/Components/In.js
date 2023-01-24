@@ -23,6 +23,7 @@ import { HiSearch } from "react-icons/hi";
 import { useClickOutside } from "../Components/useClickOutside";
 import InItemModal from "./InItemModal";
 import api from "../API/Api";
+import SearchSel from "./searchableSelect/searchSel";
 
 const In = ({ setTab }) => {
   const toast = useToast();
@@ -421,6 +422,17 @@ const In = ({ setTab }) => {
   const domNod = useClickOutside(() => {
     setDropdown(false);
   });
+  const [typeData, setTypeData] = useState();
+  const [typeSelect, setTypeSelect] = useState();
+  const [typeValue, setTypeValue] = useState();
+  const fetchtypes = async (value) => {
+    const result = await api.get(`/api/type`, {
+      params: {
+        q: value,
+      },
+    });
+    setTypeData(result.data);
+  };
 
   return (
     <>
@@ -444,6 +456,16 @@ const In = ({ setTab }) => {
         >
           <GridItem colSpan={4}>
             <FormControl isRequired>
+              <SearchSel
+                name={"name select"}
+                data={typeData}
+                propertyName={"type_name"}
+                fetchdat={fetchtypes}
+                setSelect={setTypeSelect}
+                isSelect={typeSelect}
+                setValue={setTypeValue}
+                valueD={typeValue}
+              ></SearchSel>
               <FormLabel>Item Description:{desc && desc}</FormLabel>
               <div
                 ref={domNod}
