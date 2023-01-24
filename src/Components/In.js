@@ -74,10 +74,17 @@ const In = ({ setTab }) => {
   const [acquisitionCost, setAcquisitionCost] = useState("");
   const [term, setTerm] = useState(null);
 
-  const [brand, setBrand] = useState("");
-  const [brandData, setBrandData] = useState("");
-  const [isSelectBrand, setSelectBrand] = useState();
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [brandRecommendDiv, setbrandRecommendDiv] = useState(false);
+
+  const [brand, setBrand] = useState(""); //Value in Select input
+  const [brandData, setBrandData] = useState(""); //all the fetched data from db
+  const [isSelectBrand, setSelectBrand] = useState(); //Selected state
+  const [selectedIndex, setSelectedIndex] = useState(0); //index for arrow down
+
+  const brandRD = useClickOutside(() => {
+    setbrandRecommendDiv(false);
+  });
+
   const handleKeyDown = (ev, opt) => {
     if (ev.key === "ArrowDown") {
       setSelectedIndex((selectedIndex + 1) % brandData.length);
@@ -91,10 +98,31 @@ const In = ({ setTab }) => {
           .brand_name
       );
     } else if (ev.key === "Enter") {
-      setSelectBrand(brandData[selectedIndex].Pk_brandId);
+      setSelectBrand(brandData[selectedIndex]);
       setBrand(brandData[selectedIndex].brand_name);
     }
   };
+
+  // import { useEffect, useRef } from "react";
+
+  // export const useClickOutside = (handler) => {
+  //   let domNode = useRef();
+
+  //   useEffect(() => {
+  //     let maybeHandler = (event) => {
+  //       if (!domNode.current.contains(event.target)) {
+  //         handler();
+  //       }
+  //     };
+
+  //     document.addEventListener("mousedown", maybeHandler);
+
+  //     return () => {
+  //       document.removeEventListener("mousedown", maybeHandler);
+  //     };
+  //   });
+  //   return domNode;
+  // };
 
   const SearchSelectComponent = ({
     isdrop,
@@ -350,7 +378,8 @@ const In = ({ setTab }) => {
     };
 
     fetchTotal();
-  }, [quantity, pack, loose]);
+    console.log(isSelectBrand);
+  }, [quantity, pack, loose, isSelectBrand]);
 
   const [searchTerm, setSearchterm] = useState();
 
@@ -490,6 +519,7 @@ const In = ({ setTab }) => {
             <FormControl>
               <FormLabel>Brand</FormLabel>
               <Input
+                onClick={() => setbrandRecommendDiv(!brandRecommendDiv)}
                 tabIndex={0}
                 onKeyDown={handleKeyDown}
                 value={brand}
@@ -501,8 +531,12 @@ const In = ({ setTab }) => {
               />
               {
                 //if input tempsearchSTATE here has a brand and !isSELECTEDbrandID it will display the drop down
-                brandData && !isSelectBrand && (
-                  <div className="select-dropdown" style={{ top: "75px" }}>
+                brandRecommendDiv && brandData && !isSelectBrand && (
+                  <div
+                    ref={brandRD}
+                    className="select-dropdown"
+                    style={{ top: "75px" }}
+                  >
                     {brandData.map((e, index) => {
                       return (
                         <p
@@ -510,7 +544,7 @@ const In = ({ setTab }) => {
                             setBrand(e.brand_name);
                           }}
                           onClick={() => {
-                            setSelectBrand(e.Pk_brandId);
+                            setSelectBrand(e);
                             setBrand(e.brand_name);
                           }}
                           key={index}
