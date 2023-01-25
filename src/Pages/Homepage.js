@@ -25,18 +25,15 @@ import DeleteModal from "../Components/DeleteModal";
 const Homepage = () => {
   const [tab, setTab] = useState("inItem");
 
-
   return (
     <>
-
       <div className="container">
         <Sidebar setTab={setTab} tab={tab} />
         <div className="component-wrapper">
-          {tab === "create" && <CreateItem setTab={setTab}/>}
+          {tab === "create" && <CreateItem setTab={setTab} />}
           {tab === "inItem" && <In setTab={setTab} />}
           {tab === "outItem" && <Out setTab={setTab} />}
           {tab === "returnItem" && <Return setTab={setTab} />}
-
           {tab === "inventory" && <InventoryTable />}
           {tab === "binCard" && <BincardTable />}
           {tab === "listIn" && <InTable />}

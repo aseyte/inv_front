@@ -30,29 +30,24 @@ const SearchSel = ({
   setSelect,
   propertyName,
 }) => {
-  //     {
-  //   isdrop,
-  //   datSetter,
-  //   datGetter,
-  //   valSetter,
-  //   valGetter,
-  //   setlectedSetter,
-  //   selectedGetter,
-  //   isVisible,
-  //   setVisible,
-  // }
-  // const ref = useClickOutside(() => {
-  //   setVisible(false);
-  // });
-
+  const ref = useClickOutside(() => {
+    setVisible(false);
+  });
+  const [isVisible, setVisible] = useState();
   const [selectedIndex, setSelectedIndex] = useState(0);
   const handleKeyDown = (ev, opt) => {
     if (ev.key === "ArrowDown") {
       setSelectedIndex((selectedIndex + 1) % data.length);
-      //   setBrand(brandData[selectedIndex].brand_name);
+      setValue(data[(selectedIndex + 1) % data.length][propertyName]);
+      setSelect(false);
+      setVisible(true);
     } else if (ev.key === "ArrowUp") {
       setSelectedIndex((selectedIndex - 1 + data.length) % data.length);
-      //   setBrand(brandData[selectedIndex].brand_name);
+      setValue(
+        data[(selectedIndex - 1 + data.length) % data.length][propertyName]
+      );
+      setVisible(true);
+      setSelect(false);
     } else if (ev.key === "Enter") {
       setValue(data[selectedIndex][propertyName]);
       setSelect(data[selectedIndex]);
@@ -64,6 +59,10 @@ const SearchSel = ({
       <FormControl>
         <FormLabel>{name}</FormLabel>
         <Input
+          onClick={() => {
+            fetchdat(null);
+            setVisible(!isVisible);
+          }}
           autoComplete={"off"}
           tabIndex={0}
           onKeyDown={handleKeyDown}
@@ -74,38 +73,30 @@ const SearchSel = ({
             fetchdat(e.target.value);
           }}
         />
-        {
-          //   if input tempsearchSTATE here has a brand and !isSELECTEDbrandID it will display the drop down
-          data && !isSelect && (
-            <div
-              /*ref={ref}*/
-              className="select-dropdown"
-              style={{ top: "75px" }}
-            >
-              {data.map((e, index) => {
-                return (
-                  <p
-                    onMouseEnter={() => {
-                      //   setValue(e);
-                    }}
-                    onClick={() => {
-                      setSelect(e);
-                      setValue(e[propertyName]);
-                    }}
-                    key={index}
-                    style={{
-                      backgroundColor:
-                        index === selectedIndex && `rgb(238, 240, 241)`,
-                    }}
-                  >
-                    {e[propertyName]}
-                  </p>
-                );
-              })}
-            </div>
-          )
-          //   if user click on brand it will close the dropdown and SETisSELECTEDbrandID
-        }
+        {isVisible && data && !isSelect && (
+          <div ref={ref} className="select-dropdown" style={{ top: "75px" }}>
+            {data.map((e, index) => {
+              return (
+                <p
+                  onMouseEnter={() => {
+                    setValue(e[propertyName]);
+                  }}
+                  onClick={() => {
+                    setSelect(e);
+                    setValue(e[propertyName]);
+                  }}
+                  key={index}
+                  style={{
+                    backgroundColor:
+                      index === selectedIndex && `rgb(238, 240, 241)`,
+                  }}
+                >
+                  {e[propertyName]}
+                </p>
+              );
+            })}
+          </div>
+        )}
       </FormControl>
     </>
   );

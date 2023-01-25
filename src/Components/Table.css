@@ -1,0 +1,90 @@
+.btn-message {
+  transition: all ease-in-out 0.4s;
+  padding: 2px;
+}
+
+.btn-message:hover {
+  background-color: #e0e7f7;
+}
+
+.table {
+  font-size: 14px;
+  outline: 1px solid rgba(128, 128, 128, 0.24);
+  border-radius: 10px;
+  padding: 2;
+}
+
+.thead {
+  color: rgb(58, 119, 74);
+  border: 2px solid rgb(159, 241, 166);
+  background-color: rgb(249, 253, 252);
+}
+.td {
+  border-top: 1px solid rgb(190, 221, 240);
+  border-bottom: 1px solid rgb(218, 230, 223);
+  transition: all ease-in-out 0.1s;
+  cursor: pointer;
+  color: rgb(80, 80, 80);
+  border-left: 4px solid transparent;
+  height: 40px;
+  font-size: 15px;
+}
+.td:hover {
+  background-color: rgb(235, 250, 237);
+  border-left: 4px solid teal;
+  box-shadow: 1px 0px 10px 0px rgba(1, 19, 43, 0.253);
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+#pagination {
+  display: flex;
+  padding: 10px;
+  margin-bottom: 50px;
+}
+#btnleft {
+  margin-right: 5px;
+}
+.paginationbtn {
+  color: rgb(103, 112, 116);
+}
+.paginationbtn:hover {
+  background-color: #d6ebdf;
+}
+@keyframes run {
+  from {
+    transform: scaleY(100%);
+  }
+  to {
+    transform: scale(110%);
+  }
+}
+#searchfield {
+  transition: all ease 0.4s;
+  width: 400px;
+}
+#searchfield:focus {
+  box-shadow: 1px 0px 10px 0px rgba(1, 19, 43, 0.253);
+  background-color: #f1fdff;
+}
+#searchfield:focus #searchbg {
+  transform: translateX(5px);
+}
+#searchfield::placeholder {
+  font-style: italic;
+  font-size: 14px;
+}
+
+@media screen and (max-width: 768px) {
+  #pagination {
+    align-items: center;
+    justify-content: center;
+    letter-spacing: 10px;
+  }
+  #searchfield {
+    width: 100%;
+  }
+}

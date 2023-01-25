@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import {
   SimpleGrid,
   GridItem,
@@ -17,6 +17,7 @@ import {
   Icon,
   Container,
   InputLeftAddon,
+  Box,
 } from "@chakra-ui/react";
 import useAuth from "../Hooks/useAuth";
 import { HiSearch } from "react-icons/hi";
@@ -24,6 +25,7 @@ import { useClickOutside } from "../Components/useClickOutside";
 import InItemModal from "./InItemModal";
 import api from "../API/Api";
 import SearchSel from "./searchableSelect/searchSel";
+import CustomTable from "./CustomTable";
 
 const In = ({ setTab }) => {
   const toast = useToast();
@@ -103,27 +105,6 @@ const In = ({ setTab }) => {
       setBrand(brandData[selectedIndex].brand_name);
     }
   };
-
-  // import { useEffect, useRef } from "react";
-
-  // export const useClickOutside = (handler) => {
-  //   let domNode = useRef();
-
-  //   useEffect(() => {
-  //     let maybeHandler = (event) => {
-  //       if (!domNode.current.contains(event.target)) {
-  //         handler();
-  //       }
-  //     };
-
-  //     document.addEventListener("mousedown", maybeHandler);
-
-  //     return () => {
-  //       document.removeEventListener("mousedown", maybeHandler);
-  //     };
-  //   });
-  //   return domNode;
-  // };
 
   const SearchSelectComponent = ({
     isdrop,
@@ -422,6 +403,7 @@ const In = ({ setTab }) => {
   const domNod = useClickOutside(() => {
     setDropdown(false);
   });
+
   const [typeData, setTypeData] = useState();
   const [typeSelect, setTypeSelect] = useState();
   const [typeValue, setTypeValue] = useState();
@@ -433,7 +415,151 @@ const In = ({ setTab }) => {
     });
     setTypeData(result.data);
   };
+  // <SearchSel
+  //   name={"name select"} // form label
+  //   data={typeData} // data fetched from db
+  //   propertyName={"type_name"} //property name to display to the select
+  //   fetchdat={fetchtypes} //async function for fetch the data
+  //   setSelect={setTypeSelect} //Select
+  //   isSelect={typeSelect} //is Selected
+  //   setValue={setTypeValue} //set value for viewing in select input
+  //   valueD={typeValue} //value
+  // />;
+  const title = "Department";
+  const [fetchss, setFetchss] = useState(false);
 
+  const column = useMemo(
+    () => [
+      {
+        Header: "ID",
+        accessor: "id",
+      },
+      {
+        Header: "Department Name",
+        accessor: "dep_name",
+      },
+      {
+        Header: "Total PR",
+        accessor: "total_pr",
+      },
+      {
+        Header: "Contact",
+        accessor: "contact",
+      },
+      {
+        Header: "Head",
+        accessor: "head",
+      },
+      {
+        Header: "Date",
+        accessor: "created_at",
+      },
+      {
+        Header: "ACTION",
+        accessor: "action",
+      },
+    ],
+    []
+  );
+
+  const Department_Dataset = [
+    {
+      id: 1,
+      dep_name: "Planning Department",
+      total_pr: 30,
+      contact: "09123456789",
+      head: "Nuradia Lagoyo",
+      status: "08/12/2022",
+    },
+    {
+      id: 2,
+      dep_name: "Planning Department",
+      total_pr: 30,
+      contact: "09123456789",
+      head: "Nuradia Lagoyo",
+      status: "08/12/2022",
+    },
+    {
+      id: 3,
+      dep_name: "Planning Department",
+      total_pr: 30,
+      contact: "09123456789",
+      head: "Nuradia Lagoyo",
+      status: "08/12/2022",
+    },
+    {
+      id: 4,
+      dep_name: "Planning Department",
+      total_pr: 30,
+      contact: "09123456789",
+      head: "Nuradia Lagoyo",
+      status: "08/12/2022",
+    },
+    {
+      id: 5,
+      dep_name: "Planning Department",
+      total_pr: 30,
+      contact: "09123456789",
+      head: "Nuradia Lagoyo",
+      status: "08/12/2022",
+    },
+    {
+      id: 5,
+      dep_name: "Planning Department",
+      total_pr: 30,
+      contact: "09123456789",
+      head: "Nuradia Lagoyo",
+      status: "08/12/2022",
+    },
+    {
+      id: 2,
+      dep_name: "Planning Department",
+      total_pr: 30,
+      contact: "09123456789",
+      head: "Nuradia Lagoyo",
+      status: "08/12/2022",
+    },
+    {
+      id: 3,
+      dep_name: "Planning Department",
+      total_pr: 30,
+      contact: "09123456789",
+      head: "Nuradia Lagoyo",
+      status: "08/12/2022",
+    },
+    {
+      id: 4,
+      dep_name: "Planning Department",
+      total_pr: 30,
+      contact: "09123456789",
+      head: "Nuradia Lagoyo",
+      status: "08/12/2022",
+    },
+    {
+      id: 5,
+      dep_name: "Planning Department",
+      total_pr: 30,
+      contact: "09123456789",
+      head: "Nuradia Lagoyo",
+      status: "08/12/2022",
+    },
+    {
+      id: 5,
+      dep_name: "Planning Department",
+      total_pr: 30,
+      contact: "09123456789",
+      head: "Nuradia Lagoyo",
+      status: "08/12/2022",
+    },
+  ];
+
+  // <CustomTable
+  //   title={title}
+  //   fetch={fetch}
+  //   setSearch={setFetch}
+  //   columns={column}
+  //   data={Department_Dataset}
+  // />;
   return (
     <>
       <Container
@@ -444,6 +570,7 @@ const In = ({ setTab }) => {
         maxW="container.lg"
         w="full"
         h="full"
+        background={"black"}
       >
         <SimpleGrid
           columns={6}
@@ -455,17 +582,31 @@ const In = ({ setTab }) => {
           flexDirection="column"
         >
           <GridItem colSpan={4}>
+            <SearchSel
+              name={"name select"} // form label
+              data={typeData} // data fetched from db
+              propertyName={"type_name"} //property name to display to the select
+              fetchdat={fetchtypes} //async function for fetch the data
+              setSelect={setTypeSelect} //Select
+              isSelect={typeSelect} //is Selected
+              setValue={setTypeValue} //set value for viewing in select input
+              valueD={typeValue} //value
+            />
+          </GridItem>
+
+          <>
+            {/* <GridItem colSpan={4}>
             <FormControl isRequired>
               <SearchSel
-                name={"name select"}
-                data={typeData}
-                propertyName={"type_name"}
-                fetchdat={fetchtypes}
-                setSelect={setTypeSelect}
-                isSelect={typeSelect}
-                setValue={setTypeValue}
-                valueD={typeValue}
-              ></SearchSel>
+                name={"name select"} // form label
+                data={typeData} // data fetched from db
+                propertyName={"type_name"} //property name to display to the select
+                fetchdat={fetchtypes} //async function for fetch the data
+                setSelect={setTypeSelect} //Select
+                isSelect={typeSelect} //is Selected
+                setValue={setTypeValue} //set value for viewing in select input
+                valueD={typeValue} //value
+              />
               <FormLabel>Item Description:{desc && desc}</FormLabel>
               <div
                 ref={domNod}
@@ -787,9 +928,16 @@ const In = ({ setTab }) => {
                 onChange={(e) => setRemarks(e.target.value)}
               />
             </FormControl>
-          </GridItem>
+          </GridItem> */}
+          </>
         </SimpleGrid>
-
+        <CustomTable
+          title={title}
+          fetch={fetchss}
+          setSearch={setFetchss}
+          columns={column}
+          data={Department_Dataset}
+        ></CustomTable>
         <HStack marginTop={5} justifyContent="flex-end">
           <Button
             color="#fff"
