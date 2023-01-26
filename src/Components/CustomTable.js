@@ -17,6 +17,7 @@ import {
   Button,
   TableContainer,
   Heading,
+  useDisclosure,
 } from "@chakra-ui/react";
 import Search from "./Search";
 
@@ -34,6 +35,9 @@ import { AiOutlineFolderView, AiFillEdit } from "react-icons/ai";
 import { HiTrash } from "react-icons/hi";
 
 import moment from "moment/moment";
+import { Children, useEffect } from "react";
+import VerificationModal from "./VerificationModal";
+import { VerticallyCenter } from "./inputModal";
 
 const ActionsBtn = () => {
   return (
@@ -81,6 +85,7 @@ const CustomTable = ({
   setSearch,
   handleClick,
   child,
+  children,
 }) => {
   const {
     getTableProps,
@@ -106,6 +111,8 @@ const CustomTable = ({
     usePagination
   );
 
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const CustomBtnTheme = {
     backgroundColor: "#9AE6B4",
     borderRadius: "52px",
@@ -113,49 +120,20 @@ const CustomTable = ({
   };
 
   return (
-    <Box h="91vh">
+    <Box bg={"white"} padding={"20px"}>
+      {children}
+      <VerticallyCenter
+        isOpen={isOpen}
+        onOpen={onOpen}
+        onClose={onClose}
+      ></VerticallyCenter>
       <Box w={"100%"}>
-        <Flex
-          justifyContent={"space-between"}
-          flexDirection={["column", "column", "row", "row"]}
-        >
-          <Flex alignItems={"center"} columnGap={5}>
-            <Heading size="lg" color={"teal"}>
-              {title}
-            </Heading>
-            <Search
-              search={search}
-              placeholder={`Search ${title}`}
-              currsearch={setSearch}
-            />
-          </Flex>
-          <Box>
-            <Flex columnGap={3} justifyContent={"end"}>
-              <Button
-                size={"sm"}
-                fontSize={14}
-                bg={"teal"}
-                colorScheme={"green"}
-                color={"white"}
-                variant={"solid"}
-                fontWeight={"normal"}
-                className={""}
-                onClick={handleClick}
-                columnGap={2}
-                mt={5}
-                _hover={{
-                  bg: "teal",
-                }}
-              >
-                {title === "Purchase Request" ? (
-                  <BsFillCloudDownloadFill fontSize={20} marginRight="5px" />
-                ) : (
-                  <IoAddCircleOutline fontSize={20} marginRight="5px" />
-                )}
-                {title === "Purchase Request"
-                  ? "Download PR From BizBox"
-                  : title}
-              </Button>
+        <Flex flexDirection={["column", "column", "row", "row"]}>
+          <Box w={"100%"}>
+            <Flex justifyContent={"space-between"} alignItems={"end"}>
+              <Heading paddingLeft={"25px"} size="lg" color={"teal"}>
+                {title}
+              </Heading>
               {child !== null ? child : null}
               <Select
                 w={32}
@@ -220,7 +198,13 @@ const CustomTable = ({
                   <Tr className="td" {...row.getRowProps()}>
                     {row.cells.map((cell) => {
                       return (
-                        <Td {...cell.getCellProps()}>
+                        <Td
+                          onClick={() => {
+                            console.log("aaaa");
+                            onOpen();
+                          }}
+                          {...cell.getCellProps()}
+                        >
                           {cell.column.id === "action" ? (
                             <ActionsBtn />
                           ) : cell.column.id === "created_at" ? (

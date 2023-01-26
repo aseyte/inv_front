@@ -363,8 +363,21 @@ const In = ({ setTab }) => {
     console.log(isSelectBrand);
   }, [quantity, pack, loose, isSelectBrand]);
 
-  const [searchTerm, setSearchterm] = useState();
+  const [tableData, setTableData] = useState([]);
 
+  const fetchTableData = async () => {
+    const result = await api.get(`/api/itemtable`, {
+      params: {
+        q: desc ? desc : "",
+      },
+    });
+    setTableData(result.data);
+  };
+
+  const [searchTerm, setSearchterm] = useState();
+  useEffect(() => {
+    fetchTableData();
+  }, [searchTerm]);
   const fetchitem = async (value) => {
     const result = await api.get(`/api/item`, {
       params: {
@@ -428,174 +441,134 @@ const In = ({ setTab }) => {
   const title = "Department";
   const [fetchss, setFetchss] = useState(false);
 
-  const column = useMemo(
+  const columns = useMemo(
     () => [
       {
-        Header: "ID",
-        accessor: "id",
+        Header: "Item desc",
+        accessor: "item_name",
       },
       {
-        Header: "Department Name",
-        accessor: "dep_name",
+        Header: "Brand",
+        accessor: "brand_name",
       },
       {
-        Header: "Total PR",
-        accessor: "total_pr",
+        Header: "manufacturer",
+        accessor: "manu_name",
       },
       {
-        Header: "Contact",
-        accessor: "contact",
+        Header: "Type",
+        accessor: "type_name",
       },
       {
-        Header: "Head",
-        accessor: "head",
+        Header: "Article",
+        accessor: "article_name",
       },
       {
-        Header: "Date",
-        accessor: "created_at",
-      },
-      {
-        Header: "ACTION",
-        accessor: "action",
+        Header: "Remarks",
+        accessor: "remarks",
       },
     ],
     []
   );
-
-  const Department_Dataset = [
+  const item_Dataset = [
     {
-      id: 1,
-      dep_name: "Planning Department",
-      total_pr: 30,
-      contact: "09123456789",
-      head: "Nuradia Lagoyo",
-      status: "08/12/2022",
-    },
-    {
-      id: 2,
-      dep_name: "Planning Department",
-      total_pr: 30,
-      contact: "09123456789",
-      head: "Nuradia Lagoyo",
-      status: "08/12/2022",
-    },
-    {
-      id: 3,
-      dep_name: "Planning Department",
-      total_pr: 30,
-      contact: "09123456789",
-      head: "Nuradia Lagoyo",
-      status: "08/12/2022",
-    },
-    {
-      id: 4,
-      dep_name: "Planning Department",
-      total_pr: 30,
-      contact: "09123456789",
-      head: "Nuradia Lagoyo",
-      status: "08/12/2022",
-    },
-    {
-      id: 5,
-      dep_name: "Planning Department",
-      total_pr: 30,
-      contact: "09123456789",
-      head: "Nuradia Lagoyo",
-      status: "08/12/2022",
-    },
-    {
-      id: 5,
-      dep_name: "Planning Department",
-      total_pr: 30,
-      contact: "09123456789",
-      head: "Nuradia Lagoyo",
-      status: "08/12/2022",
-    },
-    {
-      id: 2,
-      dep_name: "Planning Department",
-      total_pr: 30,
-      contact: "09123456789",
-      head: "Nuradia Lagoyo",
-      status: "08/12/2022",
-    },
-    {
-      id: 3,
-      dep_name: "Planning Department",
-      total_pr: 30,
-      contact: "09123456789",
-      head: "Nuradia Lagoyo",
-      status: "08/12/2022",
-    },
-    {
-      id: 4,
-      dep_name: "Planning Department",
-      total_pr: 30,
-      contact: "09123456789",
-      head: "Nuradia Lagoyo",
-      status: "08/12/2022",
-    },
-    {
-      id: 5,
-      dep_name: "Planning Department",
-      total_pr: 30,
-      contact: "09123456789",
-      head: "Nuradia Lagoyo",
-      status: "08/12/2022",
-    },
-    {
-      id: 5,
-      dep_name: "Planning Department",
-      total_pr: 30,
-      contact: "09123456789",
-      head: "Nuradia Lagoyo",
-      status: "08/12/2022",
+      item_name: 1,
+      loc_name: "Planning Department",
+      brand: 30,
+      manu: "09123456789",
+      type: "computer",
+      article: "Nseries",
+      remark: "remark 1",
     },
   ];
 
-  // <CustomTable
-  //   title={title}
-  //   fetch={fetch}
-  //   setSearch={setFetch}
-  //   columns={column}
-  //   data={Department_Dataset}
-  // />;
   return (
     <>
-      <Container
-        boxShadow="rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;"
-        bg="#fff"
-        padding={5}
-        borderRadius={8}
-        maxW="container.lg"
-        w="full"
-        h="full"
-        background={"black"}
-      >
-        <SimpleGrid
-          columns={6}
-          columnGap={3}
-          rowGap={6}
-          w="full"
-          h={"full"}
-          p={6}
-          flexDirection="column"
-        >
-          <GridItem colSpan={4}>
-            <SearchSel
-              name={"name select"} // form label
-              data={typeData} // data fetched from db
-              propertyName={"type_name"} //property name to display to the select
-              fetchdat={fetchtypes} //async function for fetch the data
-              setSelect={setTypeSelect} //Select
-              isSelect={typeSelect} //is Selected
-              setValue={setTypeValue} //set value for viewing in select input
-              valueD={typeValue} //value
-            />
-          </GridItem>
+      <div className="table-container">
+        <CustomTable title={"ITEMS"} columns={columns} data={tableData}>
+          <SimpleGrid
+            columns={6}
+            columnGap={3}
+            rowGap={6}
+            w="full"
+            h={"full"}
+            p={6}
+            flexDirection="column"
+          >
+            <GridItem colSpan={2}>
+              <FormControl>
+                <FormLabel>Item Description:{desc && desc}</FormLabel>
+                <div
+                  ref={domNod}
+                  onClick={() => setDropdown(!dropdown)}
+                  className="custom-select"
+                >
+                  <p>{desc === "" ? "- Select Item -" : desc}</p>
+                  {dropdown && (
+                    <div
+                      onClick={(e) => e.stopPropagation()}
+                      className="select-dropdown"
+                    >
+                      <div className="select-input-container">
+                        <InputGroup>
+                          <InputLeftElement
+                            pointerEvents="none"
+                            color="gray.300"
+                            fontSize="1.2em"
+                            children={<Icon as={HiSearch} />}
+                          />
+                          <Input
+                            background="#fff"
+                            value={term}
+                            onChange={(e) => {
+                              setTerm(e.target.value);
+                              fetchitem(e.target.value);
+                            }}
+                            fontSize="14px"
+                            placeholder="Search"
+                          />
+                        </InputGroup>
+                      </div>
 
-          <>
-            {/* <GridItem colSpan={4}>
+                      {searchTerm?.map((item, index) => {
+                        return (
+                          <>
+                            <p
+                              // className={desc === item.desc ? "active" : ""}
+                              // onClick={() => {
+                              //   // setDesc(item.desc);
+                              //   setDropdown(false);
+                              // }}
+                              onClick={() => {
+                                setDesc(item.Pk_itemId);
+                                setDropdown(false);
+                              }}
+                              key={index}
+                            >
+                              {item.item_name}
+                            </p>
+                          </>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              </FormControl>
+            </GridItem>
+            <GridItem colSpan={4}>
+              <SearchSel
+                name={"Article"} // form label
+                data={typeData} // data fetched from db
+                propertyName={"type_name"} //property name to display to the select
+                fetchdat={fetchtypes} //async function for fetch the data
+                setSelect={setTypeSelect} //Select
+                isSelect={typeSelect} //is Selected
+                setValue={setTypeValue} //set value for viewing in select input
+                valueD={typeValue} //value
+              />
+            </GridItem>
+            <>
+              {/* <GridItem colSpan={4}>
             <FormControl isRequired>
               <SearchSel
                 name={"name select"} // form label
@@ -929,16 +902,10 @@ const In = ({ setTab }) => {
               />
             </FormControl>
           </GridItem> */}
-          </>
-        </SimpleGrid>
-        <CustomTable
-          title={title}
-          fetch={fetchss}
-          setSearch={setFetchss}
-          columns={column}
-          data={Department_Dataset}
-        ></CustomTable>
-        <HStack marginTop={5} justifyContent="flex-end">
+            </>
+          </SimpleGrid>
+        </CustomTable>
+        {/* <HStack marginTop={5} justifyContent="flex-end">
           <Button
             color="#fff"
             isLoading={isClick ? true : false}
@@ -949,8 +916,8 @@ const In = ({ setTab }) => {
           >
             IN
           </Button>
-        </HStack>
-      </Container>
+        </HStack> */}
+      </div>
     </>
   );
 };

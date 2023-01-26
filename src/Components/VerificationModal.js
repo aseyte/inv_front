@@ -37,32 +37,33 @@ const VerificationModal = () => {
   };
 
   return (
-    <div className="modal-container">
-      <div className="verification-modal">
-        {user?.otp} {pin}
-        <h1>Activate account</h1>
-        <p>
-          Enter the 6-digit pin that was sent to your email to activate your
-          account.
-        </p>
-        <input
-          type="text"
-          value={pin}
-          onChange={(e) => setPin(e.target.value)}
-        />
-        <div className="verification-btns">
-          <button onClick={() => submitLogout()} className="red-cta">
-            Logout
-          </button>
-          <button
-            onClick={() => handleActivate()}
-            className={isClick ? "green-cta" : "green-cta"}
-          >
-            Activate
-          </button>
-        </div>
-      </div>
-    </div>
+    // <div className="modal-container">
+    //   <div className="verification-modal">
+    //     {user?.otp} {pin}
+    //     <h1>Activate account</h1>
+    //     <p>
+    //       Enter the 6-digit pin that was sent to your email to activate your
+    //       account.
+    //     </p>
+    //     <input
+    //       type="text"
+    //       value={pin}
+    //       onChange={(e) => setPin(e.target.value)}
+    //     />
+    //     <div className="verification-btns">
+    //       <button onClick={() => submitLogout()} className="red-cta">
+    //         Logout
+    //       </button>
+    //       <button
+    //         onClick={() => handleActivate()}
+    //         className={isClick ? "green-cta" : "green-cta"}
+    //       >
+    //         Activate
+    //       </button>
+    //     </div>
+    //   </div>
+    // </div>
+    <></>
   );
 };
 

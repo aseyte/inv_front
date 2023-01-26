@@ -12,6 +12,7 @@ function Search({ search, currsearch, placeholder }) {
             pointerEvents="none"
             children={<AiOutlineSearch />}
             color={"gray.500"}
+            zIndex={1}
           />
           <Input
             id="searchfield"

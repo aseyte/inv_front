@@ -19,7 +19,7 @@ import Inventory from "./Pages/Inventory";
 import AdminDashboard from "./Pages/AdminDashboard";
 
 const App = () => {
-  const { user } = useAuth();
+  const { user } = useAuth({});
 
   return (
     <>
@@ -30,21 +30,9 @@ const App = () => {
               <Route path="login" element={<Login />} />
               <Route path="register" element={<Register />} />
             </Route>
-            <Route
-              element={
-                <ProtectedRoute
-                  user={{
-                    loggedIn: true,
-                    userType: "user",
-                  }}
-                  role="user"
-                />
-              }
-            >
-              <Route path="/" element={<Homepage />} />
-              <Route path="bin-card" element={<BinCard />} />
-              <Route path="inventory" element={<Inventory />} />
-            </Route>
+            <Route path="/" element={<Homepage />} />
+            <Route path="bin-card" element={<BinCard />} />
+            <Route path="inventory" element={<Inventory />} />
 
             <Route element={<ProtectedRoute user={user} role="admin" />}>
               <Route path="admin/dashboard" element={<AdminDashboard />} />
