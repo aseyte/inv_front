@@ -18,6 +18,33 @@ export const DataProvider = ({ children }) => {
   const [returnItem, setReturnItem] = useState([]);
   const [people, setPeople] = useState([]);
 
+  ///input in inventory 
+  //Fk_ItemId	
+  // Fk_locationId	
+  // Fk_conditionId	
+  // Delivery_date	
+  // Quantity	
+  // pack_size	
+  // loose	
+  // Remarks	
+
+
+  const [typeData, setTypeData] = useState();
+  const [typeSelect, setTypeSelect] = useState();
+  const [typeValue, setTypeValue] = useState();
+  const fetchtypes = async (value) => {
+    const result = await api.get(`/api/type`, {
+      params: {
+        q: value,
+      },
+    });
+    setTypeData(result.data);
+  };
+
+
+  const [] = useState()
+
+
   const getUniqueAPI =
     "https://script.google.com/macros/s/AKfycbyV510xFb5cjX5DCSmJ3nkJzqBctSHR1UkKqU7-cCK6S3VcbRX2dqhqHzcHDWCY4siPCA/exec?action=getUnique";
 

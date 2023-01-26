@@ -77,106 +77,15 @@ const In = ({ setTab }) => {
   const [acquisitionCost, setAcquisitionCost] = useState("");
   const [term, setTerm] = useState(null);
 
-  const [brandRecommendDiv, setbrandRecommendDiv] = useState(false);
 
   const [brand, setBrand] = useState(""); //Value in Select input
   const [brandData, setBrandData] = useState(""); //all the fetched data from db
   const [isSelectBrand, setSelectBrand] = useState(); //Selected state
   const [selectedIndex, setSelectedIndex] = useState(0); //index for arrow down
 
-  const brandRD = useClickOutside(() => {
-    setbrandRecommendDiv(false);
-  });
 
-  const handleKeyDown = (ev, opt) => {
-    if (ev.key === "ArrowDown") {
-      setSelectedIndex((selectedIndex + 1) % brandData.length);
-      setBrand(brandData[(selectedIndex + 1) % brandData.length].brand_name);
-    } else if (ev.key === "ArrowUp") {
-      setSelectedIndex(
-        (selectedIndex - 1 + brandData.length) % brandData.length
-      );
-      setBrand(
-        brandData[(selectedIndex - 1 + brandData.length) % brandData.length]
-          .brand_name
-      );
-    } else if (ev.key === "Enter") {
-      setSelectBrand(brandData[selectedIndex]);
-      setBrand(brandData[selectedIndex].brand_name);
-    }
-  };
 
-  const SearchSelectComponent = ({
-    isdrop,
-    datSetter,
-    datGetter,
-    valSetter,
-    valGetter,
-    setlectedSetter,
-    selectedGetter,
-  }) => {
-    const [selectedIndex, setSelectedIndex] = useState(0);
-    const handleKeyDown = (ev, opt) => {
-      if (ev.key === "ArrowDown") {
-        setSelectedIndex((selectedIndex + 1) % brandData.length);
-        setBrand(brandData[selectedIndex].brand_name);
-      } else if (ev.key === "ArrowUp") {
-        setSelectedIndex(
-          (selectedIndex - 1 + brandData.length) % brandData.length
-        );
-        setBrand(brandData[selectedIndex].brand_name);
-      } else if (ev.key === "Enter") {
-        setSelectBrand(brandData[selectedIndex].Pk_brandId);
-        setBrand(brandData[selectedIndex].brand_name);
-      }
-    };
-    return (
-      <>
-        <FormControl>
-          <FormLabel>Brand</FormLabel>
-          <Input
-            tabIndex={0}
-            onKeyDown={handleKeyDown}
-            value={brand}
-            onChange={(e) => {
-              setBrand(e.target.value);
-              fetchbrand(e.target.value);
-              setSelectBrand(null);
-            }}
-          />
-          {
-            //if input tempsearchSTATE here has a brand and !isSELECTEDbrandID it will display the drop down
-            brandData && !isSelectBrand && (
-              <div className="select-dropdown" style={{ top: "75px" }}>
-                {brandData.map((e, index) => {
-                  return (
-                    <p
-                      onMouseEnter={() => {
-                        setBrand(e.brand_name);
-                      }}
-                      onClick={() => {
-                        setSelectBrand(e.Pk_brandId);
-                        setBrand(e.brand_name);
-                      }}
-                      key={index}
-                      style={{
-                        backgroundColor:
-                          index === selectedIndex && `rgb(238, 240, 241)`,
-                      }}
-                    >
-                      {e.brand_name}
-                    </p>
-                  );
-                })}
-              </div>
-            )
-            //if user click on brand it will close the dropdown and SETisSELECTEDbrandID
-            //
-          }
-        </FormControl>
-      </>
-    );
-  };
+
 
   const donors = [
     "doh",
@@ -252,31 +161,31 @@ const In = ({ setTab }) => {
         expiration:
           expiration !== "NOT INDICATED"
             ? new Date(expiration).getMonth() +
-              1 +
-              "/" +
-              new Date(expiration).getDate() +
-              "/" +
-              new Date(expiration).getFullYear()
+            1 +
+            "/" +
+            new Date(expiration).getDate() +
+            "/" +
+            new Date(expiration).getFullYear()
             : "NOT INDICATED",
         iar,
         iarDate:
           iarDate !== ""
             ? new Date(iarDate).getMonth() +
-              1 +
-              "/" +
-              new Date(iarDate).getDate() +
-              "/" +
-              new Date(iarDate).getFullYear()
+            1 +
+            "/" +
+            new Date(iarDate).getDate() +
+            "/" +
+            new Date(iarDate).getFullYear()
             : null,
 
         delivery:
           delivery !== ""
             ? new Date(delivery).getMonth() +
-              1 +
-              "/" +
-              new Date(delivery).getDate() +
-              "/" +
-              new Date(delivery).getFullYear()
+            1 +
+            "/" +
+            new Date(delivery).getDate() +
+            "/" +
+            new Date(delivery).getFullYear()
             : null,
 
         quantity,
@@ -428,18 +337,7 @@ const In = ({ setTab }) => {
     });
     setTypeData(result.data);
   };
-  // <SearchSel
-  //   name={"name select"} // form label
-  //   data={typeData} // data fetched from db
-  //   propertyName={"type_name"} //property name to display to the select
-  //   fetchdat={fetchtypes} //async function for fetch the data
-  //   setSelect={setTypeSelect} //Select
-  //   isSelect={typeSelect} //is Selected
-  //   setValue={setTypeValue} //set value for viewing in select input
-  //   valueD={typeValue} //value
-  // />;
-  const title = "Department";
-  const [fetchss, setFetchss] = useState(false);
+
 
   const columns = useMemo(
     () => [
@@ -470,17 +368,7 @@ const In = ({ setTab }) => {
     ],
     []
   );
-  const item_Dataset = [
-    {
-      item_name: 1,
-      loc_name: "Planning Department",
-      brand: 30,
-      manu: "09123456789",
-      type: "computer",
-      article: "Nseries",
-      remark: "remark 1",
-    },
-  ];
+
 
   return (
     <>
@@ -534,11 +422,6 @@ const In = ({ setTab }) => {
                         return (
                           <>
                             <p
-                              // className={desc === item.desc ? "active" : ""}
-                              // onClick={() => {
-                              //   // setDesc(item.desc);
-                              //   setDropdown(false);
-                              // }}
                               onClick={() => {
                                 setDesc(item.Pk_itemId);
                                 setDropdown(false);
