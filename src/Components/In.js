@@ -273,13 +273,13 @@ const In = ({ setTab }) => {
   const fetchTableData = async (value) => {
     const result = await api.get(`/api/itemtable`, {
       params: {
-        q: desc ? desc : "",
+        q: value ? value : "",
       },
     });
     setTableData(result.data);
   };
 
-  const [searchTerm, setSearchterm] = useState();
+  const [searchTerm, setSearchterm] = useState([]);
   useEffect(() => {
     fetchTableData();
   }, [searchTerm]);
@@ -420,9 +420,10 @@ const In = ({ setTab }) => {
                           <>
                             <p
                               onClick={() => {
-                                setDesc(item.Pk_itemId);
+                                setDesc(item.item_name);
                                 setDropdown(false);
                                 setItemDesc(item.item_name);
+                                fetchTableData(item.item_name);
                               }}
                               key={index}
                             >
