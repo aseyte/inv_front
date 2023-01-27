@@ -55,6 +55,7 @@ const In = ({ setTab }) => {
     todate.getMonth() + 1 + "/" + todate.getDate() + "/" + todate.getFullYear()
   );
   const [desc, setDesc] = useState("");
+  const [itemDesc, setItemDesc] = useState("");
 
   const [lot, setLot] = useState("");
   const [expiration, setExpiration] = useState("NOT INDICATED");
@@ -77,15 +78,10 @@ const In = ({ setTab }) => {
   const [acquisitionCost, setAcquisitionCost] = useState("");
   const [term, setTerm] = useState(null);
 
-
   const [brand, setBrand] = useState(""); //Value in Select input
   const [brandData, setBrandData] = useState(""); //all the fetched data from db
   const [isSelectBrand, setSelectBrand] = useState(); //Selected state
   const [selectedIndex, setSelectedIndex] = useState(0); //index for arrow down
-
-
-
-
 
   const donors = [
     "doh",
@@ -161,31 +157,31 @@ const In = ({ setTab }) => {
         expiration:
           expiration !== "NOT INDICATED"
             ? new Date(expiration).getMonth() +
-            1 +
-            "/" +
-            new Date(expiration).getDate() +
-            "/" +
-            new Date(expiration).getFullYear()
+              1 +
+              "/" +
+              new Date(expiration).getDate() +
+              "/" +
+              new Date(expiration).getFullYear()
             : "NOT INDICATED",
         iar,
         iarDate:
           iarDate !== ""
             ? new Date(iarDate).getMonth() +
-            1 +
-            "/" +
-            new Date(iarDate).getDate() +
-            "/" +
-            new Date(iarDate).getFullYear()
+              1 +
+              "/" +
+              new Date(iarDate).getDate() +
+              "/" +
+              new Date(iarDate).getFullYear()
             : null,
 
         delivery:
           delivery !== ""
             ? new Date(delivery).getMonth() +
-            1 +
-            "/" +
-            new Date(delivery).getDate() +
-            "/" +
-            new Date(delivery).getFullYear()
+              1 +
+              "/" +
+              new Date(delivery).getDate() +
+              "/" +
+              new Date(delivery).getFullYear()
             : null,
 
         quantity,
@@ -274,7 +270,7 @@ const In = ({ setTab }) => {
 
   const [tableData, setTableData] = useState([]);
 
-  const fetchTableData = async () => {
+  const fetchTableData = async (value) => {
     const result = await api.get(`/api/itemtable`, {
       params: {
         q: desc ? desc : "",
@@ -338,7 +334,6 @@ const In = ({ setTab }) => {
     setTypeData(result.data);
   };
 
-
   const columns = useMemo(
     () => [
       {
@@ -369,7 +364,6 @@ const In = ({ setTab }) => {
     []
   );
 
-
   return (
     <>
       <div className="table-container">
@@ -385,13 +379,16 @@ const In = ({ setTab }) => {
           >
             <GridItem colSpan={2}>
               <FormControl>
-                <FormLabel>Item Description:{desc && desc}</FormLabel>
+                <FormLabel>Item Description:{itemDesc && itemDesc}</FormLabel>
                 <div
                   ref={domNod}
-                  onClick={() => setDropdown(!dropdown)}
+                  onClick={() => {
+                    setDropdown(!dropdown);
+                    fetchitem();
+                  }}
                   className="custom-select"
                 >
-                  <p>{desc === "" ? "- Select Item -" : desc}</p>
+                  <p>{itemDesc === "" ? "- Select Item -" : itemDesc}</p>
                   {dropdown && (
                     <div
                       onClick={(e) => e.stopPropagation()}
@@ -425,6 +422,7 @@ const In = ({ setTab }) => {
                               onClick={() => {
                                 setDesc(item.Pk_itemId);
                                 setDropdown(false);
+                                setItemDesc(item.item_name);
                               }}
                               key={index}
                             >

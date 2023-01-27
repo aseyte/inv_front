@@ -18,6 +18,10 @@ import {
   TableContainer,
   Heading,
   useDisclosure,
+  SimpleGrid,
+  GridItem,
+  FormControl,
+  FormLabel,
 } from "@chakra-ui/react";
 import Search from "./Search";
 
@@ -35,9 +39,11 @@ import { AiOutlineFolderView, AiFillEdit } from "react-icons/ai";
 import { HiTrash } from "react-icons/hi";
 
 import moment from "moment/moment";
-import { Children, useEffect } from "react";
+import { Children, useContext, useEffect } from "react";
 import VerificationModal from "./VerificationModal";
 import { VerticallyCenter } from "./inputModal";
+import SearchSel from "./searchableSelect/searchSel";
+import DataContext from "../Context/Context";
 
 const ActionsBtn = () => {
   return (
@@ -88,6 +94,15 @@ const CustomTable = ({
   children,
 }) => {
   const {
+    locDatas,
+    locValue,
+    selectedLoc,
+    setLocDatas,
+    setLocValue,
+    setSelectedLoc,
+    fetchLoc,
+  } = useContext(DataContext);
+  const {
     getTableProps,
     getTableBodyProps,
     headerGroups,
@@ -122,11 +137,22 @@ const CustomTable = ({
   return (
     <Box bg={"white"} padding={"20px"}>
       {children}
-      <VerticallyCenter
-        isOpen={isOpen}
-        onOpen={onOpen}
-        onClose={onClose}
-      ></VerticallyCenter>
+      <VerticallyCenter isOpen={isOpen} onOpen={onOpen} onClose={onClose}>
+        <SimpleGrid columns={4} columnGap={3} rowGap={6} w={"full"} h={"full"}>
+          <GridItem colSpan={4}>
+            <SearchSel
+              name={"Location"}
+              data={locDatas}
+              propertyName={"location_name"}
+              fetchdat={fetchLoc}
+              setSelect={setSelectedLoc}
+              isSelect={selectedLoc}
+              setValue={setLocValue}
+              valueD={locValue}
+            />
+          </GridItem>
+        </SimpleGrid>
+      </VerticallyCenter>
       <Box w={"100%"}>
         <Flex flexDirection={["column", "column", "row", "row"]}>
           <Box w={"100%"}>
@@ -200,7 +226,6 @@ const CustomTable = ({
                       return (
                         <Td
                           onClick={() => {
-                            console.log("aaaa");
                             onOpen();
                           }}
                           {...cell.getCellProps()}
