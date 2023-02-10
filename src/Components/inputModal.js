@@ -47,7 +47,6 @@ export const VerticallyCenter = ({
     );
   };
 
-  ///https://i.pinimg.com/736x/85/5a/a8/855aa8c79605d40429b686b0e379d75e.jpg
   return (
     <>
       <Modal onClose={onClose} size={"full"} isOpen={isOpen} isCentered>
@@ -98,13 +97,6 @@ export const VerticallyCenter = ({
                     }
                   />
                   <CardDet property={"Type"} detail={"sample sample sample"} />
-                  <Box w={"100%"} bg="tomato" h={"auto"}></Box>
-                  <Box w={"100%"} bg="tomato" h={"auto"}></Box>
-                  <Box w={"100%"} bg="tomato" h={"auto"}></Box>
-                  <Box w={"100%"} bg="tomato" h={"auto"}></Box>
-                  <Box w={"100%"} bg="tomato" h={"auto"}></Box>
-                  <Box w={"100%"} bg="tomato" h={"auto"}></Box>
-                  <Box w={"100%"} bg="tomato" h={"auto"}></Box>
                 </Stack>
               </Box>
             </Flex>

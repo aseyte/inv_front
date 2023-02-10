@@ -23,7 +23,6 @@ import {
   FormControl,
   FormLabel,
 } from "@chakra-ui/react";
-import Search from "./Search";
 
 import "./Table.css";
 

@@ -379,7 +379,7 @@ const In = ({ setTab }) => {
           >
             <GridItem colSpan={2}>
               <FormControl>
-                <FormLabel>Item Description:{itemDesc && itemDesc}</FormLabel>
+                <FormLabel>Item description</FormLabel>
                 <div
                   ref={domNod}
                   onClick={() => {
